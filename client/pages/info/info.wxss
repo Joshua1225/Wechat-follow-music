@@ -1,0 +1,2 @@
+/* pages/info/info.wxss */
+@import '../../src/weui.wxss';
