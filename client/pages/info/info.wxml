@@ -24,7 +24,7 @@
                 <image src="../../src/添加.jpg" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;" bindtap="modalinput" bindtap="modalinput"></image>
             </view>  
 <modal hidden="{{hiddenmodalput}}" title="请输入验证码" confirm-text="提交" cancel-text="重置" bindcancel="cancel" bindconfirm="confirm">  
-    <input class="weui-input"  placeholder="请输入文本" value="{{inputval}}"/>
+    <input class="weui-input"  placeholder="请输入文本" bindinput='inputSLName'/>
 </modal>  
 
                 <view class="weui-cell__bd">创建歌单</view>

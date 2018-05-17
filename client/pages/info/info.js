@@ -1,4 +1,4 @@
-
+var config = require('../../config')
 var sliderWidth = 96; // 需要设置slider的宽度，用于计算中间位置
 Page({
   data: {
@@ -7,6 +7,7 @@ Page({
     sliderOffset: 0,
     sliderLeft: 0,
     hiddenmodalput: true,
+    inputVal:"",
     //可以通过hidden是否掩藏弹出框的属性，来指定那个弹出框  
   },
 
@@ -46,16 +47,21 @@ Page({
       hiddenmodalput: true
     });
   },
+  inputSLName: function (e) {
+    this.setData({
+      inputVal: e.detail.value
+    });
+  },
   //确认  
-  confirm: function () {
-    var that=this;
+  confirm: function (e) {
+    var that = this;
     wx.login({
       //如果wx.login成功就加载上层函数login
       success:function(res){
         wx.request({
           url: `${config.service.host}/User_controller/login`,
           data:{
-            appid: wx420d331ec7f1c098,
+            appid: 'wx420d331ec7f1c098',
             secret:'',
             js_code:res.code,
             grant_type: 'authorization_code'  
@@ -66,7 +72,7 @@ Page({
             wx.request({
               url: `${config.service.host}/Musiclist_controller/Musiclist_insert`,
               data:{
-                name:this.data.inputval,
+                name:that.data.inputVal,
                 userid:res1.data
               },
               method:'GET',
