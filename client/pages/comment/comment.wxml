@@ -5,10 +5,10 @@
             <navigator url="" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
                 <view>
                     <view class="weui-cell__hd">
-                    <image src="../icon/返回.png" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
+                    <image src="../../src/返回.png" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
                     </view>
                     <view class="weui-cell__hd">
-                        <image src="{{icon}}" style="margin-right: 5px;vertical-align: middle;width:100px; height: 100px;"></image>
+                        <image src="../../src/pic_160.png" style="margin-right: 5px;vertical-align: middle;width:100px; height: 100px;"></image>
                     </view>
                 </view>
                 <view>
@@ -77,20 +77,6 @@
                     <view>实时搜索文本</view>
                 </view>
             </navigator>
-        </view>
-        
-    </view>
-
-      <!--navbar组建-->
-    <view class="weui-tab" >
-        <view class="weui-navbar">
-                
-                <block wx:for="{{tabs}}" wx:key="*this">
-                    <view id="{{index}}" class="weui-navbar__item {{activeIndex == index ? 'weui-bar__item_on' : ''}}" bindtap="tabClick">
-                        <view class="weui-navbar__title">{{item}}</view>
-                    </view>
-                </block>
-                <view class="weui-navbar__slider" style="left: {{sliderLeft}}px; transform: translateX({{sliderOffset}}px); -webkit-transform: translateX({{sliderOffset}}px);"></view>
         </view>
     </view>
 </view>

@@ -1,1 +1,2 @@
 /* pages/songList/songList.wxss */
+@import '../../src/weui.wxss';

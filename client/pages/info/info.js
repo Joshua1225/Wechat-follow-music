@@ -48,8 +48,44 @@ Page({
   },
   //确认  
   confirm: function () {
-    this.setData({
-      hiddenmodalput: true
+    var that=this;
+    wx.login({
+      //如果wx.login成功就加载上层函数login
+      success:function(res){
+        wx.request({
+          url: `${config.service.host}/User_controller/login`,
+          data:{
+            appid: wx420d331ec7f1c098,
+            secret:'',
+            js_code:res.code,
+            grant_type: 'authorization_code'  
+          },
+          method:'GET',
+          //如果login成功就加载新建歌单函数
+          success:function(res1){
+            wx.request({
+              url: `${config.service.host}/Musiclist_controller/Musiclist_insert`,
+              data:{
+                name:this.data.inputval,
+                userid:res1.data
+              },
+              method:'GET',
+              success:function(res2){
+                that.openToast();
+              },
+              fail: function (err) {
+                console.log(err.data);
+              }
+            })
+          },
+          fail: function (err) {
+            console.log(err.data);
+          }
+        })
+      },
+      fail: function (err) {
+        console.log(err.data);
+      }
     })
   },
 

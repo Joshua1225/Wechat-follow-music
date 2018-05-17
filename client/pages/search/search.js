@@ -79,6 +79,7 @@ Page({
       url: `${config.service.host}/Music_controller/Music_search`,
       data:{
         keywords: this.data.inputVal
+        
       },
       success:function(res)
       {
