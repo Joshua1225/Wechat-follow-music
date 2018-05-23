@@ -1,3 +1,4 @@
+
 var config = require('../../config')
 var sliderWidth = 96; // 需要设置slider的宽度，用于计算中间位置
 Page({
@@ -8,14 +9,72 @@ Page({
     sliderLeft: 0,
     hiddenmodalput: true,
     inputVal:"",
+    nickName:"",
+    avatarUrl:""
     //可以通过hidden是否掩藏弹出框的属性，来指定那个弹出框  
   },
 
   onLoad: function () {
-    this.setData({
-      icon: '../../icon_nav_feedback'
-    });
-
+    var that=this;
+    //获取userid
+    //歌单列表渲染
+    console.log("beginbegin");
+    try {
+      var value = wx.getStorageSync('userid');
+      console.log(value);
+      if (value){
+        console.log(value);
+        wx.request({
+          url: `${config.service.host}/Musiclist_controller/Musiclist_getbyuserid`,
+          data: {
+            userid: value
+          },
+          success: function (res) {
+            that.setData({
+              musicList: res.data
+            });
+          }
+        })
+      }
+    } catch (e) {
+      console.log("errorerror");
+    }
+    console.log("beginbegin");
+    //评论列表渲染
+    wx.login({
+      //如果wx.login成功就加载上层函数login
+      success: function (loginCode) {
+        wx.request({
+          url: `${config.service.host}/User_controller/login`,
+          data: {
+            code: loginCode.code
+          },
+          method: 'GET',
+          //如果login成功就加载用户评论函数
+          success: function (res) {
+            wx.request({
+              url: `${config.service.host}/Comment_selectbyuser`,
+              data: {
+                UserId:res.data
+      },
+              success: function (res2) {
+                console.log(res2.data);
+                that.setData({
+                  commentList: res2.data
+                });
+              }
+            })
+          },
+          fail: function (err) {
+            console.log(err.data);
+          }
+        })
+      },
+      fail: function (err) {
+        console.log(err.data);
+      }
+    })
+    
     var that = this;
     wx.getSystemInfo({
       success: function (res) {
@@ -25,7 +84,15 @@ Page({
         });
       }
     });
-
+    //获取微信头像，昵称
+    wx.getUserInfo({
+      success: function (res) {
+        that.setData({
+          nickName: res.userInfo.nickName,
+          avatarUrl: res.userInfo.avatarUrl,
+        })
+      },
+    })
   },
 
   tabClick: function (e) {
@@ -57,26 +124,23 @@ Page({
     var that = this;
     wx.login({
       //如果wx.login成功就加载上层函数login
-      success:function(res){
+      success:function(loginCode){
         wx.request({
           url: `${config.service.host}/User_controller/login`,
-          data:{
-            appid: 'wx420d331ec7f1c098',
-            secret:'',
-            js_code:res.code,
-            grant_type: 'authorization_code'  
+          data: {
+            code:loginCode.code
           },
-          method:'GET',
+          method: 'GET',
           //如果login成功就加载新建歌单函数
-          success:function(res1){
+          success: function (res) {
             wx.request({
               url: `${config.service.host}/Musiclist_controller/Musiclist_insert`,
-              data:{
-                name:that.data.inputVal,
-                userid:res1.data
+              data: {
+                name: that.data.inputVal,
+                userid: res.data
               },
-              method:'GET',
-              success:function(res2){
+              method: 'GET',
+              success: function (res2) {
                 that.openToast();
               },
               fail: function (err) {
@@ -108,7 +172,11 @@ Page({
       icon: 'loading',
       duration: 3000
     });
+  },
+  
+  //跳转歌单页面!!!!!!!!!!!!
+  toSongList:function(e){
+    
   }
 });
-
 

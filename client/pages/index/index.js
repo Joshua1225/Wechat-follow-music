@@ -99,6 +99,12 @@ Page({
     });
   },
 
+  f_2_2:function(){
+    wx.navigateTo({
+      url: '../comment/comment',
+    })
+  },
+
   f_3_0: function (event) {
     var up = "iconList_3[0].imagePath";
     var op = "iconList_3[0].i";
