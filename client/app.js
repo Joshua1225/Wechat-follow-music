@@ -3,6 +3,7 @@ var qcloud = require('./vendor/wafer2-client-sdk/index')
 var config = require('./config')
 
 App({
+
     onLaunch: function () {
       //检查登录密钥userid是否存在且有效
       var islogin=false;
@@ -57,5 +58,6 @@ App({
         }
        
 
-    }
+
+  }
 })

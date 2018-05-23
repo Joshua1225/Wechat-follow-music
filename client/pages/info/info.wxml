@@ -3,21 +3,18 @@
        
         <!--//带图的list-->
         <view class="weui-cells weui-cells_after-title">
-            <navigator url="" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+            <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
                 <view class="weui-cell__hd">
-                    <image src="../../src/pic_160.png" style="margin-right: 5px;vertical-align: middle;width:100px; height: 100px;"></image>
+                    <image src="{{avatarUrl}}" style="margin-right: 5px;vertical-align: middle;width:100px; height: 100px;"></image>
                 </view>
-                <view class="weui-cell__bd">昵称</view>
-            </navigator>
+                <view class="weui-cell__bd">{{nickName}}</view>
+            </view>
         </view>
 
         <!--歌单-->
-        <navigator url="" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
-                <view class="weui-cell__hd">
-                    <image src="../../src/pic_160.png" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
-                </view>
+        <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
                 <view class="weui-cell__bd">我的歌单</view>
-        </navigator>
+        </view>
         <view class="weui-cells weui-cells_after-title">
             <view class="weui-cell">
                 <view class="container" class="zn-uploadimg">  
@@ -30,46 +27,16 @@
                 <view class="weui-cell__bd">创建歌单</view>
             </view>
         </view>
-        <view class="weui-cells weui-cells_after-title">
-            <navigator style="display:inline-block; width:70%" url="../songList/songList" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
-                <view class="weui-cell__bd">喜爱</view>
-            </navigator>
-            <image src="../../src/删除.jpg" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;" bindtap="openToast"></image>    
+        <view wx:for="{{musicList}}" class="weui-cell weui-cell_access" hover-class="weui-cell_active" bindtap='toSongList'><!--未完成-->
+          {{index+1}}:{{item.MusiclistName}}
         </view>
-        <view class="weui-cells weui-cells_after-title">
-            <navigator style="display:inline-block; width:70%" url="../songList/songList" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
-                <view class="weui-cell__bd">歌曲1</view>
-            </navigator>
-            <image src="../../src/删除.jpg" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;" bindtap="openToast"></image>    
-        </view>
-        
 
         <!--历史评论-->
-        <navigator url="" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
-                <view class="weui-cell__hd">
-                    <image src="{{icon}}" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
-                </view>
+        <view  class="weui-cell weui-cell_access" hover-class="weui-cell_active">
                 <view class="weui-cell__bd">我的历史评论</view>
-        </navigator>
-
-        <view class="weui-cells weui-cells_after-title">
-            <view class="weui-cell">
-                <view class="weui-cell__bd">评论1</view>
-            </view>
         </view>
-        <view class="weui-cells weui-cells_after-title">
-            <view class="weui-cell">
-                <view class="weui-cell__bd">评论2</view>
-            </view>
+        <view wx:for="{{commentList}}" class="weui-cell weui-cell_access" hover-class="weui-cell_active" >
+          {{index+1}}:{{item.MusiclistName}}
         </view>
-        <view class="weui-cells weui-cells_after-title">
-            <view class="weui-cell">
-                <view class="weui-cell__bd">评论3</view>
-            </view>
-        </view>
-        
-
-        
-
     </view>
 </view>
