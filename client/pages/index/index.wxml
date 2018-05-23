@@ -1,20 +1,29 @@
 <!--pages/play/play.wxml-->
-<view class='container1'>
-  <view class='icon_bar'>
-    <image wx:for="{{iconList_1}}" wx:key="imagePath" src="{{item.imagePath}}" class='image_icon' catchtap="{{item.func}}"></image>
-  </view>
-  <swiper class='swiper' indicator-dots='{{true}}'>
-    <swiper-item class='swiper_cover_lyric'>
-      <image class='cover' src='../../src/04.jpg'></image>
-    </swiper-item>
-    <swiper-item class='swiper_cover_lyric'>
-      <text>歌词</text>
-    </swiper-item>
-  </swiper>
-  <view class='icon_bar' style='padding: 0 150rpx 0 150rpx;'>
-    <image wx:for="{{iconList_2}}" wx:key="imagePath" src="{{item.imagePath}}" class='image_icon' catchtap="{{item.func}}"></image>
-  </view>
-  <view class='icon_bar' style='padding: 0 20rpx 0 20rpx'>
-    <image wx:for="{{iconList_3}}" wx:key="imagePath" src="{{item.imagePath}}" class='image_icon' catchtap="{{item.func}}"></image>
-  </view>
-</view>
+<swiper class='container_swiper' vertical='true' current='{{currentIndex}}'>
+  <swiper-item>
+    <view class='container1'>
+      <view class='icon_bar'>
+        <image wx:for="{{iconList_1}}" wx:key="imagePath" src="{{item.imagePath}}" class='image_icon' catchtap="{{item.func}}"></image>
+      </view>
+      <swiper class='swiper' indicator-dots='{{true}}'>
+        <swiper-item class='swiper_cover_lyric'>
+          <image class='cover' src='../../src/04.jpg'></image>
+        </swiper-item>
+        <swiper-item class='swiper_cover_lyric'>
+          <text>歌词4534</text>
+        </swiper-item>
+      </swiper>
+      <view class='icon_bar' style='padding: 0 150rpx 0 150rpx;'>
+        <image wx:for="{{iconList_2}}" wx:key="imagePath" src="{{item.imagePath}}" class='image_icon' catchtap="{{item.func}}"></image>
+      </view>
+      <view class='icon_bar' style='padding: 0 20rpx 0 20rpx'>
+        <image wx:for="{{iconList_3}}" wx:key="imagePath" src="{{item.imagePath}}" class='image_icon' catchtap="{{item.func}}"></image>
+      </view>
+    </view>
+  </swiper-item>
+  <swiper-item>
+    <view>
+    
+    </view>
+  </swiper-item>
+</swiper>
