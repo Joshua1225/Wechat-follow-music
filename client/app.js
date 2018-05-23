@@ -9,8 +9,8 @@ App({
     try {
       //检查缓存
       var value = wx.getStorageSync('userid')
-      console.log(value)
-      if (value) {
+      if (value=="") {
+        console.log(value)
         wx.request({
           url: config.service.isloginUrl,
           data: {
@@ -46,6 +46,7 @@ App({
           }
         })
       }
+      
     } catch (e) {
       console.log('userid not exist')
     }
