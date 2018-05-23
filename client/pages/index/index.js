@@ -10,6 +10,8 @@ Page({
   data: {
     musicListIndex: 0,
     playMode: 0,
+    curTimeVal: 0,
+    duration: 0,
     iconList_1: [
       {
         imagePath: "../../src/查询.png",
@@ -206,6 +208,41 @@ Page({
     })
   },
 
+  //进度条相关
+  updateTime: function (that) {
+
+    innerAudioContext.onTimeUpdate((res) => {
+
+      //更新时把当前的值给slide组件里的value值。slide的滑块就能实现同步更新
+
+
+      that.setData({
+        duration: innerAudioContext.duration.toFixed(2) * 100,
+        curTimeVal: innerAudioContext.currentTime.toFixed(2) * 100,
+      })
+
+      console.log("duration的值：", that.data.curTimeVal)
+    })
+  },
+  //拖动滑块
+
+
+
+  slideBar: function (e) {
+
+    let that = this;
+
+    var curval = e.detail.value; //滑块拖动的当前值
+
+    innerAudioContext.seek(curval / 100); //让滑块跳转至指定位置
+
+    innerAudioContext.onSeeked((res) => {
+
+      this.updateTime(that) //注意这里要继续出发updataTime事件，
+
+    })
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
@@ -216,6 +253,7 @@ Page({
     innerAudioContext.onPlay(() => {
       console.log('开始播放')
       console.log(innerAudioContext.src)
+      that.updateTime(that)
     })
     innerAudioContext.onError((res) => {
       console.log(res.errMsg)
@@ -234,6 +272,9 @@ Page({
           musicListIndex: Math.floor(Math.random() * musicListLength)
         })
       }
+      that.setData({
+        curTimeVal: 0
+      })
       innerAudioContext.src = 'http://140.143.149.22/music/' + that.data.musicList[that.data.musicListIndex] + '.mp3'
       innerAudioContext.play()
     })

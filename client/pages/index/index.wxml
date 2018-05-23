@@ -20,6 +20,17 @@
         <image wx:for="{{iconList_3}}" wx:key="imagePath" src="{{item.imagePath}}" class='image_icon' catchtap="{{item.func}}"></image>
       </view>
     </view>
+    <view class="progresswrap">
+      <slider
+        class="drag"
+        step="10"
+        value="{{curTimeVal}}"
+        max="{{duration}}"
+
+        backgroundColor="#373636"
+        activeColor="#FF1744"
+        bindchange="slideBar"/>
+    </view>
   </swiper-item>
   <swiper-item>
     <view>
