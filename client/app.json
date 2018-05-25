@@ -1,10 +1,9 @@
 {
   "pages":[
-    "pages/index/index",
-    "pages/comment/comment",
     "pages/info/info",
     "pages/songList/songList",
-    
+    "pages/index/index",
+    "pages/comment/comment",
     
     "pages/search/search"
   ],

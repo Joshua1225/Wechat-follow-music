@@ -145,7 +145,13 @@ Page({
   
   //跳转歌单页面!!!!!!!!!!!!
   toSongList:function(e){
-    
+    var sn = e.detail.value;
+    console.log(sn);
+    /*
+    wx.navigateTo({
+      url: '../songList/songList?songName',
+    })
+    */
   }
 });
 
