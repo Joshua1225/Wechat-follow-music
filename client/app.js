@@ -9,8 +9,7 @@ App({
     try {
       //检查缓存
       var value = wx.getStorageSync('userid')
-      if (value=="") {
-        console.log(value)
+      if (value) {
         wx.request({
           url: config.service.isloginUrl,
           data: {
@@ -18,12 +17,11 @@ App({
           },
           success: function (res) {
             //console.log(res)
-            if (res.data == 1) {
+            if (res.data == '(bool)true') {
               islogin = true
             }
             //未登录需要登录
             if (islogin == false) {
-              console.log(islogin)
               wx.login({
                 success: function (res) {
                   wx.request({

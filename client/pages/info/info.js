@@ -17,65 +17,32 @@ Page({
   onLoad: function () {
     var that=this;
     //获取userid
+    var value=wx.getStorageSync('userid');
     //歌单列表渲染
-    console.log("beginbegin");
-    try {
-      var value = wx.getStorageSync('userid');
-      console.log(value);
-      if (value){
-        console.log(value);
-        wx.request({
-          url: `${config.service.host}/Musiclist_controller/Musiclist_getbyuserid`,
-          data: {
-            userid: value
-          },
-          success: function (res) {
-            that.setData({
-              musicList: res.data
-            });
-          }
-        })
-      }
-    } catch (e) {
-      console.log("errorerror");
-    }
-    console.log("beginbegin");
-    //评论列表渲染
-    wx.login({
-      //如果wx.login成功就加载上层函数login
-      success: function (loginCode) {
-        wx.request({
-          url: `${config.service.host}/User_controller/login`,
-          data: {
-            code: loginCode.code
-          },
-          method: 'GET',
-          //如果login成功就加载用户评论函数
-          success: function (res) {
-            wx.request({
-              url: `${config.service.host}/Comment_selectbyuser`,
-              data: {
-                UserId:res.data
+    wx.request({
+      url: `${config.service.host}/Musiclist_controller/Musiclist_getbyuserid`,
+      data: {
+        userid: value
       },
-              success: function (res2) {
-                console.log(res2.data);
-                that.setData({
-                  commentList: res2.data
-                });
-              }
-            })
-          },
-          fail: function (err) {
-            console.log(err.data);
-          }
-        })
-      },
-      fail: function (err) {
-        console.log(err.data);
+      success: function (res) {
+        that.setData({
+          musicList: res.data
+        });
       }
     })
+    //评论列表渲染
+    wx.request({
+        url: `${config.service.host}/Comment_selectbyuser`,
+        data: {
+          UserId: value
+        },
+        success: function (res2) {
+          that.setData({
+            commentList: res2.data
+          });
+        }
+    })  
     
-    var that = this;
     wx.getSystemInfo({
       success: function (res) {
         that.setData({
@@ -96,6 +63,9 @@ Page({
   },
 
   tabClick: function (e) {
+    //获取userid
+    var value = wx.getStorageSync('userid');
+    console.log("tabclic"+value)
     this.setData({
       sliderOffset: e.currentTarget.offsetLeft,
       activeIndex: e.currentTarget.id
@@ -104,9 +74,12 @@ Page({
 
   //创建歌单弹出框
   modalinput: function () {
+    var value = wx.getStorageSync('userid');
+    console.log("modalinput" + value)
     this.setData({
       hiddenmodalput: !this.data.hiddenmodalput
     })
+    console.log("modalinput" + value)
   },
   //取消按钮  
   cancel: function () {
@@ -115,6 +88,8 @@ Page({
     });
   },
   inputSLName: function (e) {
+    var value = wx.getStorageSync('userid');
+    console.log("inputslname" + value)
     this.setData({
       inputVal: e.detail.value
     });
@@ -122,39 +97,33 @@ Page({
   //确认  
   confirm: function (e) {
     var that = this;
-    wx.login({
-      //如果wx.login成功就加载上层函数login
-      success:function(loginCode){
+    var value=wx.getStorageSync('userid')
+    console.log("confirm"+value)
+    wx.request({
+      url: `${config.service.host}/Musiclist_controller/Musiclist_insert`,
+      data: {
+        name: that.data.inputVal,
+        userid: value
+      },
+      method: 'GET',
+      success: function (res2) {
+        that.openToast();
+        //歌单列表渲染
         wx.request({
-          url: `${config.service.host}/User_controller/login`,
+          url: `${config.service.host}/Musiclist_controller/Musiclist_getbyuserid`,
           data: {
-            code:loginCode.code
+            userid: value
           },
-          method: 'GET',
-          //如果login成功就加载新建歌单函数
           success: function (res) {
-            wx.request({
-              url: `${config.service.host}/Musiclist_controller/Musiclist_insert`,
-              data: {
-                name: that.data.inputVal,
-                userid: res.data
-              },
-              method: 'GET',
-              success: function (res2) {
-                that.openToast();
-              },
-              fail: function (err) {
-                console.log(err.data);
-              }
-            })
-          },
-          fail: function (err) {
-            console.log(err.data);
+            that.setData({
+              musicList: res.data
+            });
           }
         })
       },
       fail: function (err) {
         console.log(err.data);
+        console.log("err");
       }
     })
   },
