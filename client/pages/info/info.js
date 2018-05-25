@@ -64,8 +64,6 @@ Page({
 
   tabClick: function (e) {
     //获取userid
-    var value = wx.getStorageSync('userid');
-    console.log("tabclic"+value)
     this.setData({
       sliderOffset: e.currentTarget.offsetLeft,
       activeIndex: e.currentTarget.id
@@ -75,11 +73,9 @@ Page({
   //创建歌单弹出框
   modalinput: function () {
     var value = wx.getStorageSync('userid');
-    console.log("modalinput" + value)
     this.setData({
       hiddenmodalput: !this.data.hiddenmodalput
     })
-    console.log("modalinput" + value)
   },
   //取消按钮  
   cancel: function () {
@@ -88,8 +84,6 @@ Page({
     });
   },
   inputSLName: function (e) {
-    var value = wx.getStorageSync('userid');
-    console.log("inputslname" + value)
     this.setData({
       inputVal: e.detail.value
     });
@@ -98,7 +92,6 @@ Page({
   confirm: function (e) {
     var that = this;
     var value=wx.getStorageSync('userid')
-    console.log("confirm"+value)
     wx.request({
       url: `${config.service.host}/Musiclist_controller/Musiclist_insert`,
       data: {
