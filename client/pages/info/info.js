@@ -72,7 +72,6 @@ Page({
 
   //创建歌单弹出框
   modalinput: function () {
-    var value = wx.getStorageSync('userid');
     this.setData({
       hiddenmodalput: !this.data.hiddenmodalput
     })
@@ -138,13 +137,10 @@ Page({
   
   //跳转歌单页面!!!!!!!!!!!!
   toSongList:function(e){
-    var sn = e.detail.value;
-    console.log(sn);
-    /*
+    var sli = (e.target.id);
     wx.navigateTo({
-      url: '../songList/songList?songName',
+      url: '../songList/songList?songListId='+sli
     })
-    */
   }
 });
 

@@ -7,7 +7,7 @@
                 <view class="weui-cell__hd">
                     <image src="../../src/pic_160.png" style="margin-right: 5px;vertical-align: middle;width:100px; height: 100px;"></image>
                 </view>
-                <view class="weui-cell__bd">歌单名字</view>
+                <view class="weui-cell__bd">{{songListName}}</view>
                 <view class="weui-cell__hd">
                     <image src="../../src/分享.png" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
                 </view>
@@ -20,54 +20,8 @@
 
         <!--歌曲列表-->
         <view class="weui-cells weui-cells_after-title">
-            <view class="weui-cell">
-                <view class="weui-cell__bd">歌曲1</view>
-                <view class="weui-cell__hd">
-                    <image src="../../src/暂停.png" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
-                    <image src="../../src/删除.jpg" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;" bindtap="openToast"></image>   
-                </view>
-            </view>
-            <view class="weui-cell">
-                <view class="weui-cell__bd">歌曲2</view>
-                <view class="weui-cell__hd">
-                    <image src="../../src/暂停.png" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
-                    <image src="../../src/删除.jpg" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;" bindtap="openToast"></image>   
-                </view>
-            </view>
-            <view class="weui-cell">
-                <view class="weui-cell__bd">歌曲3</view>
-                <view class="weui-cell__hd">
-                    <image src="../../src/暂停.png" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
-                    <image src="../../src/删除.jpg" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;" bindtap="openToast"></image>   
-                </view>
-            </view>
-            <view class="weui-cell">
-                <view class="weui-cell__bd">歌曲4</view>
-                <view class="weui-cell__hd">
-                    <image src="../../src/暂停.png" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
-                    <image src="../../src/删除.jpg" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;" bindtap="openToast"></image>   
-                </view>
-            </view>
-            <view class="weui-cell">
-                <view class="weui-cell__bd">歌曲5</view>
-                <view class="weui-cell__hd">
-                    <image src="../../src/暂停.png" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
-                    <image src="../../src/删除.jpg" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;" bindtap="openToast"></image>   
-                </view>
-            </view>
-            <view class="weui-cell">
-                <view class="weui-cell__bd">歌曲6</view>
-                <view class="weui-cell__hd">
-                    <image src="../../src/暂停.png" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
-                    <image src="../../src/删除.jpg" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;" bindtap="openToast"></image>   
-                </view>
-            </view>
-            <view class="weui-cell">
-                <view class="weui-cell__bd">歌曲7</view>
-                <view class="weui-cell__hd">
-                    <image src="../../src/暂停.png" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
-                    <image src="../../src/删除.jpg" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;" bindtap="openToast"></image> 
-                </view>
+            <view wx:for="{{music}}" class="weui-cell weui-cell_access" hover-class="weui-cell_active" bindtap='toSongList'><!--未完成-->
+          {{index+1}}:{{}}
             </view>
 
         </view>
