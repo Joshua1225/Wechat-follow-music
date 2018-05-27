@@ -66,7 +66,7 @@ Page({
 
   f_1_0: function () {
     wx.navigateTo({
-      url: '../search/search',
+      url: '../search/search？',
     })
   },
 
