@@ -27,7 +27,7 @@
                 <view class="weui-cell__bd">创建歌单</view>
             </view>
         </view>
-        <view wx:for="{{musicList}}" class="weui-cell weui-cell_access" hover-class="weui-cell_active" bindtap='toSongList'><!--未完成-->
+        <view wx:for="{{musicList}}" id='{{item.MusiclistId}}' class="weui-cell weui-cell_access" hover-class="weui-cell_active" bindtap='toSongList'><!--未完成-->
           {{index+1}}:{{item.MusiclistName}}
         </view>
 

@@ -4,6 +4,8 @@ var config = require('./config')
 
 App({
 
+
+
     onLaunch: function () {
       //检查登录密钥userid是否存在且有效
       var islogin=false;
@@ -53,10 +55,12 @@ App({
               }
             })
           }
-        } catch (e) {
-          console.log('userid not exist')
-        }
+
        
+      
+    } catch (e) {
+      console.log('userid not exist')
+    }
 
 
   }
