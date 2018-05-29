@@ -21,11 +21,23 @@ Page({
   },
   listen:function(e)
   {
-    console.log(e.currentTarget.dataset.musicid)
-    //wx.navigateBack()
-    // wx.navigateBack({
-    //   url: '../index/index?id=' + e.currentTarget.dataset.musicid,
-    // })
+    var id = e.currentTarget.dataset.musicid
+    console.log(id)
+
+    var pages = getCurrentPages();
+    var currPage = pages[pages.length - 1];   //当前页面
+    var prevPage = pages[pages.length - 2];  //上一个页面
+    //直接调用上一个页面的setData()方法，把数据存到上一个页面中去
+
+    prevPage.setData({
+      mydata: {
+      musicIndex: id,
+      musicChange: 1 
+      }
+    })
+    wx.navigateBack({
+      delta:1
+    })
   },
   inputValUpdate:function(e)
   {
