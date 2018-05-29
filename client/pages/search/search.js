@@ -21,12 +21,6 @@ Page({
   },
   listen:function(e)
   {
-<<<<<<< HEAD
-    console.log(e.currentTarget.dataset.musicid)
-    
-    wx.navigateBack()
-    
-=======
     var id = e.currentTarget.dataset.musicid
     console.log(id)
 
@@ -34,17 +28,11 @@ Page({
     var currPage = pages[pages.length - 1];   //当前页面
     var prevPage = pages[pages.length - 2];  //上一个页面
     //直接调用上一个页面的setData()方法，把数据存到上一个页面中去
-
-    prevPage.setData({
-      mydata: {
-      musicIndex: id,
-      musicChange: 1 
-      }
-    })
+    
+    prevPage.insertMusic(id)
     wx.navigateBack({
       delta:1
     })
->>>>>>> 03aa049c58c071dbc8751bf24daf3e300835af01
   },
   inputValUpdate:function(e)
   {

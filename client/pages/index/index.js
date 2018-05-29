@@ -221,7 +221,7 @@ Page({
         curTimeVal: innerAudioContext.currentTime.toFixed(2) * 100,
       })
 
-      console.log("duration的值：", that.data.curTimeVal)
+      //console.log("duration的值：", that.data.curTimeVal)
     })
   },
   //拖动滑块
@@ -241,6 +241,18 @@ Page({
       this.updateTime(that) //注意这里要继续出发updataTime事件，
 
     })
+  },
+
+  //添加播放列表相关
+  insertMusic:function(id){
+    console.log('添加成功')
+    var musicListLength = this.data.musicList.length
+    this.data.musicList.push(id)
+    this.setData({
+      musicListIndex: musicListLength
+    })
+    innerAudioContext.src = 'http://140.143.149.22/music/' + this.data.musicList[this.data.musicListIndex] + '.mp3'
+    innerAudioContext.play()
   },
 
   /**
@@ -309,7 +321,6 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
   },
 
   /**
