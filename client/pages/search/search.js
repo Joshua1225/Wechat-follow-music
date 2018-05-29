@@ -19,6 +19,14 @@ Page({
     })
       
   },
+  listen:function(e)
+  {
+    console.log(e.currentTarget.dataset.musicid)
+    //wx.navigateBack()
+    // wx.navigateBack({
+    //   url: '../index/index?id=' + e.currentTarget.dataset.musicid,
+    // })
+  },
   inputValUpdate:function(e)
   {
     this.setData({
@@ -66,6 +74,8 @@ Page({
         break;
       }
     }
+    if(this.data.inputVal=='')
+      flag=false
     if(flag)
       this.data.historyRec.unshift(this.data.inputVal);
 
@@ -83,6 +93,8 @@ Page({
       },
       success:function(res)
       {
+        
+        console.log(res.data)
         that.setData({
             result:res.data
         })

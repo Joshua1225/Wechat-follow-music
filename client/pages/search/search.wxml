@@ -25,9 +25,9 @@
             
         
         
-          <view  class="weui-cell" hover-class="weui-cell_active" wx:key="id" wx:if="{{confirmFlag}}" wx:for="{{result}}" wx:for-item="song">
+          <view  class="weui-cell" hover-class="weui-cell_active" wx:key="id" wx:if="{{confirmFlag}}" wx:for="{{result}}" wx:for-item="song" data-MusicId="{{song.MusicId}}" bindtap='listen'>
                 <view class="weui-cell__bd">
-                    <view>{{song.MusicName}} {{song.MusicSinger}}</view>
+                    <view>{{song.MusicName}} {{song.MusicSinger}} {{song.MusicId}}</view>
                 </view>
           </view>
         
