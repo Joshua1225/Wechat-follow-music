@@ -22,10 +22,9 @@ Page({
   listen:function(e)
   {
     console.log(e.currentTarget.dataset.musicid)
-    //wx.navigateBack()
-    // wx.navigateBack({
-    //   url: '../index/index?id=' + e.currentTarget.dataset.musicid,
-    // })
+    
+    wx.navigateBack()
+    
   },
   inputValUpdate:function(e)
   {
