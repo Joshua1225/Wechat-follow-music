@@ -9,14 +9,13 @@ App({
     try {
       //检查缓存
       var value = wx.getStorageSync('userid')
-      if (value) {
+     
         wx.request({
           url: config.service.isloginUrl,
           data: {
             userid: value
           },
           success: function (res) {
-            //console.log(res)
             if (res.data == '(bool)true') {
               islogin = true
             }
@@ -32,6 +31,7 @@ App({
                     success: function (response) {
                       try {
                         wx.setStorageSync('userid', response.data)
+                        console.log(response.data);
                       } catch (e) {
                         console.log('error')
                       }
@@ -43,8 +43,8 @@ App({
             }
           }
         })
-      }
       
+      console.log(value);
     } catch (e) {
       console.log('userid not exist')
     }
