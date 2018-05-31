@@ -42,3 +42,8 @@
   width: 750rpx;
   height: 600rpx;
 }
+
+.container_swiper{
+  width: 750rpx;
+  height: 100vh;
+}
