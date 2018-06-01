@@ -101,7 +101,7 @@ Page({
 
   f_2_2: function () {
     wx.navigateTo({
-      url: '../comment/comment?music_id=' + this.data.musicList[this.data.musicListIndex]
+      url: '../comment/comment?music_id=' + this.data.musicList[this.data.musicListIndex]['id']
     })
   },
 
@@ -146,7 +146,7 @@ Page({
         musicListIndex: (musicListIndex + musicListLength - 1) % musicListLength
       })
     }
-    innerAudioContext.src = 'http://140.143.149.22/music/' + this.data.musicList[this.data.musicListIndex] + '.mp3'
+    innerAudioContext.src = 'http://140.143.149.22/music/' + this.data.musicList[this.data.musicListIndex]['id'] + '.mp3'
     if (this.data.iconList_3[2].i == 0) {
       this.setData({
         [up]: "../../src/暂停.png",
@@ -192,7 +192,7 @@ Page({
         musicListIndex: (musicListIndex + 1) % musicListLength
       })
     }
-    innerAudioContext.src = 'http://140.143.149.22/music/' + this.data.musicList[this.data.musicListIndex] + '.mp3'
+    innerAudioContext.src = 'http://140.143.149.22/music/' + this.data.musicList[this.data.musicListIndex]['id'] + '.mp3'
     if (this.data.iconList_3[2].i == 0) {
       this.setData({
         [up]: "../../src/暂停.png",
@@ -243,23 +243,44 @@ Page({
     })
   },
 
+  //播放列表生成
+  buildList:function(){
+
+  },
+
   //添加播放列表相关
-  insertMusic:function(id){
-    console.log('添加成功')
+  insertMusic:function(id0){
+    console.log('添加成功' + this.data.musicList.length)
     var musicListLength = this.data.musicList.length
-    this.data.musicList.push(id)
-    this.setData({
-      musicListIndex: musicListLength
+    var op = "iconList_3[2].i"
+    var that=this
+    var name0
+    wx.request({
+      url: `https://hy6e9qbe.qcloud.la/Music_controller/Music_getbyid?id=` + id0,
+      success: function (res) {
+        name0=res.data[0]['MusicName']
+        that.data.musicList.push({ id: id0, name: name0 })
+        var arr = that.data.musicList
+        console.log(res.data[0]['MusicName'])
+        console.log(name0)
+        that.setData({
+          musicListIndex: musicListLength,
+          [op]: 0,
+          musicList : arr
+        })
+        innerAudioContext.src = 'http://140.143.149.22/music/' + that.data.musicList[that.data.musicListIndex]['id'] + '.mp3'
+        console.log(that.data.musicList)
+        that.f_3_2()
+      }
     })
-    innerAudioContext.src = 'http://140.143.149.22/music/' + this.data.musicList[this.data.musicListIndex] + '.mp3'
-    innerAudioContext.play()
+    
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    
+
     var that = this
 
     innerAudioContext.onPlay(() => {
@@ -287,12 +308,12 @@ Page({
       that.setData({
         curTimeVal: 0
       })
-      innerAudioContext.src = 'http://140.143.149.22/music/' + that.data.musicList[that.data.musicListIndex] + '.mp3'
+      innerAudioContext.src = 'http://140.143.149.22/music/' + that.data.musicList[that.data.musicListIndex]['id'] + '.mp3'
       innerAudioContext.play()
     })
     wx.setStorage({
       key: "musicList",
-      data: ['1', '2', '3', '4', '5'],
+      data: [{ id: '1', name: '第一首歌' }, { id: '2', name: '第二首歌' }, { id: '3', name: '第三首歌' }, { id: '4', name: '第四首歌' }, { id: '5', name: '第五首歌' }],
       success() {
         console.log('缓存成功')
       }
@@ -305,9 +326,11 @@ Page({
         that.setData({
           musicList: res.data
         })
-        innerAudioContext.src = 'http://140.143.149.22/music/' + res.data[that.data.musicListIndex] + '.mp3'
+        innerAudioContext.src = 'http://140.143.149.22/music/' + res.data[that.data.musicListIndex]['id'] + '.mp3'
       }
     })
+    
+    
   },
 
   /**
