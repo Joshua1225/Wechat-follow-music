@@ -9,7 +9,7 @@
                 </view>
                 <view class="weui-cell__bd">{{songListName}}</view>
                 <view class="weui-cell__hd">
-                    <image src="../../src/分享.png" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
+                    <image src="../../src/分享.png" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;" open-type="share"></image>
                 </view>
                 <view class="weui-cell__hd">
                     <image src="../../src/未添加喜爱.png" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
@@ -21,7 +21,7 @@
         <!--歌曲列表-->
         <view class="weui-cells weui-cells_after-title">
             <view wx:for="{{music}}" class="weui-cell weui-cell_access" hover-class="weui-cell_active" bindtap='toSongList'><!--未完成-->
-          {{index+1}}:{{}}
+          {{index+1}}:{{music}}
             </view>
 
         </view>

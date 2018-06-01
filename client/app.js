@@ -8,7 +8,37 @@ App({
     try {
 		  //提取缓存
       var value = wx.getStorageSync('userid')
+<<<<<<< HEAD
       console.log(value)
+=======
+     
+        wx.request({
+          url: config.service.isloginUrl,
+          data: {
+            userid: value
+          },
+          success: function (res) {
+            if (res.data == '(bool)true') {
+              islogin = true
+            }
+            //未登录需要登录
+            if (islogin == false) {
+              wx.login({
+                success: function (res) {
+                  wx.request({
+                    url: config.service.loginUrl,
+                    data: {
+                      code: res.code
+                    },
+                    success: function (response) {
+                      try {
+                        wx.setStorageSync('userid', response.data)
+                        console.log(response.data);
+                      } catch (e) {
+                        console.log('error')
+                      }
+                    }
+>>>>>>> f1331cd1fa7354e27a98b96c46bd60a1881fae59
 
       wx.request({//检查userid是否有效
         url: config.service.isloginUrl,
@@ -33,8 +63,14 @@ App({
               }
             })
           }
+<<<<<<< HEAD
         }
       })
+=======
+        })
+      
+      console.log(value);
+>>>>>>> f1331cd1fa7354e27a98b96c46bd60a1881fae59
     } catch (e) {
       console.log('userid not exist')
     }

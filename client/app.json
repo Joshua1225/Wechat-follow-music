@@ -1,8 +1,15 @@
 {
   "pages":[
+<<<<<<< HEAD
     "pages/index/index",
     "pages/info/info",
     "pages/songList/songList",
+=======
+    "pages/info/info",
+    "pages/songList/songList",
+    
+    "pages/index/index",
+>>>>>>> f1331cd1fa7354e27a98b96c46bd60a1881fae59
     "pages/comment/comment",
     "pages/search/search"
   ],

@@ -18,6 +18,7 @@ Page({
     var that=this;
     //获取userid
     var value=wx.getStorageSync('userid');
+    console.log("info"+value);
     //歌单列表渲染
     wx.request({
       url: `${config.service.host}/Musiclist_controller/Musiclist_getbyuserid`,
@@ -25,24 +26,28 @@ Page({
         userid: value
       },
       success: function (res) {
+        console.log("songlist"+value);
         that.setData({
           musicList: res.data
         });
       }
     })
+    
     //评论列表渲染
     wx.request({
-        url: `${config.service.host}/Comment_selectbyuser`,
-        data: {
-          UserId: value
-        },
-        success: function (res2) {
-          that.setData({
-            commentList: res2.data
-          });
-        }
-    })  
+      url: `${config.service.host}/Comment_selectbyuser`,
+      data: {
+        UserId: value
+      },
+      success: function (res2) {
+        console.log("coment"+value);
+        that.setData({
+          commentList: res2.data
+        });
+      }
+    })
     
+
     wx.getSystemInfo({
       success: function (res) {
         that.setData({
@@ -60,6 +65,7 @@ Page({
         })
       },
     })
+    
   },
 
   tabClick: function (e) {
@@ -115,7 +121,6 @@ Page({
       },
       fail: function (err) {
         console.log(err.data);
-        console.log("err");
       }
     })
   },
