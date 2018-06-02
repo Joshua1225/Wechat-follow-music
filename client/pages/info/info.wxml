@@ -18,18 +18,32 @@
         <view class="weui-cells weui-cells_after-title">
             <view class="weui-cell">
                 <view class="container" class="zn-uploadimg">  
-                <image src="../../src/添加.jpg" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;" bindtap="modalinput" bindtap="modalinput"></image>
-            </view>  
-<modal hidden="{{hiddenmodalput}}" title="请输入验证码" confirm-text="提交" cancel-text="重置" bindcancel="cancel" bindconfirm="confirm">  
-    <input class="weui-input"  placeholder="请输入文本" bindinput='inputSLName'/>
-</modal>  
-
+                    <image src="../../src/添加.jpg" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;" bindtap="modalinput" bindtap="modalinput"></image>
+                </view>  
+                <modal hidden="{{hiddenmodalput}}" title="请输入验证码" confirm-text="提交" cancel-text="重置" bindcancel="cancel" bindconfirm="confirm">  
+                    <input class="weui-input"  placeholder="请输入文本" bindinput='inputSLName'/>
+                </modal>  
                 <view class="weui-cell__bd">创建歌单</view>
             </view>
         </view>
-        <view wx:for="{{musicList}}" id='{{item.MusiclistId}}' class="weui-cell weui-cell_access" hover-class="weui-cell_active" bindtap='toSongList'><!--未完成-->
-          {{index+1}}:{{item.MusiclistName}}
+
+        <view wx:for="{{musicList}}" id='{{item.MusiclistId}}' class="weui-cell weui-cell_access" hover-class="weui-cell_active" bindtap='toSongList'>
+            <view bindtouchstart="touchS" bindtouchmove="touchM" bindtouchend="touchE" data-index="{{index}}" style="{{item.txtStyle}}">
+                {{index+1}}:{{item.MusiclistName}}
+            </view>
+            <view data-index="{{index}}" bindtap = "delItem">删除</view>
         </view>
+        
+        <!--
+        <view wx:for="{{list}}"  wx:key="{{index}}"  class="item">
+    
+          <view bindtouchstart="touchS" bindtouchmove="touchM" bindtouchend="touchE" data-index="{{index}}" style="{{item.txtStyle}}" class="inner txt">
+            <image class="item-icon" mode="widthFix" src="{{item.icon}}"></image>{{item.txt}}
+          </view>
+          <view data-index="{{index}}" bindtap = "delItem" class="inner del">删除</view>
+
+        </view>
+        -->
 
         <!--历史评论-->
         <view  class="weui-cell weui-cell_access" hover-class="weui-cell_active">

@@ -6,7 +6,9 @@ Page({
     activeIndex: 1,
     sliderOffset: 0,
     sliderLeft: 0,
-    songListName:""
+    songListName:"",
+    music:{},//歌单下歌曲数组
+    collection:false
   },
   //设置该页面的转发信息
   onShareAppMessage: function () {
@@ -21,6 +23,15 @@ Page({
   },
   onLoad: function (options) {
     var that=this;
+    //获取手机系统信息
+    wx.getSystemInfo({
+      success: function (res) {
+        that.setData({
+          sliderLeft: (res.windowWidth / that.data.tabs.length - sliderWidth) / 2,
+          sliderOffset: res.windowWidth / that.data.tabs.length * that.data.activeIndex
+        });
+      }
+    });
     //显示当前页面的转发按钮
     wx.showShareMenu({
       withShareTicket:true
@@ -41,55 +52,43 @@ Page({
         console.log("err");
       }
     })
-    //显示歌单里的歌曲
+    //显示歌曲
+    var music = that.data.music;
     wx.request({
       url: `${config.service.host}/Musiclist_controller/Musiclist_musics`,
-      data:{
+      data: {
         id: songListId
       },
-      success:function(res){
+      success: function (res) {
         console.log(res);
-        var i=0;
-        for(;res.data[i];){
-          wx.request({
-            url: `${config.service.host}/Music_controller/Music_getbyid`,
-            data:{
-              id:res.data[i]
-            },
-            success:function(res1){
-              console.log("res1"+res1);
-              music:res1;
-            },
-            fail:function(err){
-              console.log(err);
-            }
-          })
-        }
+        that.setData({
+          music:res.data
+        })
       }
     })
-    /*
-    this.setData({
-      icon: '../../icon_nav_feedback'
-    });
-    */
-    var that = this;
-    wx.getSystemInfo({
-      success: function (res) {
-        that.setData({
-          sliderLeft: (res.windowWidth / that.data.tabs.length - sliderWidth) / 2,
-          sliderOffset: res.windowWidth / that.data.tabs.length * that.data.activeIndex
-        });
-      }
-    });
   },
-  
+
   tabClick: function (e) {
     this.setData({
       sliderOffset: e.currentTarget.offsetLeft,
       activeIndex: e.currentTarget.id
     });
   },
+  //改变点赞状态
+  dianZan: function (e) {
+    var value = wx.getStorageSync('userid');
+    var temp = this.data.collection;
+    this.setData({
+      collection: !temp
+    })
+    if (temp == false) {
+      
+    }
+    else {
 
+    }
+  },
+  //反馈提示
   openToast: function () {
     wx.showToast({
       title: '已完成',

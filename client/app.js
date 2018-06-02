@@ -31,7 +31,7 @@ App({
                     success: function (response) {
                       try {
                         wx.setStorageSync('userid', response.data)
-                        console.log(response.data);
+                        //console.log("response"+response.data);
                       } catch (e) {
                         console.log('error')
                       }
@@ -44,7 +44,7 @@ App({
           }
         })
       
-      console.log(value);
+      //console.log("appvalue"+value);
     } catch (e) {
       console.log('userid not exist')
     }
