@@ -29,15 +29,16 @@ Page({
     var prevPage = pages[pages.length - 2];  //上一个页面
     //直接调用上一个页面的setData()方法，把数据存到上一个页面中去
 
+    wx.navigateBack({
+      delta: 1
+    })
     prevPage.setData({
       mydata: {
       musicIndex: id,
       musicChange: 1 
       }
     })
-    wx.navigateBack({
-      delta:1
-    })
+    
   },
   inputValUpdate:function(e)
   {
