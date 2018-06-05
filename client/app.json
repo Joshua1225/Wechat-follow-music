@@ -2,8 +2,8 @@
   "pages":[
     "pages/index/index",
     "pages/info/info",
-    "pages/songList/songList",
     "pages/comment/comment",
+    "pages/songList/songList",
     "pages/search/search"
   ],
   "window":{

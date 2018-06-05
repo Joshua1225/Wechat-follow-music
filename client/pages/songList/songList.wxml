@@ -3,27 +3,20 @@
        
         <!--//歌单名字和按钮-->
         <view class="weui-cells weui-cells_after-title">
-            <navigator url="" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+            <view  class="weui-cell weui-cell_access" hover-class="weui-cell_active">
                 <view class="weui-cell__hd">
                     <image src="../../src/pic_160.png" style="margin-right: 5px;vertical-align: middle;width:100px; height: 100px;"></image>
                 </view>
                 <view class="weui-cell__bd">{{songListName}}</view>
-                <view class="weui-cell__hd">
-                    <image src="../../src/分享.png" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;" open-type="share"></image>
+                <view class="weui-cell__hd" bindtap='dianZan'>
+                    <image wx:if="{{collection==false}}" src="../../src/未添加喜爱.png"  style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
+                    <image wx:else src="../../src/添加喜爱.png"  style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
                 </view>
-                <view class="weui-cell__hd">
-                    <image src="../../src/未添加喜爱.png" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
-                </view>
-            </navigator>
-        </view>
-        
-
-        <!--歌曲列表-->
-        <view class="weui-cells weui-cells_after-title">
-            <view wx:for="{{music}}" class="weui-cell weui-cell_access" hover-class="weui-cell_active" bindtap='toSongList'><!--未完成-->
-          {{index+1}}:{{music}}
             </view>
-
+            <!--歌曲列表-->
+            <view wx:for="{{music}}"  class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+              {{index+1}}:{{item.MusicName}}
+            </view>
         </view>
     </view>
 </view>
