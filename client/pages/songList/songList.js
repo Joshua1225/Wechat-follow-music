@@ -6,42 +6,24 @@ Page({
     activeIndex: 1,
     sliderOffset: 0,
     sliderLeft: 0,
-    songListName:""
+    songListName:"",
+    music:{},//歌单下歌曲数组
+    collection:false
   },
-
+  //设置该页面的转发信息
+  onShareAppMessage: function () {
+    return {
+      title: '转发标题',
+      path: '/page/songList/songList?id=14',
+      desc:'desc',
+      success:function(res){
+        var shareTickets=res.share
+      }
+      }
+  },
   onLoad: function (options) {
     var that=this;
-    //显示歌单名称和歌
-    var songListId=options.songListId;
-    console.log(songListId);
-    wx.request({
-      url: `${config.service.host}/Musiclist_controller/Musiclist_getbyid`,
-      data:{
-        id:songListId
-      },
-      success:function(res){
-        console.log(res.data[0].MusicIdList[0]);
-        that.setData({
-          songListName: res.data[0].MusiclistName,
-          music: res.data[0].MusicIdList
-        });
-        //通过歌曲id得到歌曲json
-        wx.request({
-          url: `${config.service.host}/Music_controller/Music_getbyid`,
-          data:{
-            
-          }
-        })
-      },
-      fail: function (err) {
-        console.log("err");
-      }
-    })
-    
-    this.setData({
-      icon: '../../icon_nav_feedback'
-    });
-    var that = this;
+    //获取手机系统信息
     wx.getSystemInfo({
       success: function (res) {
         that.setData({
@@ -50,7 +32,40 @@ Page({
         });
       }
     });
-
+    //显示当前页面的转发按钮
+    wx.showShareMenu({
+      withShareTicket:true
+    })  
+    //显示歌单名称
+    var songListId=options.songListId;
+    wx.request({
+      url: `${config.service.host}/Musiclist_controller/Musiclist_getbyid`,
+      data:{
+        id:songListId
+      },
+      success:function(res){
+        that.setData({
+          songListName: res.data[0].MusiclistName
+        });
+      },
+      fail: function (err) {
+        console.log("err");
+      }
+    })
+    //显示歌曲
+    var music = that.data.music;
+    wx.request({
+      url: `${config.service.host}/Musiclist_controller/Musiclist_musics`,
+      data: {
+        id: songListId
+      },
+      success: function (res) {
+        console.log(res);
+        that.setData({
+          music:res.data
+        })
+      }
+    })
   },
 
   tabClick: function (e) {
@@ -59,7 +74,21 @@ Page({
       activeIndex: e.currentTarget.id
     });
   },
+  //改变点赞状态
+  dianZan: function (e) {
+    var value = wx.getStorageSync('userid');
+    var temp = this.data.collection;
+    this.setData({
+      collection: !temp
+    })
+    if (temp == false) {
+      
+    }
+    else {
 
+    }
+  },
+  //反馈提示
   openToast: function () {
     wx.showToast({
       title: '已完成',

@@ -100,6 +100,7 @@ Page({
   },
 
   f_2_2: function () {
+    console.log(this.data.musicList);
     wx.navigateTo({
       url: '../comment/comment?music_id=' + this.data.musicList[this.data.musicListIndex]
     })

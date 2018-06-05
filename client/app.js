@@ -8,7 +8,8 @@ App({
     try {
 		  //提取缓存
       var value = wx.getStorageSync('userid')
-      console.log(value)
+
+
 
       wx.request({//检查userid是否有效
         url: config.service.isloginUrl,
@@ -34,7 +35,7 @@ App({
             })
           }
         }
-      })
+      }) 
     } catch (e) {
       console.log('userid not exist')
     }
