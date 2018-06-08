@@ -127,7 +127,7 @@ Page({
       this.setData({
         [up]: "../../src/循环播放.png",
         [op]: 0,
-        playMode: 3
+        playMode: 0
       })
     }
   },
