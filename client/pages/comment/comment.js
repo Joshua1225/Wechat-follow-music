@@ -59,43 +59,26 @@ Page({
         });
       }
     });
-  },
+  },//onload结束
 
   //改变点赞状态
-  toCollect:function(e){
+  like:function(e){
+    var that=this;
     var value = wx.getStorageSync('userid');
-    var temp = this.data.collection;
+    var commentId=e.target.dataset.id;
+    var temp = that.data.collection;
     console.log("toCollect");
-    console.log("collection" + this.data.collection);
-    this.setData({
+    that.setData({
       collection: !temp
     })
-    if(temp==false){
       wx.request({
         url: `${config.service.host}/Like_give`,
         data:{
           UserId:value,
-          MusicId: this.data.music_id,
-          CommentId:e.target.id
+          MusicId: that.data.music_id,
+          CommentId:commentId
         }
       })
-    }
-    else
-    {
-      /*
-      wx.request({
-        url: `${config.service.host}/Like_withdraw`,
-        data: {
-          UserId: value,
-          MusicId: this.data.music_id,
-          CommentId: e.target.id
-        }
-      })
-      */
-      
-    }
-    
-    console.log("collection"+this.data.collection);
   },
 
   tabClick: function (e) {
