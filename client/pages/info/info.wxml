@@ -27,11 +27,12 @@
             </view>
         </view>
 
-        <view wx:for="{{musicList}}" id='{{item.MusiclistId}}' class="weui-cell weui-cell_access" hover-class="weui-cell_active" bindtap='toSongList'>
-            <view bindtouchstart="touchS" bindtouchmove="touchM" bindtouchend="touchE" data-index="{{index}}" style="{{item.txtStyle}}">
+
+        <view wx:for="{{musicList}}"  class="weui-cell weui-cell_access" hover-class="weui-cell_active" >
+            <view id='{{item.MusiclistId}}' bindtap='toSongList'>
                 {{index+1}}:{{item.MusiclistName}}
             </view>
-            <view data-index="{{index}}" bindtap = "delItem">删除</view>
+            <image src="../../src/删除.jpg" data-index="{{index}}"data-id="{{item.MusicIdList}}" bindtap = "delItem" style="float:right; width:20px; height: 20px;"></image> 
         </view>
         
         <!--

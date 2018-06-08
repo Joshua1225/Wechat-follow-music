@@ -15,10 +15,12 @@
             </view>
         </view>
         
-        <view wx:for="{{commentList}}" class="weui-cell weui-cell_access" hover-class="weui-cell_active" bindtap='toCollect' id='{{item.CommentId}}'>
-            {{index+1}}:{{item.Content}}
-            <image wx:if="{{collection==false}}" src="../../src/未添加喜爱.png"  style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
-            <image wx:else src="../../src/添加喜爱.png"  style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
+        <view wx:for="{{commentList}}" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+            <view>
+                {{index+1}}:{{item.Content}}    {{item.Likes}}
+            </view>
+            <image wx:if="{{collection==false}}" src="../../src/未添加喜爱.png"  style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;" bindtap='like' data-id='{{item.CommentId}}'></image>
+            <image wx:else src="../../src/添加喜爱.png"  style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;" bindtap="delLike" data-id='{{item.CommentId}}'></image>
         </view>
 
         <!--输入评论-->
