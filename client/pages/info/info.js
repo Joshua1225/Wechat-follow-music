@@ -40,6 +40,7 @@ Page({
         UserId: value
       },
       success: function (res2) {
+       
         that.setData({
           commentList: res2.data
         });
