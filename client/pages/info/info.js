@@ -25,6 +25,7 @@ Page({
         userid: value
       },
       success: function (res) {
+        console.log()
         that.setData({
           musicList: res.data
         });
