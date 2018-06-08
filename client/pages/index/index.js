@@ -29,7 +29,7 @@ Page({
         func: "f_2_0"
       },
       {
-        imagePath: "../../src/01.jpg",
+        imagePath: "../../src/添加歌单.jpg",
         func: "f_2_1"
       },
       {
@@ -44,7 +44,7 @@ Page({
         i: 0
       },
       {
-        imagePath: "./上一首.png",
+        imagePath: "../../src/上一首.png",
         func: "f_3_1"
       },
       {
