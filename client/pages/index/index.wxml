@@ -1,5 +1,5 @@
 <!--pages/play/play.wxml-->
-<swiper class='container_swiper' vertical='true' current='{{currentIndex}}'>
+<swiper class='container_swiper' vertical='true' current='{{currentIndex}}' style="background:{{listBgColor}}">
   <swiper-item>
     <view class='container1'>
       <view class='icon_bar'>
@@ -36,15 +36,23 @@
 
     <action-sheet hidden="{{actionSheetHidden}}" bindchange="listenerActionSheet" >
       <block wx:for-items="{{actionSheetItems}}" > 
-          <action-sheet-item class="item" bindtap="bindItemTap" data-name="{{item['MusiclistId']}}">{{item['MusiclistName']}}</action-sheet-item>
+          <action-sheet-item class="item" bindtap="bindItemTap" data-name="{{item.MusiclistId}}">{{item.MusiclistName}}</action-sheet-item>
       </block>
       <action-sheet-cancel>取消</action-sheet-cancel>
     </action-sheet>
 
   </swiper-item>
   <swiper-item>
-    <view wx:for="{{musicList}}" >
-      <view class='icon_bar'>{{item.name}}</view><view>删除</view>
+    <view class="song-list{{isLight ? ' light' : ''}}" style="background:{{listBgColor}}">
+      <view class="song-item" wx:for="{{musicList}}" wx:key="unique" bindtap="playsongTap" data-id="{{item.id}}">
+        <text class="song-number">{{index+1}}</text>
+        <view class="song-body">
+          <text class="song-tit">{{item.name}}</text>
+          <view class="song-desc">
+            <text>{{item.singer}}</text>
+          </view>
+        </view>
+      </view>
     </view>
   </swiper-item>
 </swiper>

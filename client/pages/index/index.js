@@ -14,6 +14,8 @@ Page({
     duration: 0,
     actionSheetHidden:true,
     actionSheetItems:[],
+    listBgColor: '',
+    isLight: false,
     iconList_1: [
       {
         imagePath: "../../src/查询.png",
@@ -283,16 +285,26 @@ Page({
 
   //添加播放列表相关
   insertMusic:function(id0){
+    for (var i=0; i < this.data.musicList.length;i++)
+    {
+      if (id0 == this.data.musicList[i]['id'])
+      {
+        innerAudioContext.src = 'http://140.143.149.22/music/' + this.data.musicList[i]['id'] + '.mp3'
+        this.f_3_2()
+        return
+      }
+    }
     console.log('添加成功' + this.data.musicList.length)
     var musicListLength = this.data.musicList.length
     var op = "iconList_3[2].i"
     var that=this
-    var name0
+
     wx.request({
       url: `https://hy6e9qbe.qcloud.la/Music_controller/Music_getbyid?id=` + id0,
       success: function (res) {
-        name0=res.data[0]['MusicName']
-        that.data.musicList.push({ id: id0, name: name0 })
+        var name0 = res.data[0]['MusicName']
+        var singer0 = res.data[0]['MusicSinger']
+        that.data.musicList.push({ id: id0, name: name0, singer:singer0})
         var arr = that.data.musicList
         console.log(res.data[0]['MusicName'])
         console.log(name0)
@@ -346,7 +358,7 @@ Page({
     })
     wx.setStorage({
       key: "musicList",
-      data: [{ id: '1', name: '第一首歌' }, { id: '2', name: '第二首歌' }, { id: '3', name: '第三首歌' }, { id: '4', name: '第四首歌' }, { id: '5', name: '第五首歌' }],
+      data: [{ id: '1', name: '第一首歌', singer: '王佳奇' }, { id: '2', name: '第二首歌', singer: '王佳奇' }, { id: '3', name: '第三首歌', singer: '王佳奇' }, { id: '4', name: '第四首歌', singer: '王佳奇' }, { id: '5', name: '第五首歌', singer: '王佳奇'}],
       success() {
         console.log('缓存成功')
       }
@@ -362,8 +374,19 @@ Page({
         innerAudioContext.src = 'http://140.143.149.22/music/' + res.data[that.data.musicListIndex]['id'] + '.mp3'
       }
     })
-    
-    
+
+    this.setData({
+      isLight: true,
+      listBgColor: this.dealColor('14737632')
+    })
+  },
+
+  dealColor: function (rgb) {
+    if (!rgb) { return; }
+    let r = (rgb & 0x00ff0000) >> 16,
+      g = (rgb & 0x0000ff00) >> 8,
+      b = (rgb & 0x000000ff);
+    return 'rgb(' + r + ',' + g + ',' + b + ')';
   },
 
   /**
