@@ -33,7 +33,14 @@
         <image wx:for="{{iconList_3}}" wx:key="imagePath" src="{{item.imagePath}}" class='image_icon' catchtap="{{item.func}}"></image>
       </view>
     </view>
-    
+
+    <action-sheet hidden="{{actionSheetHidden}}" bindchange="listenerActionSheet" >
+      <block wx:for-items="{{actionSheetItems}}" > 
+          <action-sheet-item class="item" bindtap="bindItemTap" data-name="{{item['MusiclistId']}}">{{item['MusiclistName']}}</action-sheet-item>
+      </block>
+      <action-sheet-cancel>取消</action-sheet-cancel>
+    </action-sheet>
+
   </swiper-item>
   <swiper-item>
     <view wx:for="{{musicList}}" >

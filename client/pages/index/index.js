@@ -12,6 +12,8 @@ Page({
     playMode: 0,
     curTimeVal: 0,
     duration: 0,
+    actionSheetHidden:true,
+    actionSheetItems:[],
     iconList_1: [
       {
         imagePath: "../../src/查询.png",
@@ -90,32 +92,42 @@ Page({
 
   f_2_1: function () {
     var userid = wx.getStorageSync('userid')
+    var that=this
     console.log(userid)
     wx.request({
       url: `https://hy6e9qbe.qcloud.la/Musiclist_controller/Musiclist_getbyuserid?userid=` + userid,
       success: function (res) {
-        /*name0 = res.data[0]['MusicName']
-        that.data.musicList.push({ id: id0, name: name0 })
-        var arr = that.data.musicList
-        console.log(res.data[0]['MusicName'])
-        console.log(name0)
+        var arr = res.data
         that.setData({
-          musicListIndex: musicListLength,
-          [op]: 0,
-          musicList: arr
-        })
-        innerAudioContext.src = 'http://140.143.149.22/music/' + that.data.musicList[that.data.musicListIndex]['id'] + '.mp3'
-        console.log(that.data.musicList)
-        that.f_3_2()*/
+          actionSheetItems: arr
+        });
       }
     })
-    wx.showActionSheet({
-      itemList: ['A', 'B', 'C'],
+    this.setData({
+      actionSheetHidden: !this.data.actionSheetHidden
+    })
+  },
+
+  bindItemTap: function (e) {
+    var that=this
+    wx.request({
+      url: `https://hy6e9qbe.qcloud.la/Musiclist_controller/Musiclist_add`,
+      data:{
+        musiclistid: e.currentTarget.dataset.name,
+        musicid: that.data.musicList[that.data.musicListIndex]['id']
+      },
       success: function (res) {
-        if (!res.cancel) {
-          console.log(res.tapIndex)
-        }
+        that.setData({
+          actionSheetHidden: !that.data.actionSheetHidden
+        })
       }
+    })
+    
+  },
+
+  listenerActionSheet: function (e) {
+    this.setData({
+      actionSheetHidden: !this.data.actionSheetHidden
     });
   },
 
