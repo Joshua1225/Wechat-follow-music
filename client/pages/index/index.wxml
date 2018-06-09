@@ -8,7 +8,7 @@
       </view>
       <swiper class='swiper' indicator-dots='{{true}}'>
         <swiper-item class='swiper_cover_lyric'>
-          <image class='cover' src='../../src/04.jpg'></image>
+          <image class='cover' src='../../src/index.jpg'></image>
           
         </swiper-item>
         <swiper-item class='swiper_cover_lyric'>
