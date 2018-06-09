@@ -89,6 +89,26 @@ Page({
   },
 
   f_2_1: function () {
+    var userid = wx.getStorageSync('userid')
+    console.log(userid)
+    wx.request({
+      url: `https://hy6e9qbe.qcloud.la/Musiclist_controller/Musiclist_getbyuserid?userid=` + userid,
+      success: function (res) {
+        /*name0 = res.data[0]['MusicName']
+        that.data.musicList.push({ id: id0, name: name0 })
+        var arr = that.data.musicList
+        console.log(res.data[0]['MusicName'])
+        console.log(name0)
+        that.setData({
+          musicListIndex: musicListLength,
+          [op]: 0,
+          musicList: arr
+        })
+        innerAudioContext.src = 'http://140.143.149.22/music/' + that.data.musicList[that.data.musicListIndex]['id'] + '.mp3'
+        console.log(that.data.musicList)
+        that.f_3_2()*/
+      }
+    })
     wx.showActionSheet({
       itemList: ['A', 'B', 'C'],
       success: function (res) {
