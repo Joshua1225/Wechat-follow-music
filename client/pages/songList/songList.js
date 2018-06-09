@@ -13,9 +13,10 @@ Page({
   },
   //设置该页面的转发信息
   onShareAppMessage: function () {
+    console.log(this.songListId)
     return {
       title: '转发标题',
-      path: '/page/songList/songList?id=14',
+      path: '/pages/songList/songList?songListId='+this.data.songListId,
       desc:'desc',
       success:function(res){
         var shareTickets=res.share
@@ -23,6 +24,7 @@ Page({
       }
   },
   onLoad: function (options) {
+    console.log(options)
     var that=this;
     //获取手机系统信息
     wx.getSystemInfo({
@@ -38,6 +40,7 @@ Page({
       withShareTicket:true
     })  
     //显示歌单名称
+    
     that.setData({
       songListId:options.songListId
     })
@@ -115,5 +118,20 @@ Page({
       icon: 'loading',
       duration: 3000
     });
+  },
+  addSonglist:function()
+  {
+    wx.request({
+      url: 'https://hy6e9qbe.qcloud.la/Musiclist_controller/Musiclist_copy',
+      data:{
+        musiclistid:this.data.songListId,
+        userid:value
+      },
+      success:function(res)
+      {
+        console.log(res)
+      }
+    })
+    
   }
 });

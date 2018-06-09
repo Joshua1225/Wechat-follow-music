@@ -11,7 +11,7 @@ Page({
     inputVal:"",
     nickName:"",
     avatarUrl:"",
-    canIUse: false//wx.canIUse('button.open-type.getUserInfo')
+    canIUse: wx.canIUse('button.open-type.getUserInfo')
   },
   onLoad: function () {
     var that=this;
