@@ -11,8 +11,9 @@ Page({
     inputVal:"",
     nickName:"",
     avatarUrl:"",
-    delBtnWidth: 180//删除按钮宽度单位（rpx）
-    //可以通过hidden是否掩藏弹出框的属性，来指定那个弹出框  
+    delBtnWidth: 180,//删除按钮宽度单位（rpx）
+    //可以通过hidden是否掩藏弹出框的属性，来指定那个弹出框
+    canIUse: false//wx.canIUse('button.open-type.getUserInfo')
   },
   onLoad: function () {
     var that=this;
@@ -54,20 +55,36 @@ Page({
           sliderLeft: (res.windowWidth / that.data.tabs.length - sliderWidth) / 2,
           sliderOffset: res.windowWidth / that.data.tabs.length * that.data.activeIndex
         });
+      },
+      fail:function(res){
+        
       }
     });
     //获取微信头像，昵称
-    wx.getUserInfo({
-      success: function (res) {
-        that.setData({
-          nickName: res.userInfo.nickName,
-          avatarUrl: res.userInfo.avatarUrl,
-        })
-      },
-    })
+    // wx.getUserInfo({
+    //   success: function (res) {
+    //     that.setData({
+    //       nickName: res.userInfo.nickName,
+    //       avatarUrl: res.userInfo.avatarUrl,
+    //     })
+    //   },
+    // })
     
   },
-
+  bindGetUserInfo: function (e) {
+    console.log(e.detail.userInfo)
+    //this.setData({canIUse:wx.canIUse('button.open-type.getUserInfo')})
+    if (e.detail.userInfo) {
+      this.setData({
+        canIUse:wx.canIUse('button.open-type.getUserInfo'),
+        nickName: e.detail.userInfo.nickName,
+        avatarUrl: e.detail.userInfo.avatarUrl,
+      })
+      //用户按了允许授权按钮
+    } else {
+      //用户按了拒绝按钮
+    }
+  },
   tabClick: function (e) {
     //获取userid
     this.setData({

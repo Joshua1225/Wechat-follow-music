@@ -18,51 +18,51 @@ Page({
     isLight: false,
     iconList_1: [
       {
-        imagePath: "../../src/查询.png",
+        imagePath: "../../src/search.png",
         func: "f_1_0"
       },
       {
-        imagePath: "../../src/分享.png",
+        imagePath: "../../src/share.png",
         func: "f_1_1"
       }
     ],
     iconList_2: [
       {
-        imagePath: "../../src/未添加喜爱.png",
+        imagePath: "../../src/like.png",
         i: 0,
         func: "f_2_0"
       },
       {
-        imagePath: "../../src/添加歌单.jpg",
+        imagePath: "../../src/add.png",
         func: "f_2_1"
       },
       {
-        imagePath: "../../src/评论.png",
+        imagePath: "../../src/comment.png",
         func: "f_2_2"
       }
     ],
     iconList_3: [
       {
-        imagePath: "../../src/循环播放.png",
+        imagePath: "../../src/sequential_cycle.png",
         func: "f_3_0",
         i: 0
       },
       {
-        imagePath: "../../src/上一首.png",
+        imagePath: "../../src/previous.png",
         func: "f_3_1"
       },
       {
-        imagePath: "../../src/播放.png",
+        imagePath: "../../src/play.png",
         func: "f_3_2",
         i: 0
       },
       {
-        imagePath: "../../src/下一首.png",
+        imagePath: "../../src/next.png",
 
         func: "f_3_3"
       },
       {
-        imagePath: "../../src/播放列表.png",
+        imagePath: "../../src/playlist.png",
         func: "f_3_4"
       }
     ]
@@ -74,19 +74,18 @@ Page({
     })
   },
 
-
   f_2_0: function (event) {
     var up = "iconList_2[0].imagePath";
     var op = "iconList_2[0].i";
     if (this.data.iconList_2[0].i == 0) {
       this.setData({
-        [up]: "../../src/添加喜爱.png",
+        [up]: "../../src/dislike.png",
         [op]: 1
       })
     }
     else {
       this.setData({
-        [up]: "../../src/未添加喜爱.png",
+        [up]: "../../src/like.png",
         [op]: 0
       })
     }
@@ -145,21 +144,21 @@ Page({
     var op = "iconList_3[0].i";
     if (this.data.iconList_3[0].i == 0) {
       this.setData({
-        [up]: "../../src/随机播放.png",
+        [up]: "../../src/random_cycle.png",
         [op]: 1,
         playMode: 1
       })
     }
     else if (this.data.iconList_3[0].i == 1) {
       this.setData({
-        [up]: "../../src/单曲循环.png",
+        [up]: "../../src/single_cycle.png",
         [op]: 2,
         playMode: 2
       })
     }
     else {
       this.setData({
-        [up]: "../../src/循环播放.png",
+        [up]: "../../src/sequential_cycle.png",
         [op]: 0,
         playMode: 0
       })
@@ -184,7 +183,7 @@ Page({
     innerAudioContext.src = 'http://140.143.149.22/music/' + this.data.musicList[this.data.musicListIndex]['id'] + '.mp3'
     if (this.data.iconList_3[2].i == 0) {
       this.setData({
-        [up]: "../../src/暂停.png",
+        [up]: "../../src/pause.png",
         [op]: 1
       })
     }
@@ -197,7 +196,7 @@ Page({
     var op = "iconList_3[2].i";
     if (this.data.iconList_3[2].i == 0) {
       this.setData({
-        [up]: "../../src/暂停.png",
+        [up]: "../../src/pause.png",
         [op]: 1
       })
       innerAudioContext.play()
@@ -205,7 +204,7 @@ Page({
     }
     else {
       this.setData({
-        [up]: "../../src/播放.png",
+        [up]: "../../src/play.png",
         [op]: 0
       })
       innerAudioContext.pause()
@@ -230,7 +229,7 @@ Page({
     innerAudioContext.src = 'http://140.143.149.22/music/' + this.data.musicList[this.data.musicListIndex]['id'] + '.mp3'
     if (this.data.iconList_3[2].i == 0) {
       this.setData({
-        [up]: "../../src/暂停.png",
+        [up]: "../../src/pause.png",
         [op]: 1
       })
     }
