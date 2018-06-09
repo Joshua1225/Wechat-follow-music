@@ -14,9 +14,10 @@
         <swiper-item class="middle-r">
           <scroll-view class="lyric-wrapper" scroll-y scroll-into-view="line{{toLineNum}}" scroll-with-animation>
             <view v-if="lyric">
-              <view id="line{{index}}"
+              <view ref="lyricLine"
+                    id="line{{index}}"
                     class="text {{currentLineNum == index ? 'current': '' }}"
-                    wx:for="{{lyric.lines}}" wx:key="unique">{{item.txt}}
+                    wx:for="{{lyric.lines}}">{{item.txt}}
               </view>
             </view>
             <view wx:if="{{!lyric}}">

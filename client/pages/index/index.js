@@ -259,8 +259,8 @@ Page({
         duration: innerAudioContext.duration.toFixed(2) * 100,
         curTimeVal: innerAudioContext.currentTime.toFixed(2) * 100,
       })
-      if (this.data.currentLyric) {
-        this.handleLyric(innerAudioContext.currentTime.toFixed(2) * 100)
+      if (that.data.lyric) {
+        that.handleLyric(innerAudioContext.currentTime*1000)
       }
       
     })
@@ -339,23 +339,27 @@ Page({
   //获取歌词
   getLyric:function()
   {
-    var lyric0
-    wx.downloadFile({
-      url: 'http://140.143.149.22/lyric/' + this.data.musicList[this.data.musicListIndex]['id'] + '.lrc', 
+    var that=this
+    wx.request({
+      url: 'http://140.143.149.22/lyric/' + that.data.musicList[that.data.musicListIndex]['id'] +'.lrc',
       success: function (res) {
-        // 只要服务器有响应数据，就会把响应内容写入文件并进入 success 回调，业务需要自行判断是否下载到了想要的内容
-        if (res.statusCode === 200) {
-          lyric0 = this._normalizeLyric()
+        if (res.statusCode==200){
+          const lyric = that._normalizeLyric(res.data)
+          const currentLyric = new Lyric(lyric)
+          that.setData({
+            lyric: currentLyric
+          })
+        }
+        else{
+          that.setData({
+            currentLyric: null,
+            currentText: ''
+          })
         }
       }
     })
-    var currentLyric = new Lyric(lyric0)
-    this.setData({
-      lyric: currentLyric
-    })
-    console.log("lyric0:" + lyric0)
-    console.log("lyric:"+this.data.lyric)
   },
+
 
   // 歌词滚动回调函数
   handleLyric: function (currentTime) {
@@ -384,6 +388,7 @@ Page({
       })
     }
   },
+  
   // 去掉歌词中的转义字符
   _normalizeLyric: function (lyric) {
     return lyric.replace(/&#58;/g, ':').replace(/&#10;/g, '\n').replace(/&#46;/g, '.').replace(/&#32;/g, ' ').replace(/&#45;/g, '-').replace(/&#40;/g, '(').replace(/&#41;/g, ')')
