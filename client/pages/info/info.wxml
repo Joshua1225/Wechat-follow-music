@@ -36,7 +36,7 @@
             <view id='{{item.MusiclistId}}' bindtap='toSongList'>
                 {{index+1}}:{{item.MusiclistName}}
             </view>
-            <image src="../../src/delete.jpg" data-index="{{index}}"data-id="{{item.MusicIdList}}" bindtap = "delItem" style="float:right; width:20px; height: 20px;"></image> 
+            <image src="../../src/delete.jpg" data-MusiclistId="{{item.MusiclistId}}"data-id="{{item.MusicIdList}}" bindtap = "delItem" style="float:right; width:20px; height: 20px;"></image> 
         </view>
         
         <!--

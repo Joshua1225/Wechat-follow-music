@@ -11,8 +11,6 @@ Page({
     inputVal:"",
     nickName:"",
     avatarUrl:"",
-    delBtnWidth: 180,//删除按钮宽度单位（rpx）
-    //可以通过hidden是否掩藏弹出框的属性，来指定那个弹出框
     canIUse: false//wx.canIUse('button.open-type.getUserInfo')
   },
   onLoad: function () {
@@ -163,14 +161,38 @@ Page({
   //点击删除按钮事件
   delItem: function (e) {
     //获取列表中要删除项的下标
-    var index = e.target.dataset.id;
+    var MusiclistId = e.target.dataset.musiclistid;
     var musicList = this.data.musicList;
-    //移除列表中下标为index的项
-    musicList.splice(index, 1);
-    //更新列表的状态
-    this.setData({
-      musicList: musicList
-    });
+    //移除列表中下标为MusiclistId的项
+    musicList.splice(MusiclistId, 1);
+    //更新歌单列表的状态
+    var value=wx.getStorageSync('userid');
+    var that=this;
+    wx.request({
+      url: `${config.service.host}/Musiclist_controller/Musiclist_getbyuserid`,
+      data: {
+        userid: value
+      },
+      success: function (res) {
+        console.log(res.data);
+        that.setData({
+          musicList: res.data
+        });
+      }
+    })
+    //数据库删除歌单
+    wx.request({
+      url: `${config.service.host}/Musiclist_controller/Musiclist_remove`,
+      data: {
+        id: MusiclistId
+      },
+      success: function (res) {
+      },
+      fail: function (err) {
+        console.log(err);
+      }
+    })
+    
   },  
 
 

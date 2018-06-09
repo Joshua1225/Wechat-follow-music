@@ -11,7 +11,9 @@ Page({
     musicName:"",
     musicSinger:"",
     cache:false,
-    collection:false,
+    test: [false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true,],
+    collection2:[],
+    //评论是否点赞数组
     MusicId:""
   },
 
@@ -21,7 +23,6 @@ Page({
     that.setData({
       music_id:options.music_id
     })
-    var that = this;
     var music_id = this.data.music_id;
     wx.request({
       url: `${config.service.host}/Music_controller/Music_getbyid`,
@@ -38,6 +39,7 @@ Page({
         console.log("err");
       }
     })
+
     //评论列表渲染
     wx.request({
       url: `${config.service.host}/Comment_selectbymusic`,
@@ -49,8 +51,34 @@ Page({
         that.setData({
           commentList: res.data
         });
+        //评论是否点赞数组初始化
+        var value = wx.getStorageSync('userid');var j;
+        var comListLen = that.data.commentList.length;
+        var collection = [];
+        for (j = 0; j < comListLen;j++){
+          console.log("j"+j);
+            wx.request({
+              url: `${config.service.host}/Like_isliked`,
+              data:{
+                UserId:value,
+                MusicId:that.data.music_id,
+                CommentId: that.data.commentList[j].CommentId
+              },
+              success:function(res1){
+                collection.push(res1.data);
+                  that.setData({
+                    collection1: collection
+                  })
+                  
+              },
+              fail:function(err){
+                console.log(err);
+              }
+            })
+        }
       }
     })
+
     wx.getSystemInfo({
       success: function (res) {
         that.setData({
@@ -137,6 +165,15 @@ Page({
     this.setData({
       inputVal: e.detail.value
     });
+  },
+  test:function(){
+    this.setData({
+      collection2:this.data.collectoin1
+    })
+    console.log("that.data.collection1");
+    console.log(this.data.collection1);
+    console.log("that.data.collection2");
+    console.log(this.data.collection2);
   }
 });
 
