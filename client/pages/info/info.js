@@ -61,20 +61,25 @@ Page({
       }
     });
     //获取微信头像，昵称
-    wx.getUserInfo({
-      success: function (res) {
-        that.setData({
-          nickName: res.userInfo.nickName,
-          avatarUrl: res.userInfo.avatarUrl,
-        })
-      },
-    })
+    // wx.getUserInfo({
+    //   success: function (res) {
+    //     that.setData({
+    //       nickName: res.userInfo.nickName,
+    //       avatarUrl: res.userInfo.avatarUrl,
+    //     })
+    //   },
+    // })
     
   },
   bindGetUserInfo: function (e) {
     console.log(e.detail.userInfo)
-    this.setData({canIUse:wx.canIUse('button.open-type.getUserInfo')})
+    //this.setData({canIUse:wx.canIUse('button.open-type.getUserInfo')})
     if (e.detail.userInfo) {
+      this.setData({
+        canIUse:wx.canIUse('button.open-type.getUserInfo'),
+        nickName: e.detail.userInfo.nickName,
+        avatarUrl: e.detail.userInfo.avatarUrl,
+      })
       //用户按了允许授权按钮
     } else {
       //用户按了拒绝按钮
