@@ -16,8 +16,9 @@ App({
           userid: value
         },
         success: function (res1) {//回调函数获取结果处理
-          //console.log(res1)
-          if (res1.data == '(bool)false') {//失效-重新获取code登录
+          console.log(res1.data)
+          if (res1.data = 'bool(false)') {//失效-重新获取code登录
+            console.log('false')
             wx.login({
               success: function (res2) {//回填函数向服务器转发code换取3rd-key
                 wx.request({
@@ -35,6 +36,7 @@ App({
           }
         }
       })
+
     } catch (e) {
       console.log('userid not exist')
     }

@@ -29,7 +29,7 @@ Page({
         func: "f_2_0"
       },
       {
-        imagePath: "../../src/添加歌单.png",
+        imagePath: "../../src/添加歌单.jpg",
         func: "f_2_1"
       },
       {

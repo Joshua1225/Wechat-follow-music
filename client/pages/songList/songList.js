@@ -8,7 +8,8 @@ Page({
     sliderLeft: 0,
     songListName:"",
     music:{},//歌单下歌曲数组
-    collection:false
+    collection:false,
+    songListId:""
   },
   //设置该页面的转发信息
   onShareAppMessage: function () {
@@ -37,11 +38,13 @@ Page({
       withShareTicket:true
     })  
     //显示歌单名称
-    var songListId=options.songListId;
+    that.setData({
+      songListId:options.songListId
+    })
     wx.request({
       url: `${config.service.host}/Musiclist_controller/Musiclist_getbyid`,
       data:{
-        id:songListId
+        id:that.data.songListId
       },
       success:function(res){
         that.setData({
@@ -57,7 +60,7 @@ Page({
     wx.request({
       url: `${config.service.host}/Musiclist_controller/Musiclist_musics`,
       data: {
-        id: songListId
+        id: that.data.songListId
       },
       success: function (res) {
         console.log(res);
@@ -76,16 +79,26 @@ Page({
   },
   //改变点赞状态
   dianZan: function (e) {
+    var that=this;
     var value = wx.getStorageSync('userid');
     var temp = this.data.collection;
     this.setData({
       collection: !temp
     })
     if (temp == false) {
-      
-    }
-    else {
-
+      wx.request({
+        url: `${config.service.host}/Musiclist_controller/Musiclist_copy`,
+        data:{
+          musiclistid: this.data.songListId,
+          userid:value
+        },
+        success:function(res){
+          console.log(that.data.songListId);
+        },
+        fail:function(err){
+          console.log(err);
+        }
+      })
     }
   },
   //反馈提示
