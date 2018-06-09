@@ -277,9 +277,10 @@ Page({
     })
   },
 
-  //播放列表生成
-  buildList:function(){
-
+  //播放列表点击播放
+  playsongTap: function (e) {
+    innerAudioContext.src = 'http://140.143.149.22/music/' + e.currentTarget.dataset.id + '.mp3'
+    this.f_3_2()
   },
 
   //添加播放列表相关
