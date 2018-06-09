@@ -11,8 +11,18 @@
           <image class='cover' src='../../src/index.jpg'></image>
           
         </swiper-item>
-        <swiper-item class='swiper_cover_lyric'>
-          <text>歌词4534</text>
+        <swiper-item class="middle-r">
+          <scroll-view class="lyric-wrapper" scroll-y scroll-into-view="line{{toLineNum}}" scroll-with-animation>
+            <view v-if="lyric">
+              <view id="line{{index}}"
+                    class="text {{currentLineNum == index ? 'current': '' }}"
+                    wx:for="{{lyric.lines}}" wx:key="unique">{{item.txt}}
+              </view>
+            </view>
+            <view wx:if="{{!lyric}}">
+              <view class="text current">暂无歌词</view>
+            </view>
+          </scroll-view>
         </swiper-item>
       </swiper>
       <view class='icon_bar' style='padding: 0 150rpx 0 150rpx;'>
@@ -35,7 +45,7 @@
     </view>
 
     <action-sheet hidden="{{actionSheetHidden}}" bindchange="listenerActionSheet" >
-      <block wx:for-items="{{actionSheetItems}}" > 
+      <block wx:for-items="{{actionSheetItems}}" wx:key="unique"> 
           <action-sheet-item class="item" bindtap="bindItemTap" data-name="{{item.MusiclistId}}">{{item.MusiclistName}}</action-sheet-item>
       </block>
       <action-sheet-cancel>取消</action-sheet-cancel>
@@ -44,7 +54,7 @@
   </swiper-item>
   <swiper-item>
     <view class="song-list{{isLight ? ' light' : ''}}" style="background:{{listBgColor}}">
-      <view class="song-item" wx:for="{{musicList}}" wx:key="unique" bindtap="playsongTap" data-id="{{item.id}}">
+      <view class="song-item" wx:for="{{musicList}}" wx:key="unique" bindtap="playsongTap" data-id="{{item.id}}" >
         <text class="song-number">{{index+1}}</text>
         <view class="song-body">
           <text class="song-tit">{{item.name}}</text>

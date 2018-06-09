@@ -101,3 +101,35 @@
 .song-list.light .song-body{
 	border-bottom-color: rgba(0,0,0,.15);
 }
+.middle-r {
+    display: inline-block;
+    vertical-align: top;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+.lyric-wrapper{
+    width: 80%;
+    margin: 0 auto;
+    overflow: hidden;
+    text-align: center;
+    height: 100%;
+}
+.text{
+    line-height: 32px;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 14px;
+}
+.current {
+    color: #ffcd32;
+}
+.currentLyricWrapper {
+    height:70rpx;
+    font-size:12px;
+    position:absolute;
+    bottom:-80rpx;
+    line-height: 70rpx;
+    text-align: center;
+    width: 100%;
+    color: #ffcd32;
+}
