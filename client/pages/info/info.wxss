@@ -1,2 +1,8 @@
 /* pages/info/info.wxss */
 @import '../../src/weui.wxss';
+.userinfo-avatar {
+    width: 100rpx;
+    height: 100rpx;
+    margin: auto;
+    border-radius: 50%;
+}

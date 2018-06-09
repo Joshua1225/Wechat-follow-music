@@ -1,6 +1,10 @@
 <view class="page">
-    <view class="page__bd">
-       
+    <view wx:if='{{!canIUse}}' class="page_bd">
+      <image src='../../src/user-unlogin.png' class='userinfo-avatar'></image>
+      <button open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" class>授权登录</button>
+    </view>
+    
+    <view wx:else class="page__bd">
         <!--//带图的list-->
         <view class="weui-cells weui-cells_after-title">
             <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
@@ -20,7 +24,7 @@
                 <view class="container" class="zn-uploadimg">  
                     <image src="../../src/添加.jpg" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;" bindtap="modalinput" bindtap="modalinput"></image>
                 </view>  
-                <modal hidden="{{hiddenmodalput}}" title="请输入验证码" confirm-text="提交" cancel-text="重置" bindcancel="cancel" bindconfirm="confirm">  
+                <modal hidden="{{hiddenmodalput}}" title="请输入歌单名" confirm-text="提交" cancel-text="重置" bindcancel="cancel" bindconfirm="confirm">  
                     <input class="weui-input"  placeholder="请输入文本" bindinput='inputSLName'/>
                 </modal>  
                 <view class="weui-cell__bd">创建歌单</view>
