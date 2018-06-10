@@ -356,6 +356,10 @@ Page({
             currentText: ''
           })
         }
+      },
+      fail:function(res)
+      {
+        console.log(res)
       }
     })
   },

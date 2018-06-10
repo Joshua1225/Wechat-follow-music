@@ -1,10 +1,10 @@
 <view class="page">
-    <view wx:if='{{!canIUse}}' class="page_bd">
+    <view hidden='{{canIUse}}' class="page_bd">
       <image src='../../src/user-unlogin.png' class='userinfo-avatar'></image>
       <button open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" class>授权登录</button>
     </view>
     
-    <view wx:else class="page__bd">
+    <view hidden='{{!canIUse}}' class="page__bd">
         <!--//带图的list-->
         <view class="weui-cells weui-cells_after-title">
             <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">

@@ -121,6 +121,8 @@ Page({
   },
   addSonglist:function()
   {
+    var value=wx.getStorageSync('userid')
+    console.log(value)
     wx.request({
       url: 'https://hy6e9qbe.qcloud.la/Musiclist_controller/Musiclist_copy',
       data:{
