@@ -11,14 +11,27 @@ Page({
     inputVal:"",
     nickName:"",
     avatarUrl:"",
-    delBtnWidth: 180,//删除按钮宽度单位（rpx）
-    //可以通过hidden是否掩藏弹出框的属性，来指定那个弹出框
-    canIUse: false//wx.canIUse('button.open-type.getUserInfo')
+    canIUse:false //wx.canIUse('button.open-type.getUserInfo')
   },
   onLoad: function () {
-    var that=this;
+  this.getData();
+
+    //获取微信头像，昵称
+    // wx.getUserInfo({
+    //   success: function (res) {
+    //     that.setData({
+    //       nickName: res.userInfo.nickName,
+    //       avatarUrl: res.userInfo.avatarUrl,
+    //     })
+    //   },
+    // })
+    
+  },
+  getData:function()
+  {
+    var that= this;
     //获取userid
-    var value=wx.getStorageSync('userid');
+    var value= wx.getStorageSync('userid');
     //歌单列表渲染
     wx.request({
       url: `${config.service.host}/Musiclist_controller/Musiclist_getbyuserid`,
@@ -33,7 +46,7 @@ Page({
         });
       }
     })
-    
+
     //评论列表渲染
     wx.request({
       url: `${config.service.host}/Comment_selectbyuser`,
@@ -41,14 +54,12 @@ Page({
         UserId: value
       },
       success: function (res2) {
-       
+
         that.setData({
           commentList: res2.data
         });
       }
     })
-    
-
     wx.getSystemInfo({
       success: function (res) {
         that.setData({
@@ -56,25 +67,16 @@ Page({
           sliderOffset: res.windowWidth / that.data.tabs.length * that.data.activeIndex
         });
       },
-      fail:function(res){
-        
+      fail: function (res) {
+
       }
-    });
-    //获取微信头像，昵称
-    // wx.getUserInfo({
-    //   success: function (res) {
-    //     that.setData({
-    //       nickName: res.userInfo.nickName,
-    //       avatarUrl: res.userInfo.avatarUrl,
-    //     })
-    //   },
-    // })
-    
+    })
   },
   bindGetUserInfo: function (e) {
     console.log(e.detail.userInfo)
     //this.setData({canIUse:wx.canIUse('button.open-type.getUserInfo')})
     if (e.detail.userInfo) {
+      this.getData()
       this.setData({
         canIUse:wx.canIUse('button.open-type.getUserInfo'),
         nickName: e.detail.userInfo.nickName,
@@ -163,14 +165,38 @@ Page({
   //点击删除按钮事件
   delItem: function (e) {
     //获取列表中要删除项的下标
-    var index = e.target.dataset.id;
+    var MusiclistId = e.target.dataset.musiclistid;
     var musicList = this.data.musicList;
-    //移除列表中下标为index的项
-    musicList.splice(index, 1);
-    //更新列表的状态
-    this.setData({
-      musicList: musicList
-    });
+    //移除列表中下标为MusiclistId的项
+    musicList.splice(MusiclistId, 1);
+    //更新歌单列表的状态
+    var value=wx.getStorageSync('userid');
+    var that=this;
+    wx.request({
+      url: `${config.service.host}/Musiclist_controller/Musiclist_getbyuserid`,
+      data: {
+        userid: value
+      },
+      success: function (res) {
+        console.log(res.data);
+        that.setData({
+          musicList: res.data
+        });
+      }
+    })
+    //数据库删除歌单
+    wx.request({
+      url: `${config.service.host}/Musiclist_controller/Musiclist_remove`,
+      data: {
+        id: MusiclistId
+      },
+      success: function (res) {
+      },
+      fail: function (err) {
+        console.log(err);
+      }
+    })
+    
   },  
 
 

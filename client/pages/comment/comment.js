@@ -11,18 +11,25 @@ Page({
     musicName:"",
     musicSinger:"",
     cache:false,
-    collection:false,
+    test: [false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true,],
+    arr: ["bool(true)", "bool(false)", "bool(false)", "bool(true)", "bool(false)", "bool(true)"],
+    num:[1,3,4],
+    collection2:[],
+    test1:"",
+    test2:"",
+    //评论是否点赞数组
     MusicId:""
   },
 
   onLoad: function (options) {
+    
     var that=this;
     //显示歌曲名称
     that.setData({
       music_id:options.music_id
     })
-    var that = this;
     var music_id = this.data.music_id;
+    console.log("music_id" + music_id);
     wx.request({
       url: `${config.service.host}/Music_controller/Music_getbyid`,
       data: {
@@ -38,7 +45,8 @@ Page({
         console.log("err");
       }
     })
-    //评论列表渲染
+
+    //点赞列表渲染
     wx.request({
       url: `${config.service.host}/Comment_selectbymusic`,
       data: {
@@ -49,8 +57,10 @@ Page({
         that.setData({
           commentList: res.data
         });
+        
       }
     })
+
     wx.getSystemInfo({
       success: function (res) {
         that.setData({
@@ -137,6 +147,18 @@ Page({
     this.setData({
       inputVal: e.detail.value
     });
+  },
+  test:function(){
+    var collection3=this.data.collection1;
+    this.setData({
+      collection2:collection3
+    })
+    console.log("that.data.collection1");
+    console.log(this.data.collection1);
+    console.log("that.data.collection2");
+    console.log(this.data.collection2);
+    console.log(this.data.num);
+  
   }
 });
 

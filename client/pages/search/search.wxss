@@ -1,2 +1,19 @@
 /**index.wxss**/
 @import '../../src/weui.wxss';
+.name {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    color: #fff;
+}
+.desc {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    margin-top: 4px;
+    color: rgba(255,255,255,0.3);
+}
+.page_my
+{
+  background: grey;
+}
