@@ -3,7 +3,6 @@
       <image src='../../src/user-unlogin.png' class='userinfo-avatar'></image>
       <button open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" class>授权登录</button>
     </view>
-    
     <view wx:else class="page__bd">
         <!--//带图的list-->
         <view class="weui-cells weui-cells_after-title">
@@ -14,7 +13,8 @@
                 <view class="weui-cell__bd">{{nickName}}</view>
             </view>
         </view>
-
+        <!--加载中-->
+        <loading hidden="{{hidden}}">加载中</loading>
         <!--歌单-->
         <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
                 <view class="weui-cell__bd">我的歌单</view>

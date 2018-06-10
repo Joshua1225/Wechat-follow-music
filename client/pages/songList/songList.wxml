@@ -8,7 +8,6 @@
                     <image src="../../src/pic_160.png" style="margin-right: 5px;vertical-align: middle;width:100px; height: 100px;"></image>
                 </view>
                 <view class="weui-cell__bd">{{songListName}}</view>
-                <view class="weui-cell__hd">
                 <view class="weui-cell__hd" bindtap='dianZan'>
                     <image wx:if="{{collection==false}}" src="../../src/like.png"  style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;" catchtap='addSonglist'></image>
                     <image wx:else src="../../src/dislike.png"  style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
@@ -19,5 +18,6 @@
               {{index+1}}:{{item.MusicName}}
             </view>
         </view>
+
     </view>
 </view>
