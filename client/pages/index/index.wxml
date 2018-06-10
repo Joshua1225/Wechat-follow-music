@@ -1,5 +1,8 @@
 <!--pages/play/play.wxml-->
-<swiper class='container_swiper' vertical='true' current='{{currentIndex}}' style="background:{{listBgColor}}">
+<view class="background">
+    <image style="width: {{imagewidth}}px; height: {{imageheight}}px;"  src="{{picturePath}}" bindload="imageLoad"></image>
+</view>
+<swiper class='container_swiper' vertical='true' current='{{currentIndex}}' >
   <swiper-item>
     <view class='container1'>
       <view class='icon_bar'>
@@ -8,7 +11,7 @@
       </view>
       <swiper class='swiper' indicator-dots='{{true}}'>
         <swiper-item class='swiper_cover_lyric'>
-          <image class='cover' src='../../src/index.jpg'></image>
+          <image class='cover' src='{{picturePath}}'></image>
           
         </swiper-item>
         <swiper-item class="middle-r">
@@ -45,12 +48,20 @@
       </view>
     </view>
 
-    <action-sheet hidden="{{actionSheetHidden}}" bindchange="listenerActionSheet" >
-      <block wx:for-items="{{actionSheetItems}}" wx:key="unique"> 
-          <action-sheet-item class="item" bindtap="bindItemTap" data-name="{{item.MusiclistId}}">{{item.MusiclistName}}</action-sheet-item>
-      </block>
-      <action-sheet-cancel>取消</action-sheet-cancel>
-    </action-sheet>
+    <view class="content-wrapper {{translateCls}}">
+      <view class="close-list"  bindtap="close"></view>
+      <view class="play-content">
+        <view class="plyer-list-title">歌单({{actionSheetItems.length}})</view>
+        <scroll-view class="playlist-wrapper" scroll-y>
+          <view class="item" wx:for="{{actionSheetItems}}" id="list{{index}}"
+                data-id="{{item.MusiclistId}}" bindtap="bindItemTap" wx:key="{{index}}" style='text-align:center'>
+            <view class="name">{{item.MusiclistName}}</view>
+          </view>
+        </scroll-view>
+        <view class="close-playlist" bindtap="close">关闭</view>
+      </view>
+    </view>
+
 
   </swiper-item>
   <swiper-item>
