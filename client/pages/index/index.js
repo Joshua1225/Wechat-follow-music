@@ -2,7 +2,7 @@
 var config = require('../../config')
 const innerAudioContext = wx.createInnerAudioContext()
 const Lyric = require('../../utils/lyric.js')
-
+var imageUtil = require('../../utils/util.js');
 Page({
 
   /**
@@ -21,6 +21,7 @@ Page({
     currentLineNum: 0,
     currentText: '',
     toLineNum: -1,
+    picturePath:'',
     iconList_1: [
       {
         imagePath: "../../src/search.png",
@@ -109,8 +110,20 @@ Page({
         });
       }
     })
-    this.setData({
+    this.openList()
+    /*this.setData({
       actionSheetHidden: !this.data.actionSheetHidden
+    })*/
+  },
+
+  openList: function () {
+    this.setData({
+      translateCls: 'uptranslate'
+    })
+  },
+  close: function () {
+    this.setData({
+      translateCls: 'downtranslate'
     })
   },
 
@@ -119,7 +132,7 @@ Page({
     wx.request({
       url: `https://hy6e9qbe.qcloud.la/Musiclist_controller/Musiclist_add`,
       data:{
-        musiclistid: e.currentTarget.dataset.name,
+        musiclistid: e.currentTarget.dataset.id,
         musicid: that.data.musicList[that.data.musicListIndex]['id']
       },
       success: function (res) {
@@ -173,7 +186,6 @@ Page({
   f_3_1: function () {
     var musicListIndex = this.data.musicListIndex
     var musicListLength = this.data.musicList.length
-    var up = "iconList_3[2].imagePath"
     var op = "iconList_3[2].i"
     if (this.data.playMode == 1) {
       this.setData({
@@ -186,19 +198,18 @@ Page({
       })
     }
     innerAudioContext.src = 'http://140.143.149.22/music/' + this.data.musicList[this.data.musicListIndex]['id'] + '.mp3'
-    if (this.data.iconList_3[2].i == 0) {
-      this.setData({
-        [up]: "../../src/pause.png",
-        [op]: 1
-      })
-    }
-    innerAudioContext.play()
+    this.setData({
+      [op]: 0
+    })
+    this.f_3_2()
   },
 
   f_3_2: function () {
-
-    var up = "iconList_3[2].imagePath";
-    var op = "iconList_3[2].i";
+    var up = "iconList_3[2].imagePath"
+    var op = "iconList_3[2].i"
+    this.setData({
+      picturePath: 'http://140.143.149.22/picture/' + this.data.musicList[this.data.musicListIndex]['id']
+    })
     if (this.data.iconList_3[2].i == 0) {
       this.setData({
         [up]: "../../src/pause.png",
@@ -219,7 +230,6 @@ Page({
   f_3_3: function (event) {
     var musicListIndex = this.data.musicListIndex
     var musicListLength = this.data.musicList.length
-    var up = "iconList_3[2].imagePath"
     var op = "iconList_3[2].i"
     if (this.data.playMode == 1) {
       this.setData({
@@ -232,13 +242,10 @@ Page({
       })
     }
     innerAudioContext.src = 'http://140.143.149.22/music/' + this.data.musicList[this.data.musicListIndex]['id'] + '.mp3'
-    if (this.data.iconList_3[2].i == 0) {
-      this.setData({
-        [up]: "../../src/pause.png",
-        [op]: 1
-      })
-    }
-    innerAudioContext.play()
+    this.setData({
+       [op]: 0
+    })
+    this.f_3_2()
   },
 
   f_3_4: function () {
@@ -352,7 +359,7 @@ Page({
         }
         else{
           that.setData({
-            currentLyric: null,
+            lyric: null,
             currentText: ''
           })
         }
@@ -458,7 +465,13 @@ Page({
       listBgColor: this.dealColor('14737632')
     })
   },
-
+  imageLoad: function (e) {
+    var imageSize = imageUtil.imageUtil(e)
+    this.setData({
+      imagewidth: imageSize.imageWidth,
+      imageheight: imageSize.imageHeight
+    })
+  },
   dealColor: function (rgb) {
     if (!rgb) { return; }
     let r = (rgb & 0x00ff0000) >> 16,
