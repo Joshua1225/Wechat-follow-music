@@ -1,5 +1,5 @@
 // pages/play/play.js
-
+var config = require('../../config')
 const innerAudioContext = wx.createInnerAudioContext()
 const Lyric = require('../../utils/lyric.js')
 
@@ -138,10 +138,10 @@ Page({
   },
 
   f_2_2: function () {
-    console.log(this.data.musicList);
     wx.navigateTo({
       url: '../comment/comment?music_id=' + this.data.musicList[this.data.musicListIndex]['id']
-    })
+     
+    })    
   },
 
   f_3_0: function (event) {

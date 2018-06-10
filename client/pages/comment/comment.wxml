@@ -12,6 +12,7 @@
                     <view class="weui-cell__bd">{{musicName}}</view>
                     <view class="weui-cell__bd" bindtap="test">歌手</view>
                 </view>
+                
             </view>
         </view>
         
@@ -19,8 +20,8 @@
             <view>
                 {{index+1}}:{{item.Content}}    {{item.Likes}}
             </view>
-            <image wx:if="{{collection2[index]}}"  src="../../src/dislike.png" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;" bindtap='like' data-id='{{item.CommentId}}'></image>
-            <image wx:else  src="../../src/like.png" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;" bindtap="delLike" data-id='{{item.CommentId}}'></image>
+            <image wx:if="{{collection1[index]=='bool(true)'}}" src="../../src/like.png"  style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;" bindtap='like' data-id='{{item.CommentId}}'></image>
+            <image wx:else  src="../../src/dislike.png" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;" bindtap="delLike" data-id='{{item.CommentId}}'></image>
         </view>
 
         <!--输入评论-->

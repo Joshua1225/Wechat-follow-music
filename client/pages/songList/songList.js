@@ -88,7 +88,6 @@ Page({
     this.setData({
       collection: !temp
     })
-    if (temp == false) {
       wx.request({
         url: `${config.service.host}/Musiclist_controller/Musiclist_copy`,
         data:{
@@ -96,13 +95,13 @@ Page({
           userid:value
         },
         success:function(res){
+          console.log("add success");
           console.log(that.data.songListId);
         },
         fail:function(err){
           console.log(err);
         }
       })
-    }
   },
   //反馈提示
   openToast: function () {
