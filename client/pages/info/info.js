@@ -11,7 +11,8 @@ Page({
     inputVal:"",
     nickName:"",
     avatarUrl:"",
-    canIUse:false //wx.canIUse('button.open-type.getUserInfo')
+    canIUse:false, //wx.canIUse('button.open-type.getUserInfo')
+    hidden:true
   },
   onLoad: function () {
   this.getData();
@@ -42,9 +43,12 @@ Page({
         console.log(res.data);
 
         that.setData({
-          musicList: res.data
+          hidden:true,
+          musicList: res.data,
+         
         });
       }
+      
     })
 
     //评论列表渲染
@@ -74,6 +78,9 @@ Page({
   },
   bindGetUserInfo: function (e) {
     console.log(e.detail.userInfo)
+    this.setData({
+      hidden:false
+    })
     //this.setData({canIUse:wx.canIUse('button.open-type.getUserInfo')})
     if (e.detail.userInfo) {
       this.getData()

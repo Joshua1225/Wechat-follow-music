@@ -4,6 +4,8 @@
       <button open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" class>授权登录</button>
     </view>
     
+    <loading hidden="{{hidden}}">加载中</loading>
+
     <view hidden='{{!canIUse}}' class="page__bd">
         <!--//带图的list-->
         <view class="weui-cells weui-cells_after-title">
