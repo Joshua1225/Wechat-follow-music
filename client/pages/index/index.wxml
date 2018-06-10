@@ -1,8 +1,9 @@
 <!--pages/play/play.wxml-->
-<view class="background">
+
+<swiper class='container_swiper' vertical='true' current='{{currentIndex}}'style="background:{{listBgColor}}">
+  <view class="background">
     <image style="width: {{imagewidth}}px; height: {{imageheight}}px;"  src="{{picturePath}}" bindload="imageLoad"></image>
-</view>
-<swiper class='container_swiper' vertical='true' current='{{currentIndex}}' >
+  </view>
   <swiper-item>
     <view class='container1'>
       <view class='icon_bar'>
