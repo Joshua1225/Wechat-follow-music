@@ -1,5 +1,5 @@
-<view class="page_my">
-    <view class="page__my">
+<view class="page">
+    <view class="page__bd">
 
         <view class="weui-search-bar">
           
@@ -9,7 +9,7 @@
                     <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
                     <input type="text" class="weui-search-bar__input" placeholder="输入歌手名、歌曲名搜索" value="{{inputVal}}" focus="{{inputShowed}}" bindinput="inputTyping" bindconfirm='inputConfirm' />
                     <view class="weui-icon-clear" wx:if="{{inputVal.length > 0}}" bindtap="clearInput">
-                         <icon type="clear" size="14" hidden="{{inputShowed}}" bindtap="hideInput"></icon>
+                         <icon type="clear" size="14" bindtap="hideInput"></icon>
                     </view>
                 </view>
 
@@ -18,7 +18,8 @@
                     <view class="weui-search-bar__text">输入歌手名、歌曲名搜索</view>
                 </label>
                 
-            </view>   
+            </view>
+            <view class="weui-search-bar__cancel-btn" hidden="{{!inputShowed}}" bindtap="hideInput">搜索</view>   
         </view>
          
             <view  wx:if="{{!confirmFlag}}" wx:for="{{historyRec}}" wx:key="id" data-content="{{item}}" class="weui-cell" hover-class="weui-cell_active" bindtap='inputValUpdate'>

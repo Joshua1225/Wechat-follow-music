@@ -1,4 +1,4 @@
-// pages/play/play.js
+  // pages/play/play.js
 var config = require('../../config')
 const innerAudioContext = wx.createInnerAudioContext()
 const Lyric = require('../../utils/lyric.js')
