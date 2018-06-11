@@ -13,10 +13,11 @@ Page({
     playMode: 0,
     curTimeVal: 0,
     duration: 0,
+    hiddenLoading:true,
     actionSheetHidden:true,
     actionSheetItems:[],
     listBgColor: '',
-    isLight: false,
+    isLight: true,
     lyric:null,
     currentLineNum: 0,
     currentText: '',
@@ -98,6 +99,9 @@ Page({
   },
 
   f_2_1: function () {
+    this.setData({
+      hiddenLoading:false
+    })
     var userid = wx.getStorageSync('userid')
     var that=this
     console.log(userid)
@@ -106,7 +110,8 @@ Page({
       success: function (res) {
         var arr = res.data
         that.setData({
-          actionSheetItems: arr
+          actionSheetItems: arr,
+          hiddenLoading: true
         });
       }
     })
@@ -136,9 +141,7 @@ Page({
         musicid: that.data.musicList[that.data.musicListIndex]['id']
       },
       success: function (res) {
-        that.setData({
-          actionSheetHidden: !that.data.actionSheetHidden
-        })
+        that.close()
       }
     })
     
@@ -207,9 +210,7 @@ Page({
   f_3_2: function () {
     var up = "iconList_3[2].imagePath"
     var op = "iconList_3[2].i"
-    this.setData({
-      picturePath: 'http://140.143.149.22/picture/' + this.data.musicList[this.data.musicListIndex]['id']
-    })
+    this.getPicture()
     if (this.data.iconList_3[2].i == 0) {
       this.setData({
         [up]: "../../src/pause.png",
@@ -295,7 +296,8 @@ Page({
   playsongTap: function (e) {
     var op = "iconList_3[2].i"
     this.setData({
-      [op]: 0
+      [op]: 0,
+      musicListIndex: e.currentTarget.dataset.index
     })
     innerAudioContext.src = 'http://140.143.149.22/music/' + e.currentTarget.dataset.id + '.mp3'
     this.f_3_2()
@@ -340,6 +342,33 @@ Page({
         console.log(that.data.musicList)
         that.f_3_2()
       }
+    })
+  },
+  //从播放列表删除
+  deleteMusic:function(e)
+  {
+    var arr=new Array()
+    for (var i = 0; i < this.data.musicList.length;i++)
+    {
+      if (i != e.currentTarget.dataset.index)
+      {
+        arr.push(this.data.musicList[i])
+      }
+    }
+    this.setData({
+      musicListIndex: 0,
+      musicList:arr
+    })
+    innerAudioContext.src = 'http://140.143.149.22/music/' + this.data.musicList[0]['id'] + '.mp3'
+    this.getLyric()
+    this.getPicture();
+  },
+
+  //获取封面
+  getPicture:function()
+  {
+    this.setData({
+      picturePath: 'http://140.143.149.22/picture/' + this.data.musicList[this.data.musicListIndex]['id']
     })
   },
 

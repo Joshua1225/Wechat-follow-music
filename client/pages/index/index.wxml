@@ -62,18 +62,21 @@
         <view class="close-playlist" bindtap="close">关闭</view>
       </view>
     </view>
-
+    <loading hidden="{{hiddenLoading}}">正在加载</loading>
 
   </swiper-item>
   <swiper-item>
     <view class="song-list{{isLight ? ' light' : ''}}" style="background:{{listBgColor}}">
-      <view class="song-item" wx:for="{{musicList}}" wx:key="unique" bindtap="playsongTap" data-id="{{item.id}}" >
+      <view class="song-item {{index==musicListIndex?'playing':''}}" wx:for="{{musicList}}" wx:key="unique" bindtap="playsongTap" data-id="{{item.id}}" data-index="{{index}}" >
         <text class="song-number">{{index+1}}</text>
         <view class="song-body">
-          <text class="song-tit">{{item.name}}</text>
-          <view class="song-desc">
-            <text>{{item.singer}}</text>
+          <view>
+            <text class="song-tit">{{item.name}}</text>
+            <view class="song-desc">
+              <text>{{item.singer}}</text>
+            </view>
           </view>
+          <image src='../../src/delete.png' class="deleteimage" catchtap='deleteMusic' data-index="{{index}}"></image>
         </view>
       </view>
     </view>
