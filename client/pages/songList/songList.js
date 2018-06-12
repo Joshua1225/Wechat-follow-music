@@ -14,34 +14,16 @@ Page({
   },
   //设置该页面的转发信息
   onShareAppMessage: function (res) {
-    console.log(this.songListId)
-    return {
-      path: '/pages/songList/songList?songListId='+this.data.songListId,
-      desc:'desc',
-      success:function(res){
-        var shareTickets=res.share 
-      }
-    }
+    
   },
   onLoad: function (options) {
     var that=this;
-    //获取手机系统信息
-    wx.getSystemInfo({
-      success: function (res) {
-        that.setData({
-          sliderLeft: (res.windowWidth / that.data.tabs.length - sliderWidth) / 2,
-          sliderOffset: res.windowWidth / that.data.tabs.length * that.data.activeIndex
-        });
-      }
-    });
-    //显示当前页面的转发按钮
-    wx.showShareMenu({
-      withShareTicket:true
-    })  
-    //显示歌单名称
+    //获取options里的歌单id
     that.setData({
       songListId:options.songListId
     })
+    console.log(that.data.songListId);
+    //显示歌单里名
     wx.request({
       url: `${config.service.host}/Musiclist_controller/Musiclist_getbyid`,
       data:{
@@ -56,7 +38,7 @@ Page({
         console.log("err");
       }
     })
-    //显示歌曲
+    //显示歌单里的歌曲
     var music = that.data.music;
     wx.request({
       url: `${config.service.host}/Musiclist_controller/Musiclist_musics`,
@@ -70,6 +52,16 @@ Page({
         })
       }
     })
+    //获取手机系统信息
+    wx.getSystemInfo({
+      success: function (res) {
+        that.setData({
+          sliderLeft: (res.windowWidth / that.data.tabs.length - sliderWidth) / 2,
+          sliderOffset: res.windowWidth / that.data.tabs.length * that.data.activeIndex
+        });
+      }
+    });
+    
   },
 
   tabClick: function (e) {
