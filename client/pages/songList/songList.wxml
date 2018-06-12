@@ -12,6 +12,7 @@
                     <image wx:if="{{collection==false}}" src="../../src/like.png"  style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;" catchtap='addSonglist'></image>
                     <image wx:else src="../../src/dislike.png"  style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
                 </view>
+                </view>
             </view>
             <!--歌曲列表-->
             <view wx:for="{{music}}"  class="weui-cell weui-cell_access" hover-class="weui-cell_active">

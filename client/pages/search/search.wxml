@@ -1,3 +1,4 @@
+<view class="background">
 <view class="page_my">
     <view class="page__my">
 
@@ -38,4 +39,5 @@
         
 
     </view>
+</view>
 </view>

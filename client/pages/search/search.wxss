@@ -4,16 +4,22 @@
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
-    color: #fff;
+    color: #000;
 }
 .desc {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
     margin-top: 4px;
-    color: rgba(255,255,255,0.3);
+    color: grey;
 }
 .page_my
 {
-  background: grey;
+  background: rgb(224,224,224);
+}
+.background
+{
+  background: rgb(224,224,224);
+  height:100ch;
+  width:100ch;
 }
