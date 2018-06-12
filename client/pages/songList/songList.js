@@ -107,7 +107,6 @@ Page({
   },
   //播放歌单里的歌
   toSong: function (e) {
-    /*
     var musicid = e.target.dataset.musicid;
     app.globalData.musicId=musicid;
     console.log("app.globalData.musicId" + app.globalData.musicId);
@@ -121,20 +120,6 @@ Page({
         console.log(err);
       }
     })
-    */
-      var id = e.currentTarget.dataset.musicid
-      console.log(id)
-
-      var pages = getCurrentPages();
-      console.log("pages");
-      console.log(pages);
-      var currPage = pages[pages.length - 1];   //当前页面
-      var prevPage = pages[pages.length - 2];  //上一个页面
-      //直接调用上一个页面的setData()方法，把数据存到上一个页面中去  
-      prevPage.insertMusic(id)
-      wx.navigateBack({
-        delta: 1
-      })
   },
   //反馈提示
   openToast: function () {

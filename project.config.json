@@ -11,7 +11,7 @@
 		"newFeature": true
 	},
 	"appid": "wx420d331ec7f1c098",
-	"projectname": "music_player",
+	"projectname": "musicplayer",
 	"condition": {
 		"search": {
 			"current": -1,
