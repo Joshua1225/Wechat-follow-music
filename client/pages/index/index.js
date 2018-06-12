@@ -440,7 +440,7 @@ Page({
   onLoad: function () {
 
     var that = this
-    
+    getApp().globalData.indexPage=this
     innerAudioContext.onPlay(() => {
       console.log('开始播放')
       that.getLyric()
