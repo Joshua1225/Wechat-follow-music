@@ -15,9 +15,24 @@ Page({
     hidden:false
   },
   onLoad: function () {
-    var that=this;
+  this.getData();
+
+    //获取微信头像，昵称
+    // wx.getUserInfo({
+    //   success: function (res) {
+    //     that.setData({
+    //       nickName: res.userInfo.nickName,
+    //       avatarUrl: res.userInfo.avatarUrl,
+    //     })
+    //   },
+    // })
+    
+  },
+  getData:function()
+  {
+    var that= this;
     //获取userid
-    var value=wx.getStorageSync('userid');
+    var value= wx.getStorageSync('userid');
     //歌单列表渲染
     wx.request({
       url: `${config.service.host}/Musiclist_controller/Musiclist_getbyuserid`,
@@ -26,12 +41,13 @@ Page({
       },
       success: function (res) {
         that.setData({
+          hidden:true,
           musicList: res.data,
-          hidden: true
         });
       }
+      
     })
-    
+
     //评论列表渲染
     wx.request({
       url: `${config.service.host}/Comment_selectbyuser`,
@@ -44,8 +60,6 @@ Page({
         });
       }
     })
-    
-
     wx.getSystemInfo({
       success: function (res) {
         that.setData({
@@ -53,25 +67,19 @@ Page({
           sliderOffset: res.windowWidth / that.data.tabs.length * that.data.activeIndex
         });
       },
-      fail:function(res){
-        
+      fail: function (res) {
+
       }
-    });
-    //获取微信头像，昵称
-    // wx.getUserInfo({
-    //   success: function (res) {
-    //     that.setData({
-    //       nickName: res.userInfo.nickName,
-    //       avatarUrl: res.userInfo.avatarUrl,
-    //     })
-    //   },
-    // })
-    
+    })
   },
   bindGetUserInfo: function (e) {
     console.log(e.detail.userInfo)
+    this.setData({
+      hidden:false
+    })
     //this.setData({canIUse:wx.canIUse('button.open-type.getUserInfo')})
     if (e.detail.userInfo) {
+      this.getData()
       this.setData({
         canIUse:wx.canIUse('button.open-type.getUserInfo'),
         nickName: e.detail.userInfo.nickName,

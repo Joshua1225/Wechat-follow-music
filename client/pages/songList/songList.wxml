@@ -1,6 +1,5 @@
 <view class="page">
     <view class="page__bd">
-       
         <!--//歌单名字和按钮-->
         <view class="weui-cells weui-cells_after-title">
             <view  class="weui-cell weui-cell_access" hover-class="weui-cell_active">
@@ -18,6 +17,5 @@
               {{index+1}}:{{item.MusicName}}
             </view>
         </view>
-
     </view>
 </view>
