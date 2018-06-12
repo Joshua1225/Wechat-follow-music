@@ -1,4 +1,5 @@
 var config = require('../../config')
+var app=getApp();
 var sliderWidth = 96; // 需要设置slider的宽度，用于计算中间位置
 Page({
   data: {
@@ -85,6 +86,7 @@ Page({
     var that=this;
     var value = wx.getStorageSync('userid');
     var temp = this.data.collection;
+    console.log(temp);
     this.setData({
       collection: !temp
     })
@@ -101,6 +103,37 @@ Page({
         fail:function(err){
           console.log(err);
         }
+      })
+  },
+  //播放歌单里的歌
+  toSong: function (e) {
+    /*
+    var musicid = e.target.dataset.musicid;
+    app.globalData.musicId=musicid;
+    console.log("app.globalData.musicId" + app.globalData.musicId);
+    wx.switchTab({
+      url: '/pages/index/index',
+      success:function(res){
+        console.log("tosong");
+        console.log(res);
+      },
+      fail:function(err){
+        console.log(err);
+      }
+    })
+    */
+      var id = e.currentTarget.dataset.musicid
+      console.log(id)
+
+      var pages = getCurrentPages();
+      console.log("pages");
+      console.log(pages);
+      var currPage = pages[pages.length - 1];   //当前页面
+      var prevPage = pages[pages.length - 2];  //上一个页面
+      //直接调用上一个页面的setData()方法，把数据存到上一个页面中去  
+      prevPage.insertMusic(id)
+      wx.navigateBack({
+        delta: 1
       })
   },
   //反馈提示

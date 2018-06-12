@@ -11,8 +11,6 @@ Page({
     musicName:"",
     musicSinger:"",
     cache:false,
-    test: [false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true,],
-    arr: ["bool(true)", "bool(false)", "bool(false)", "bool(true)", "bool(false)", "bool(true)"],
     num:[1,3,4],
     commentList:[],
     collection2:[],
@@ -82,6 +80,11 @@ Page({
     this.setData({
       [up]:true
     })
+    var down = "commentList[" + tempIndex + "].Likes"
+    var downAdd = (parseInt(this.data.commentList[tempIndex].Likes) + 1).toString();
+    this.setData({
+      [down]: downAdd
+    })
     var that=this;
     var value = wx.getStorageSync('userid');
     var commentId=e.target.dataset.id;
@@ -91,12 +94,12 @@ Page({
         data:{
           UserId:value,
           MusicId: that.data.music_id,
-          CommentId:commentId
+          CommentId:commentId,
         },
         success:function(res){
-          console.log("显示成功提示框");
-          that.openToast();
-          console.log(that.data.commentList);
+          that.setData({
+            commentList: that.data.commentList
+          })
         }
       })
   },
@@ -107,6 +110,11 @@ Page({
     var up = "commentList[" + tempIndex + "].IsLike"
     this.setData({
       [up]: false
+    })
+    var down = "commentList[" + tempIndex + "].Likes"
+    var downAdd = (parseInt(this.data.commentList[tempIndex].Likes) - 1).toString();
+    this.setData({
+      [down]: downAdd
     })
     var that = this;
     var value = wx.getStorageSync('userid');

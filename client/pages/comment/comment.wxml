@@ -21,8 +21,8 @@
             <view>
                 {{index+1}}:{{item.Content}}    {{item.Likes}}
             </view>
-            <image wx:if="{{item.IsLike==false}}" src="../../src/like.png"  data-IsLike="{{item.IsLike}}" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;" bindtap='like' data-idx='{{index}}' data-id='{{item.CommentId}}'></image>
-            <image wx:else  src="../../src/dislike.png" data-IsLike="{{item.IsLike}}" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;" bindtap="delLike" data-idx='{{index}}' data-id='{{item.CommentId}}'></image>
+            <image wx:if="{{item.IsLike==false}}" src="../../src/like.png"  data-Likes="{{item.Likes}}" data-IsLike="{{item.IsLike}}" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;" bindtap='like' data-idx='{{index}}' data-id='{{item.CommentId}}'></image>
+            <image wx:else  src="../../src/dislike.png" data-Likes="{{item.Likes}}" data-IsLike="{{item.IsLike}}" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;" bindtap="delLike" data-idx='{{index}}' data-id='{{item.CommentId}}'></image>
         </view>
 
         <!--输入评论-->
