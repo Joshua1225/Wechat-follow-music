@@ -36,6 +36,12 @@
 					"name": "搜索",
 					"pathName": "pages/search/search",
 					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "info",
+					"pathName": "pages/info/info",
+					"query": ""
 				}
 			]
 		}

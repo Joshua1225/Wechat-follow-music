@@ -211,9 +211,14 @@ Page({
   //跳转歌单页面!!!!!!!!!!!!
   toSongList:function(e){
     var sli = (e.target.id);
+    this.setData({
+      hidden:true
+    })
     wx.navigateTo({
-      url: '../songList/songList?songListId='+sli
+      url: '../songList/songList?songListId='+sli,
+      
     })
   }
 });
+
 

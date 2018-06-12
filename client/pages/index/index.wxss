@@ -1,5 +1,15 @@
 /* pages/play/play.wxss */
 @import '../../src/weui.wxss';
+.image_button{
+  background: none;
+  color: #000;
+  width: 70rpx;
+  height: 70rpx;
+  align-self: auto
+}
+.image_button::after{
+  border: none;
+}
 
 .image_icon{
   width: 70rpx;
