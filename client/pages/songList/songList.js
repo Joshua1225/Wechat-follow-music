@@ -13,7 +13,7 @@ Page({
     songListId:""
   },
   //设置该页面的转发信息
-  onShareAppMessage: function () {
+  onShareAppMessage: function (res) {
     console.log(this.songListId)
     return {
       path: '/pages/songList/songList?songListId='+this.data.songListId,
@@ -107,12 +107,10 @@ Page({
   //播放歌单里的歌
   toSong: function (e) {
     var musicid = e.target.dataset.musicid;
-    app.globalData.musicId=musicid;
-    console.log("app.globalData.musicId" + app.globalData.musicId);
+    getApp().globalData.indexPage.insertMusic(musicid);
     wx.switchTab({
       url: '/pages/index/index',
       success:function(res){
-        console.log("tosong");
         console.log(res);
       },
       fail:function(err){
