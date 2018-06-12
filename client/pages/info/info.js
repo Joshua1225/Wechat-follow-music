@@ -11,8 +11,8 @@ Page({
     inputVal:"",
     nickName:"",
     avatarUrl:"",
-    canIUse:false, //wx.canIUse('button.open-type.getUserInfo')
-    hidden:true
+    canIUse: false,//wx.canIUse('button.open-type.getUserInfo')
+    hidden:false
   },
   onLoad: function () {
   this.getData();
@@ -40,12 +40,9 @@ Page({
         userid: value
       },
       success: function (res) {
-        console.log(res.data);
-
         that.setData({
           hidden:true,
           musicList: res.data,
-         
         });
       }
       
@@ -58,9 +55,8 @@ Page({
         UserId: value
       },
       success: function (res2) {
-
         that.setData({
-          commentList: res2.data
+          commentList: res2.data,
         });
       }
     })

@@ -437,10 +437,10 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function () {
 
     var that = this
-    
+    getApp().globalData.indexPage=this
     innerAudioContext.onPlay(() => {
       console.log('开始播放')
       that.getLyric()

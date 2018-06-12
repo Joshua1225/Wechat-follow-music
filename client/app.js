@@ -3,6 +3,9 @@ var qcloud = require('./vendor/wafer2-client-sdk/index')
 var config = require('./config')
 
 App({
+  globalData:{
+    indexPage:null
+  },
   onLaunch: function () {
     var islogin = false;
     try {
@@ -42,5 +45,8 @@ App({
     }
 
 
+  },
+  globalData:{
+    musicId:""
   }
 })

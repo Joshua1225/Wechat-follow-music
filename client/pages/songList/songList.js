@@ -1,4 +1,5 @@
 var config = require('../../config')
+var app=getApp();
 var sliderWidth = 96; // 需要设置slider的宽度，用于计算中间位置
 Page({
   data: {
@@ -24,6 +25,7 @@ Page({
       }
   },
   onLoad: function (options) {
+    
     console.log(options)
     var that=this;
     //获取手机系统信息
@@ -85,6 +87,7 @@ Page({
     var that=this;
     var value = wx.getStorageSync('userid');
     var temp = this.data.collection;
+    console.log(temp);
     this.setData({
       collection: !temp
     })
@@ -102,6 +105,22 @@ Page({
           console.log(err);
         }
       })
+  },
+  //播放歌单里的歌
+  toSong: function (e) {
+    var musicid = e.target.dataset.musicid;
+    app.globalData.musicId=musicid;
+    console.log("app.globalData.musicId" + app.globalData.musicId);
+    wx.switchTab({
+      url: '/pages/index/index',
+      success:function(res){
+        console.log("tosong");
+        console.log(res);
+      },
+      fail:function(err){
+        console.log(err);
+      }
+    })
   },
   //反馈提示
   openToast: function () {
