@@ -67,12 +67,17 @@
 	text-align: center;
 }
 .song-body{
+  display: flex;
+  flex-direction: row;
 	position: relative;
 	flex: auto;
 	padding: 10rpx 30rpx 10rpx 0;
 	border-bottom: 1px solid rgba(255,255,255,.15);
 	overflow: hidden;
+  align-items: center;
+  justify-content: space-between;
 }
+
 .song-tit,
 .song-desc{
 	white-space: nowrap;
@@ -240,4 +245,11 @@
     opacity: 0.6;
     -webkit-filter: blur(40rpx);
     filter: blur(40rpx);
+}
+.playing{
+  color: #ff9900!important;
+}
+.deleteimage{
+  height: 60rpx;
+  width: 60rpx;
 }

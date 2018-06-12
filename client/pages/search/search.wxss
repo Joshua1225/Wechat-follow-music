@@ -13,6 +13,7 @@
     margin-top: 4px;
     color: grey;
 }
+
 .page_my
 {
   background: rgb(224,224,224);
@@ -23,3 +24,4 @@
   height:100ch;
   width:100ch;
 }
+
