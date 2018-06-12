@@ -14,7 +14,7 @@ Page({
   },
   //设置该页面的转发信息
   onShareAppMessage: function (res) {
-    
+    2
   },
   onLoad: function (options) {
     var that=this;
