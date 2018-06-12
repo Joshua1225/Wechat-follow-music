@@ -5,7 +5,9 @@
   color: #000;
   width: 70rpx;
   height: 70rpx;
-  align-self: auto
+  padding: 0;
+  margin: 0;
+  align-self: auto;
 }
 .image_button::after{
   border: none;
@@ -20,7 +22,6 @@
   width: 750rpx;
   height: 60rpx;
   box-sizing: border-box;
-  align-items: center;
   justify-content: space-between;
   display: flex;
   flex-direction: row
