@@ -16,16 +16,16 @@ Page({
   onShareAppMessage: function () {
     console.log(this.songListId)
     return {
-      title: '转发标题',
       path: '/pages/songList/songList?songListId='+this.data.songListId,
       desc:'desc',
       success:function(res){
-        var shareTickets=res.share
+        var shareTickets=res.share 
       }
-      }
+    }
   },
   onLoad: function (options) {
-    console.log(options)
+    console.log("options");
+    console.log(options);
     var that=this;
     //获取手机系统信息
     wx.getSystemInfo({
@@ -41,7 +41,6 @@ Page({
       withShareTicket:true
     })  
     //显示歌单名称
-    
     that.setData({
       songListId:options.songListId
     })

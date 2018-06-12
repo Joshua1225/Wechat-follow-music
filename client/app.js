@@ -44,6 +44,6 @@ App({
 
   },
   globalData:{
-    musicId:""
+    indexPage:null
   }
 })
