@@ -24,6 +24,7 @@ Page({
       }
   },
   onLoad: function (options) {
+    
     console.log(options)
     var that=this;
     //获取手机系统信息
