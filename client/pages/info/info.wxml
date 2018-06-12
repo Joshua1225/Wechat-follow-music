@@ -1,12 +1,10 @@
 <view class="page">
-    <view hidden='{{canIUse}}' class="page_bd">
+    <view wx:if='{{!canIUse}}' class="page_bd">
       <image src='../../src/user-unlogin.png' class='userinfo-avatar'></image>
       <button open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" class>授权登录</button>
     </view>
-    
-    <loading hidden="{{hidden}}">加载中</loading>
-
-    <view hidden='{{!canIUse}}' class="page__bd">
+    <view wx:else class="page__bd">
+        <loading hidden="{{hidden}}">加载中</loading>
         <!--//带图的list-->
         <view class="weui-cells weui-cells_after-title">
             <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
@@ -16,7 +14,8 @@
                 <view class="weui-cell__bd">{{nickName}}</view>
             </view>
         </view>
-
+        <!--加载中-->
+        <loading hidden="{{hidden}}">加载中</loading>
         <!--歌单-->
         <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
                 <view class="weui-cell__bd">我的歌单</view>
@@ -40,17 +39,6 @@
             </view>
             <image src="../../src/delete.jpg" data-MusiclistId="{{item.MusiclistId}}"data-id="{{item.MusicIdList}}" bindtap = "delItem" style="float:right; width:20px; height: 20px;"></image> 
         </view>
-        
-        <!--
-        <view wx:for="{{list}}"  wx:key="{{index}}"  class="item">
-    
-          <view bindtouchstart="touchS" bindtouchmove="touchM" bindtouchend="touchE" data-index="{{index}}" style="{{item.txtStyle}}" class="inner txt">
-            <image class="item-icon" mode="widthFix" src="{{item.icon}}"></image>{{item.txt}}
-          </view>
-          <view data-index="{{index}}" bindtap = "delItem" class="inner del">删除</view>
-
-        </view>
-        -->
 
         <!--历史评论-->
         <view  class="weui-cell weui-cell_access" hover-class="weui-cell_active">
