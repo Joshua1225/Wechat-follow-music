@@ -46,8 +46,5 @@ App({
     }
 
 
-  },
-  globalData:{
-    musicId:""
   }
 })
