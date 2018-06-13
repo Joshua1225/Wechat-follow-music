@@ -12,7 +12,6 @@ Page({
     nickName:"",
     avatarUrl:"",
     canIUse: false,//wx.canIUse('button.open-type.getUserInfo')
-    hidden:false
   },
   onLoad: function () {
   this.getData();
@@ -41,7 +40,6 @@ Page({
       },
       success: function (res) {
         that.setData({
-          hidden:true,
           musicList: res.data,
         });
       }
@@ -58,6 +56,7 @@ Page({
         that.setData({
           commentList: res2.data,
         });
+        wx.hideLoading()
       }
     })
     wx.getSystemInfo({
@@ -74,8 +73,8 @@ Page({
   },
   bindGetUserInfo: function (e) {
     console.log(e.detail.userInfo)
-    this.setData({
-      hidden:false
+    wx.showLoading({
+      title: '加载中',
     })
     //this.setData({canIUse:wx.canIUse('button.open-type.getUserInfo')})
     if (e.detail.userInfo) {
@@ -207,9 +206,14 @@ Page({
   //跳转歌单页面!!!!!!!!!!!!
   toSongList:function(e){
     var sli = (e.target.id);
+    this.setData({
+      hidden:true
+    })
     wx.navigateTo({
-      url: '../songList/songList?songListId='+sli
+      url: '../songList/songList?songListId='+sli,
+      
     })
   }
 });
+
 

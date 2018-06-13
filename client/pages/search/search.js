@@ -20,15 +20,22 @@ Page({
   },
   listen: function (e) {
     var id = e.currentTarget.dataset.musicid
-    console.log(id)
-    var pages = getCurrentPages();
-    var currPage = pages[pages.length - 1];   //当前页面
-    var prevPage = pages[pages.length - 2];  //上一个页面
-    //直接调用上一个页面的setData()方法，把数据存到上一个页面中去  
-    prevPage.insertMusic(id)
-    wx.navigateBack({
-      delta: 1
+    // console.log(id)
+    // var pages = getCurrentPages();
+    // var currPage = pages[pages.length - 1];   //当前页面
+    // var prevPage = pages[pages.length - 2];  //上一个页面
+    // //直接调用上一个页面的setData()方法，把数据存到上一个页面中去  
+    // prevPage.insertMusic(id)
+    // wx.navigateBack({
+    //   delta: 1
+    // })
+    getApp().globalData.addSongs=[id];
+    getApp().globalData.done = false;
+
+    wx.switchTab({
+      url: '/pages/index/index',
     })
+
   },
   inputValUpdate: function (e) {
     this.setData({

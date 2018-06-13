@@ -22,6 +22,7 @@ Page({
     currentLineNum: 0,
     currentText: '',
     toLineNum: -1,
+    picturePath:'',
     musicList:[],
     iconList_1: [
       {
@@ -343,6 +344,13 @@ Page({
         that.f_3_2()
       }
     })
+    wx.setStorage({
+      key: "musicList",
+      data: this.data.musicList,
+      success() {
+        console.log('缓存成功')
+      }
+    })
   },
   //从播放列表删除
   deleteMusic:function(e)
@@ -362,6 +370,13 @@ Page({
     innerAudioContext.src = 'http://140.143.149.22/music/' + this.data.musicList[0]['id'] + '.mp3'
     this.getLyric()
     this.getPicture();
+    wx.setStorage({
+      key: "musicList",
+      data: this.data.musicList,
+      success() {
+        console.log('缓存成功')
+      }
+    })
   },
 
   //获取封面
@@ -437,9 +452,7 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (opt) {
-   
-
+  onLoad: function () {
     var that = this
     getApp().globalData.indexPage=this
     innerAudioContext.onPlay(() => {
@@ -471,24 +484,16 @@ Page({
       innerAudioContext.src = 'http://140.143.149.22/music/' + that.data.musicList[that.data.musicListIndex]['id'] + '.mp3'
       innerAudioContext.play()
     })
-    /*wx.setStorage({
-      key: "musicList",
-      data: [{ id: '1', name: '第一首歌', singer: '王佳奇' }, { id: '2', name: '第二首歌', singer: '王佳奇' }, { id: '3', name: '第三首歌', singer: '王佳奇' }, { id: '4', name: '第四首歌', singer: '王佳奇' }, { id: '5', name: '第五首歌', singer: '王佳奇'}],
-      success() {
-        console.log('缓存成功')
-      }
-    })*/
 
-    /*wx.getStorage({
+    wx.getStorage({
       key: 'musicList',
       success: function (res) {
         console.log(res.data)
         that.setData({
           musicList: res.data
         })
-        innerAudioContext.src = 'http://140.143.149.22/music/' + res.data[that.data.musicListIndex]['id'] + '.mp3'
       }
-    })*/
+    })
 
     this.setData({
       isLight: true,
@@ -520,7 +525,18 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
+  onShow: function (opt) {
+    //console.log(getApp().globalData.addSongs + "  " + getApp().globalData.done)
+    var done = getApp().globalData.done
+    if(!done)
+    {
+      getApp().globalData.done=true
+      var addSongs = getApp().globalData.addSongs
+      for(var i=0;i<addSongs.length;i++)
+      {
+        this.insertMusic(addSongs[i])
+      }
+    }
   },
 
   /**

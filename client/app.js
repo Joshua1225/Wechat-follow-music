@@ -4,7 +4,8 @@ var config = require('./config')
 
 App({
   globalData:{
-    indexPage:null
+    addSongs:[],
+    done:true
   },
   onLaunch: function () {
     var islogin = false;
@@ -45,8 +46,5 @@ App({
     }
 
 
-  },
-  globalData:{
-    musicId:""
   }
 })

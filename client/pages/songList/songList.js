@@ -75,7 +75,6 @@ Page({
       }
     })
   },
-
   tabClick: function (e) {
     this.setData({
       sliderOffset: e.currentTarget.offsetLeft,
@@ -90,7 +89,7 @@ Page({
     console.log(temp);
     this.setData({
       collection: !temp
-    })
+    }) 
       wx.request({
         url: `${config.service.host}/Musiclist_controller/Musiclist_copy`,
         data:{
@@ -107,9 +106,12 @@ Page({
       })
   },
   //播放歌单里的歌
-  toSong: function (e) {
+  playSong: function (e) {
     var musicid = e.target.dataset.musicid;
-    app.globalData.musicId=musicid;
+
+    app.globalData.addSongs=[musicid];
+    app.globalData.done=false;
+
     console.log("app.globalData.musicId" + app.globalData.musicId);
     wx.switchTab({
       url: '/pages/index/index',
@@ -122,6 +124,31 @@ Page({
       }
     })
   },
+  playSongs:function()
+  {
+    var len = this.data.music.length
+    var idList=[]
+    for(var i=0;i<len;i++)
+    {
+      idList[i]=this.data.music[i].MusicId
+    }
+    app.globalData.addSongs = [idList];
+    app.globalData.done = false;
+
+    wx.switchTab({
+      url: '/pages/index/index',
+      success: function (res) {
+        console.log(res);
+      },
+      fail: function (err) {
+        console.log(err);
+      }
+    })
+  },
+  deleteSong:function()
+  {
+    
+  },  
   //反馈提示
   openToast: function () {
     wx.showToast({
