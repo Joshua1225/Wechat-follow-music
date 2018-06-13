@@ -1,6 +1,6 @@
   // pages/play/play.js
 var config = require('../../config')
-const innerAudioContext = wx.createInnerAudioContext()
+var innerAudioContext = wx.createInnerAudioContext()
 const Lyric = require('../../utils/lyric.js')
 var imageUtil = require('../../utils/util.js');
 Page({
@@ -209,23 +209,26 @@ Page({
   },
 
   f_3_2: function () {
-    var up = "iconList_3[2].imagePath"
-    var op = "iconList_3[2].i"
-    this.getPicture()
-    if (this.data.iconList_3[2].i == 0) {
-      this.setData({
-        [up]: "../../src/pause.png",
-        [op]: 1
-      })
-      innerAudioContext.play()
-      console.log(innerAudioContext.src)
-    }
-    else {
-      this.setData({
-        [up]: "../../src/play.png",
-        [op]: 0
-      })
-      innerAudioContext.pause()
+    if(this.data.musicList.length!=0)
+    {
+      var up = "iconList_3[2].imagePath"
+      var op = "iconList_3[2].i"
+      this.getPicture()
+      if (this.data.iconList_3[2].i == 0) {
+        this.setData({
+          [up]: "../../src/pause.png",
+          [op]: 1
+        })
+        innerAudioContext.play()
+        console.log(innerAudioContext.src)
+      }
+      else {
+        this.setData({
+          [up]: "../../src/play.png",
+          [op]: 0
+        })
+        innerAudioContext.pause()
+      }
     }
   },
 
@@ -340,15 +343,14 @@ Page({
           musicList : arr
         })
         innerAudioContext.src = 'http://140.143.149.22/music/' + that.data.musicList[that.data.musicListIndex]['id'] + '.mp3'
-        console.log(that.data.musicList)
+        wx.setStorage({
+          key: "musicList",
+          data: that.data.musicList,
+          success() {
+            console.log('缓存成功')
+          }
+        })
         that.f_3_2()
-      }
-    })
-    wx.setStorage({
-      key: "musicList",
-      data: this.data.musicList,
-      success() {
-        console.log('缓存成功')
       }
     })
   },
@@ -364,12 +366,56 @@ Page({
       }
     }
     this.setData({
-      musicListIndex: 0,
       musicList:arr
     })
-    innerAudioContext.src = 'http://140.143.149.22/music/' + this.data.musicList[0]['id'] + '.mp3'
-    this.getLyric()
-    this.getPicture();
+    if (this.data.musicList.length!=0)
+    {
+      this.setData({
+        musicListIndex: this.data.musicListIndex % arr.length
+      })
+      innerAudioContext.src = 'http://140.143.149.22/music/' + this.data.musicList[this.data.musicListIndex]['id'] + '.mp3'
+      this.getLyric()
+      this.getPicture();
+    }
+    else
+    {
+      innerAudioContext.destroy()
+      innerAudioContext=wx.createInnerAudioContext()
+      this.setData({
+        lyric:null,
+        picturePath:''
+      })
+    }
+    var up = "iconList_3[2].imagePath"
+    var op = "iconList_3[2].i"
+    this.setData({
+      [up]: "../../src/play.png",
+      [op]: 0
+    })
+    wx.setStorage({
+      key: "musicList",
+      data: this.data.musicList,
+      success() {
+        console.log('缓存成功')
+      }
+    })
+  },
+  //
+  DeleteAll:function()
+  {
+    innerAudioContext.destroy()
+    innerAudioContext = wx.createInnerAudioContext()
+    this.setData({
+      musicList:[],
+      lyric: null,
+      picturePath: ''
+    })
+    var up = "iconList_3[2].imagePath"
+    var op = "iconList_3[2].i"
+    this.setData({
+      [up]: "../../src/play.png",
+      [op]: 0
+    })
     wx.setStorage({
       key: "musicList",
       data: this.data.musicList,
