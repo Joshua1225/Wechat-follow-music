@@ -517,7 +517,7 @@ Page({
     var done = getApp().globalData.done
     if(!done)
     {
-      getApp().globalData.done=false
+      getApp().globalData.done=true
       var addSongs = getApp().globalData.addSongs
       for(var i=0;i<addSongs.length;i++)
       {
