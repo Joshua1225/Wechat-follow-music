@@ -13,7 +13,7 @@
                 </view>
             </view>
             <!--歌曲列表-->
-            <view wx:for="{{music}}" data-musicid="{{item.MusicId}}" class="weui-cell weui-cell_access" hover-class="weui-cell_active" bindtap='toSong'>
+            <view wx:for="{{music}}" data-musicid="{{item.MusicId}}" class="weui-cell weui-cell_access" hover-class="weui-cell_active" bindtap='playSongs'>
               {{index+1}}:{{item.MusicName}}
             </view>
         </view>

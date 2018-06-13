@@ -13,20 +13,39 @@ Page({
     songListId:""
   },
   //设置该页面的转发信息
-  onShareAppMessage: function (res) {
+  onShareAppMessage: function () {
+    console.log(this.songListId)
     return {
-      title: '自定义转发标题',
-      path: '/pages/songList/songList?songListId=' + this.data.songListId
-    }
+      title: '转发标题',
+      path: '/pages/songList/songList?songListId='+this.data.songListId,
+      desc:'desc',
+      success:function(res){
+        var shareTickets=res.share
+      }
+      }
   },
   onLoad: function (options) {
+    
+    console.log(options)
     var that=this;
-    //获取options里的歌单id
+    //获取手机系统信息
+    wx.getSystemInfo({
+      success: function (res) {
+        that.setData({
+          sliderLeft: (res.windowWidth / that.data.tabs.length - sliderWidth) / 2,
+          sliderOffset: res.windowWidth / that.data.tabs.length * that.data.activeIndex
+        });
+      }
+    });
+    //显示当前页面的转发按钮
+    wx.showShareMenu({
+      withShareTicket:true
+    })  
+    //显示歌单名称
+    
     that.setData({
       songListId:options.songListId
     })
-    console.log(that.data.songListId);
-    //显示歌单里名
     wx.request({
       url: `${config.service.host}/Musiclist_controller/Musiclist_getbyid`,
       data:{
@@ -41,7 +60,7 @@ Page({
         console.log("err");
       }
     })
-    //显示歌单里的歌曲
+    //显示歌曲
     var music = that.data.music;
     wx.request({
       url: `${config.service.host}/Musiclist_controller/Musiclist_musics`,
@@ -55,18 +74,7 @@ Page({
         })
       }
     })
-    //获取手机系统信息
-    wx.getSystemInfo({
-      success: function (res) {
-        that.setData({
-          sliderLeft: (res.windowWidth / that.data.tabs.length - sliderWidth) / 2,
-          sliderOffset: res.windowWidth / that.data.tabs.length * that.data.activeIndex
-        });
-      }
-    });
-    
   },
-
   tabClick: function (e) {
     this.setData({
       sliderOffset: e.currentTarget.offsetLeft,
@@ -75,14 +83,13 @@ Page({
   },
   //改变点赞状态
   dianZan: function (e) {
+    var that=this;
     var value = wx.getStorageSync('userid');
     var temp = this.data.collection;
-    console.log("this.data.collection" + this.data.collection);
+    console.log(temp);
     this.setData({
       collection: !temp
-    })
-    console.log("this.data.collection" + this.data.collection);
-      /*
+    }) 
       wx.request({
         url: `${config.service.host}/Musiclist_controller/Musiclist_copy`,
         data:{
@@ -97,23 +104,51 @@ Page({
           console.log(err);
         }
       })
-      */
   },
   //播放歌单里的歌
-  toSong: function (e) {
+  playSong: function (e) {
     var musicid = e.target.dataset.musicid;
-    
+
+    app.globalData.addSongs=[musicid];
+    app.globalData.done=false;
+
+    console.log("app.globalData.musicId" + app.globalData.musicId);
     wx.switchTab({
       url: '/pages/index/index',
       success:function(res){
+        console.log("tosong");
         console.log(res);
-        //getApp().globalData.indexPage.insertMusic(musicid);
       },
       fail:function(err){
         console.log(err);
       }
     })
   },
+  playSongs:function()
+  {
+    var len = this.data.music.length
+    var idList=[]
+    for(var i=0;i<len;i++)
+    {
+      idList[i]=this.data.music[i].MusicId
+    }
+    app.globalData.addSongs = [idList];
+    app.globalData.done = false;
+
+    wx.switchTab({
+      url: '/pages/index/index',
+      success: function (res) {
+        console.log(res);
+      },
+      fail: function (err) {
+        console.log(err);
+      }
+    })
+  },
+  deleteSong:function()
+  {
+    
+  },  
   //反馈提示
   openToast: function () {
     wx.showToast({

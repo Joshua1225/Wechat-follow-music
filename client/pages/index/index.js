@@ -439,7 +439,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function () {
-
     var that = this
     getApp().globalData.indexPage=this
     innerAudioContext.onPlay(() => {
@@ -520,7 +519,8 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
+  onShow: function (opt) {
+    console.log(getApp().globalData.addSongs)
   },
 
   /**
