@@ -16,7 +16,7 @@
             </view>
         </view>
         <!--加载中-->
-        <loading hidden="{{hidden}}">加载中</loading>
+       
         <view wx:for="{{commentList}}"  class="weui-cell weui-cell_access" hover-class="weui-cell_active">0
             <view>
                 {{index+1}}:{{item.Content}}    {{item.Likes}}
