@@ -23,6 +23,7 @@ Page({
     currentText: '',
     toLineNum: -1,
     picturePath:'',
+    title:'',
     musicList:[],
     iconList_1: [
       {
@@ -209,6 +210,7 @@ Page({
   },
 
   f_3_2: function () {
+    this.setTitle()
     if(this.data.musicList.length!=0)
     {
       var up = "iconList_3[2].imagePath"
@@ -495,6 +497,14 @@ Page({
     return lyric.replace(/&#58;/g, ':').replace(/&#10;/g, '\n').replace(/&#46;/g, '.').replace(/&#32;/g, ' ').replace(/&#45;/g, '-').replace(/&#40;/g, '(').replace(/&#41;/g, ')')
   },
 
+  //改变标题
+  setTitle:function()
+  {
+    this.setData({
+      title: this.musicList[this.musicListIndex]['MusicName']
+    })
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
@@ -572,7 +582,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function (opt) {
-    //console.log(getApp().globalData.addSongs + "  " + getApp().globalData.done)
+    this.setTitle()
     var done = getApp().globalData.done
     if(!done)
     {
