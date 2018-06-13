@@ -551,7 +551,7 @@ Page({
         curTimeVal: 0
       })
       innerAudioContext.src = 'http://140.143.149.22/music/' + that.data.musicList[that.data.musicListIndex]['id'] + '.mp3'
-      innerAudioContext.play()
+      that.f_3_2()
     })
 
     wx.getStorage({
