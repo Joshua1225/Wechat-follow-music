@@ -17,14 +17,14 @@ Page({
     test1:"",
     test2:"",
     //评论是否点赞数组
-    MusicId:""
+    musicId:""
   },
 
   onLoad: function (options) {
     //显示歌曲名称
     this.setData({
-      music_id: options.music_id,
-      songImg: 'http://140.143.149.22/picture/' + options.music_id
+      musicId: options.musicId,
+      songImg: 'http://140.143.149.22/picture/' + options.musicId
     })
     this.getMusicInfo()
     this.getCommentInfo()
@@ -43,12 +43,12 @@ Page({
     var that = this;
     
     //歌曲名称信息
-    var music_id = this.data.music_id;
+    
     var value = wx.getStorageSync('userid');
     wx.request({
       url: `${config.service.host}/Music_controller/Music_getbyid`,
       data: {
-        id: music_id
+        id: this.data.musicId
       },
       success: function (res) {
         that.setData({
@@ -72,7 +72,7 @@ Page({
     wx.request({
       url: `${config.service.host}/Comment_selectbymusic`,
       data: {
-        MusicId: this.data.MusicId,
+        MusicId: this.data.musicId,
         UserId: value
       },
       success: function (res) {
@@ -109,7 +109,7 @@ Page({
         url: `${config.service.host}/Like_give`,
         data:{
           UserId:value,
-          MusicId: that.data.Music_id,
+          MusicId: that.data.musicId,
           CommentId:commentId,
         },
         success:function(res){
@@ -140,7 +140,7 @@ Page({
       url: `${config.service.host}/Like_withdraw`,
       data: {
         UserId: value,
-        MusicId: that.data.music_id,
+        MusicId: that.data.musicId,
         CommentId: commentId
       },
       success: function (res) {
@@ -154,7 +154,7 @@ Page({
     wx.showToast({
       title: '已完成',
       icon: 'success',
-      duration: 3000
+      duration: 1000
     });
   },
   tabClick: function (e) {
@@ -175,15 +175,18 @@ Page({
     this.setData({
       inputShowed: false
     });
+    console.log()
     //将inputVal插入这首歌的评论库
     wx.request({
       url: `${config.service.host}/Comment_add`,
       data:{
         UserId: value,
-        MusicId: this.data.music_id,
+        MusicId: this.data.musicId,
         Content: this.data.inputVal
       },
-      success:function(){
+      success:function(res){
+        console.log(res)
+        console.log("Insert!")
            //重新渲染评论列表
         that.getCommentInfo();
       },

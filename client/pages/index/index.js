@@ -156,7 +156,7 @@ Page({
 
   f_2_2: function () {
     wx.navigateTo({
-      url: '../comment/comment?music_id=' + this.data.musicList[this.data.musicListIndex]['id']
+      url: '../comment/comment?musicId=' + this.data.musicList[this.data.musicListIndex]['id']
      
     })    
   },
