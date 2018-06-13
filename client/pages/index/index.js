@@ -513,8 +513,9 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function (opt) {
+    //console.log(getApp().globalData.addSongs + "  " + getApp().globalData.done)
     var done = getApp().globalData.done
-    if(done)
+    if(!done)
     {
       getApp().globalData.done=false
       var addSongs = getApp().globalData.addSongs
