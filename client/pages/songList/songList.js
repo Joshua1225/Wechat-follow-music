@@ -111,11 +111,9 @@ Page({
   //播放歌单里的歌
   playSong: function (e) {
     var musicid = e.target.dataset.musicid;
-
+    console.log("musicId"+musicid);
     app.globalData.addSongs=[musicid];
     app.globalData.done=false;
-
-    
     wx.switchTab({
       url: '/pages/index/index',
       success:function(res){
@@ -127,6 +125,7 @@ Page({
       }
     })
   },
+  //播放歌单里的所有歌曲
   playSongs:function()
   {
     var len = this.data.music.length
@@ -148,11 +147,35 @@ Page({
       }
     })
   },
-  deleteSong:function()
+  deleteSong:function(e)
   {
-    
-  },  
-  //反馈提示
+    //获取列表中要删除项的下标
+    var musicid = e.target.dataset.musicid;
+    var music = this.data.music;
+    //移除列表中下标为MusiclistId的项
+    music.splice(musicid, 1);
+    //更新歌单列表的状态
+    var value = wx.getStorageSync('userid');
+    var that = this;
+    that.setData({
+      music:music
+    })
+    //从歌单里删除歌曲记录
+    wx.request({
+      url: `${config.service.host}/Musiclist_controller/Musiclist_delete`,
+      data: {
+        musiclistid:that.data.songListId,
+        musicid: musicid
+      },
+      success: function (res) {
+        console.log("music del");
+      },
+      fail: function (err) {
+        console.log(err);
+      }
+    })
+  }, 
+  
   addSonglist:function()
   {
     var value=wx.getStorageSync('userid')
