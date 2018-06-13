@@ -25,7 +25,9 @@ Page({
       }
   },
   onLoad: function (options) {
-    
+    wx.showLoading({
+      title: '加载中',
+    })
     console.log(options)
     var that=this;
     //获取手机系统信息
@@ -55,6 +57,7 @@ Page({
         that.setData({
           songListName: res.data[0].MusiclistName
         });
+        wx.hideLoading()
       },
       fail: function (err) {
         console.log("err");
@@ -112,7 +115,7 @@ Page({
     app.globalData.addSongs=[musicid];
     app.globalData.done=false;
 
-    console.log("app.globalData.musicId" + app.globalData.musicId);
+    
     wx.switchTab({
       url: '/pages/index/index',
       success:function(res){
@@ -150,20 +153,6 @@ Page({
     
   },  
   //反馈提示
-  openToast: function () {
-    wx.showToast({
-      title: '已完成',
-      icon: 'success',
-      duration: 3000
-    });
-  },
-  openLoading: function () {
-    wx.showToast({
-      title: '数据加载中',
-      icon: 'loading',
-      duration: 3000
-    });
-  },
   addSonglist:function()
   {
     var value=wx.getStorageSync('userid')
