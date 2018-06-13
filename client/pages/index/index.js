@@ -23,6 +23,7 @@ Page({
     currentText: '',
     toLineNum: -1,
     picturePath:'',
+    musicList:[],
     iconList_1: [
       {
         imagePath: "../../src/search.png",
@@ -469,13 +470,6 @@ Page({
       innerAudioContext.src = 'http://140.143.149.22/music/' + that.data.musicList[that.data.musicListIndex]['id'] + '.mp3'
       innerAudioContext.play()
     })
-    wx.setStorage({
-      key: "musicList",
-      data: [{ id: '1', name: '第一首歌', singer: '王佳奇' }, { id: '2', name: '第二首歌', singer: '王佳奇' }, { id: '3', name: '第三首歌', singer: '王佳奇' }, { id: '4', name: '第四首歌', singer: '王佳奇' }, { id: '5', name: '第五首歌', singer: '王佳奇'}],
-      success() {
-        console.log('缓存成功')
-      }
-    })
 
     wx.getStorage({
       key: 'musicList',
@@ -519,7 +513,16 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function (opt) {
-    console.log(getApp().globalData.addSongs)
+    var done = getApp().globalData.done
+    if(done)
+    {
+      getApp().globalData.done=false
+      var addSongs = getApp().globalData.addSongs
+      for(var i=0;i<addSongs.length;i++)
+      {
+        this.insertMusic(addSongs[i])
+      }
+    }
   },
 
   /**
