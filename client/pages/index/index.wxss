@@ -9,6 +9,15 @@
   margin: 0;
   align-self: auto;
 }
+
+.title{
+  height:70rpx;
+  width:600rpx;
+  display: flex;  
+  flex-direction: row;  
+  justify-content: center; 
+}
+
 .image_button::after{
   border: none;
 }
