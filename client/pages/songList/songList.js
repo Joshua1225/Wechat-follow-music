@@ -14,7 +14,10 @@ Page({
   },
   //设置该页面的转发信息
   onShareAppMessage: function (res) {
-    2
+    return {
+      title: '自定义转发标题',
+      path: '/pages/songList/songList?songListId=' + this.data.songListId
+    }
   },
   onLoad: function (options) {
     var that=this;
@@ -72,13 +75,14 @@ Page({
   },
   //改变点赞状态
   dianZan: function (e) {
-    var that=this;
     var value = wx.getStorageSync('userid');
     var temp = this.data.collection;
-    console.log(temp);
+    console.log("this.data.collection" + this.data.collection);
     this.setData({
       collection: !temp
     })
+    console.log("this.data.collection" + this.data.collection);
+      /*
       wx.request({
         url: `${config.service.host}/Musiclist_controller/Musiclist_copy`,
         data:{
@@ -93,15 +97,17 @@ Page({
           console.log(err);
         }
       })
+      */
   },
   //播放歌单里的歌
   toSong: function (e) {
     var musicid = e.target.dataset.musicid;
-    getApp().globalData.indexPage.insertMusic(musicid);
+    
     wx.switchTab({
       url: '/pages/index/index',
       success:function(res){
         console.log(res);
+        //getApp().globalData.indexPage.insertMusic(musicid);
       },
       fail:function(err){
         console.log(err);
