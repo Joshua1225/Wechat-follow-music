@@ -22,7 +22,7 @@ Page({
     currentLineNum: 0,
     currentText: '',
     toLineNum: -1,
-    picturePath:'',
+    picturePath:'http://140.143.149.22/picture/0',
     title:'',
     musicList:[],
     iconList_1: [
