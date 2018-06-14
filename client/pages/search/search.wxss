@@ -24,4 +24,54 @@
   height:100ch;
   width:100ch;
 }
+.loading{  
+  padding: 10rpx;  
+  text-align: center;  
+}  
+.loading:before{  
+  display: inline-block;  
+  margin-right: 5rpx;  
+  vertical-align: middle;  
+  content: '';  
+  width: 40rpx;  
+  height: 40rpx;  
+  background: url(../../src/loading.gif) no-repeat;  
+  background-size: contain;  
+  animation: rotate 1s linear infinite;  
+}  
+.loading.complete:before{  
+  display: none;  
+} 
+.cell_my{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100ch;
+  
+}
+.item_search{
+  width: 550rpx;
+}
+.item_del{
+  width: 50rpx;
+  display:flex;
+  flex-direction:row;
+  justify-content:center;
 
+}
+.page{
+  height: 100ch;
+  background: rgb(220,220,220)
+}
+.search_bar{
+  background: #D3D3D3;
+  padding:1px 2px; 
+}
+.search_button{
+  margin-left:5px;
+  line-height:28px;
+  color:#000000;
+  white-space:nowrap;
+  margin-right:5px;
+  
+}

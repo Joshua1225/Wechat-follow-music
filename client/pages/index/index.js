@@ -153,7 +153,7 @@ Page({
 
   f_2_2: function () {
     wx.navigateTo({
-      url: '../comment/comment?music_id=' + this.data.musicList[this.data.musicListIndex]['id']
+      url: '../comment/comment?musicId=' + this.data.musicList[this.data.musicListIndex]['id']
      
     })    
   },
@@ -309,9 +309,9 @@ Page({
 
   //添加播放列表相关
   insertMusic:function(id0){
-    var musicListLength = this.data.musicList.length
     var op = "iconList_3[2].i"
     var that = this
+    var flag = 0
 
     for (var i=0; i < this.data.musicList.length;i++)
     {
@@ -323,31 +323,37 @@ Page({
         })
         innerAudioContext.src = 'http://140.143.149.22/music/' + this.data.musicList[i]['id'] + '.mp3'
         this.f_3_2()
-        return
+        flag = 1
+        break
       }
     }
 
-    wx.request({
-      url: `https://hy6e9qbe.qcloud.la/Music_controller/Music_getbyid?id=` + id0,
-      success: function (res) {
-        that.data.musicList.push({ id: id0, name: res.data[0]['MusicName'], singer: res.data[0]['MusicSinger'], MusicCover: res.data[0]['MusicCover'], MusicLyric: res.data[0]['MusicLyric']})
-        var arr = that.data.musicList
-        that.setData({
-          musicListIndex: musicListLength,
-          [op]: 0,
-          musicList : arr
-        })
-        innerAudioContext.src = 'http://140.143.149.22/music/' + that.data.musicList[that.data.musicListIndex]['id'] + '.mp3'
-        wx.setStorage({
-          key: "musicList",
-          data: that.data.musicList,
-          success() {
-            console.log('缓存成功')
-          }
-        })
-        that.f_3_2()
-      }
-    })
+    if(flag==0)
+    {
+      wx.request({
+        url: `https://hy6e9qbe.qcloud.la/Music_controller/Music_getbyid?id=` + id0,
+        success: function (res) {
+          that.data.musicList.push({ id: id0, name: res.data[0]['MusicName'], singer: res.data[0]['MusicSinger'], MusicCover: res.data[0]['MusicCover'], MusicLyric: res.data[0]['MusicLyric'] })
+          var arr = that.data.musicList
+          that.setData({
+            musicListIndex: that.data.musicList.length-1,
+            [op]: 0,
+            musicList: arr
+          })
+          innerAudioContext.src = 'http://140.143.149.22/music/' + that.data.musicList[that.data.musicListIndex]['id'] + '.mp3'
+          wx.setStorage({
+            key: "musicList",
+            data: that.data.musicList,
+            success() {
+              console.log('缓存成功')
+            }
+          })
+          console.log('test:' + res.data + 'id0:' + id0 + ' musicListIndex:' + that.data.musicListIndex)
+          that.f_3_2()
+        }
+      })
+    }
+    
   },
   //从播放列表删除
   deleteMusic:function(e)
@@ -523,8 +529,8 @@ Page({
    */
   onLoad: function (options) {
     if (options.musicId) {
-      this.insertMusic(opt.musicId)
-      optoptions.musicId = null
+      this.insertMusic(options.musicId)
+      options.musicId = null
     }
     var that = this
     getApp().globalData.indexPage=this
@@ -539,35 +545,36 @@ Page({
       console.log(res.errCode)
     })
     innerAudioContext.onEnded(() => {
-      var musicListIndex = that.data.musicListIndex
-      var musicListLength = that.data.musicList.length
+      var musicListIndex = this.data.musicListIndex
+      var musicListLength = this.data.musicList.length
+      var op = "iconList_3[2].i"
       if (this.data.playMode == 0) {
-        that.setData({
+        this.setData({
           musicListIndex: (musicListIndex + 1) % musicListLength
         })
       }
       else if (this.data.playMode == 1) {
-        that.setData({
+        this.setData({
           musicListIndex: Math.floor(Math.random() * musicListLength)
         })
       }
-      that.setData({
+      this.setData({
         curTimeVal: 0
       })
       innerAudioContext.src = 'http://140.143.149.22/music/' + that.data.musicList[that.data.musicListIndex]['id'] + '.mp3'
-      that.f_3_2()
+      this.setData({
+        [op]: 0
+      })
+      this.f_3_2()
     })
 
     wx.getStorage({
       key: 'musicList',
       success: function (res) {
-        if (res.statusCode==200)
-        {
-          that.setData({
-            musicList: res.data
-          })
-          innerAudioContext.src = 'http://140.143.149.22/music/' + that.data.musicList[that.data.musicListIndex]['id'] + '.mp3'
-        }
+        that.setData({
+          musicList: res.data
+        })
+        innerAudioContext.src = 'http://140.143.149.22/music/' + that.data.musicList[that.data.musicListIndex]['id'] + '.mp3'
         that.setTitle()
         that.getPicture()
         that.getLyric()
@@ -610,6 +617,7 @@ Page({
     {
       getApp().globalData.done=true
       var addSongs = getApp().globalData.addSongs
+      console.log('addSongs:'+addSongs)
       for(var i=0;i<addSongs.length;i++)
       {
         this.insertMusic(addSongs[i])
@@ -621,7 +629,6 @@ Page({
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-
   },
 
   /**
@@ -653,7 +660,7 @@ Page({
     return {
       title: '分享给你一首好听的歌',
       desc: '音乐随想',
-      path: '/pages/index/index?musicId='+this.data.musicList[this.data.musicListIndex]
+      path: '/pages/index/index?musicId='+this.data.musicList[this.data.musicListIndex]['id']
     }
   }
 })

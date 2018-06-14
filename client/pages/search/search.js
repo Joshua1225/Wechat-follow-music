@@ -1,9 +1,13 @@
 var config = require('../../config')
+var num=0
+var sum=0
 Page({
   data: {
     inputShowed: false,
     inputVal: "",
-    confirmFlag: false
+    confirmFlag: false,
+    musicLoading: false, 
+    musicLoadingComplete: false
   },
   onLoad: function (option) {
     var that = this;
@@ -36,6 +40,40 @@ Page({
       url: '/pages/index/index',
     })
 
+  },
+  getMusic:function()
+  {
+    if(num>sum)
+      this.setData({
+        musicLoadingComplete:true
+      })
+    else
+      wx.request({
+        url: config.service
+      })
+  },
+  deleteHistory:function(e)
+  {
+    var tmp=[]
+    var value = e.currentTarget.dataset.content
+    console.log(value)
+    for(let i in this.data.historyRec)
+    {
+      if(i!=value)
+      tmp.unshift(i)
+    }
+    console.log(value)
+    this.setData({
+      historyRec:tmp
+    })
+    wx.setStorageSync('history', tmp)
+  },
+  deleteAllHistory:function()
+  {
+    this.setData({
+      historyRec: []
+    })
+    wx.setStorageSync('history', this.data.historyRec)
   },
   inputValUpdate: function (e) {
     this.setData({

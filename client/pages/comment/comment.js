@@ -17,23 +17,38 @@ Page({
     test1:"",
     test2:"",
     //评论是否点赞数组
-    MusicId:"",
-    hidden:false
+    musicId:""
   },
 
   onLoad: function (options) {
-    var that=this;
     //显示歌曲名称
-    that.setData({
-      music_id:options.music_id,
-      songImg: 'http://140.143.149.22/picture/' + options.music_id
+    this.setData({
+      musicId: options.musicId,
+      songImg: 'http://140.143.149.22/picture/' + options.musicId
     })
-    var music_id = this.data.music_id;
-    var value=wx.getStorageSync('userid');
+    this.getMusicInfo()
+    this.getCommentInfo()
+
+    // wx.getSystemInfo({
+    //   success: function (res) {
+    //     that.setData({
+    //       sliderLeft: (res.windowWidth / that.data.tabs.length - sliderWidth) / 2,
+    //       sliderOffset: res.windowWidth / that.data.tabs.length * that.data.activeIndex
+    //     });
+    //   }
+    // });
+  },//onload结束
+  getMusicInfo:function()
+  {
+    var that = this;
+    
+    //歌曲名称信息
+    
+    var value = wx.getStorageSync('userid');
     wx.request({
       url: `${config.service.host}/Music_controller/Music_getbyid`,
       data: {
-        id: music_id
+        id: this.data.musicId
       },
       success: function (res) {
         that.setData({
@@ -45,32 +60,33 @@ Page({
         console.log("err");
       }
     })
-
-    //点赞列表渲染
+  },
+  //点赞列表渲染
+  getCommentInfo:function()
+  {
+    var value = wx.getStorageSync('userid');
+    var that =this 
+    wx.showLoading({
+      title: '加载中',
+    })
     wx.request({
       url: `${config.service.host}/Comment_selectbymusic`,
       data: {
-        MusicId: music_id,
-        UserId:value
+        MusicId: this.data.musicId,
+        UserId: value
       },
       success: function (res) {
         that.setData({
-          commentList: res.data,
-          hidden: true
+          commentList: res.data
         });
+        wx.hideLoading()
+      },
+      fail:function(res1)
+      {
+        wx.hideLoading()
       }
     })
-
-    wx.getSystemInfo({
-      success: function (res) {
-        that.setData({
-          sliderLeft: (res.windowWidth / that.data.tabs.length - sliderWidth) / 2,
-          sliderOffset: res.windowWidth / that.data.tabs.length * that.data.activeIndex
-        });
-      }
-    });
-  },//onload结束
-
+  },
   //点赞
   like:function(e){
     var tempIndex = e.target.dataset.idx;
@@ -93,7 +109,7 @@ Page({
         url: `${config.service.host}/Like_give`,
         data:{
           UserId:value,
-          MusicId: that.data.music_id,
+          MusicId: that.data.musicId,
           CommentId:commentId,
         },
         success:function(res){
@@ -124,7 +140,7 @@ Page({
       url: `${config.service.host}/Like_withdraw`,
       data: {
         UserId: value,
-        MusicId: that.data.music_id,
+        MusicId: that.data.musicId,
         CommentId: commentId
       },
       success: function (res) {
@@ -138,7 +154,7 @@ Page({
     wx.showToast({
       title: '已完成',
       icon: 'success',
-      duration: 3000
+      duration: 1000
     });
   },
   tabClick: function (e) {
@@ -159,28 +175,20 @@ Page({
     this.setData({
       inputShowed: false
     });
+    console.log()
     //将inputVal插入这首歌的评论库
     wx.request({
       url: `${config.service.host}/Comment_add`,
       data:{
         UserId: value,
-        MusicId: this.data.music_id,
+        MusicId: this.data.musicId,
         Content: this.data.inputVal
       },
-      success:function(){
-        //重新渲染评论列表
-        wx.request({
-          url: `${config.service.host}/Comment_selectbymusic`,
-          data: {
-            MusicId: that.data.music_id
-          },
-          success: function (res) {
-            console.log(res.data);
-            that.setData({
-              commentList: res.data
-            });
-          }
-        })
+      success:function(res){
+        console.log(res)
+        console.log("Insert!")
+           //重新渲染评论列表
+        that.getCommentInfo();
       },
       fail:function(err){
         console.log(err);
