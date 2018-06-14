@@ -29,7 +29,7 @@
         </view>
          <view wx:if='{{historyRec.length>0 && !inputShowed}}' catchtap='deleteAllHistory'>清空历史纪录</view>
         <scroll-view style="height:500px;" scroll-y='true' bindscrolltolower='getMusic' wx:if="{{confirmFlag}}">
-         <view  class="weui-cell" hover-class="weui-cell_active" wx:key="id"  wx:for="{{result}}" wx:for-id="index"wx:for-item="song" data-MusicId="{{song.MusicId}}" bindtap='listen' wx:if='{{index<10}}'>
+         <view  class="weui-cell" hover-class="weui-cell_active" wx:key="id"  wx:for="{{result}}" wx:for-id="index"wx:for-item="song" data-MusicId="{{song.MusicId}}" bindtap='listen' >
                 <view class="weui-cell__bd">
                   <view class='name'>{{song.MusicName}}</view>
                   <view class='desc'>{{song.MusicSinger}}</view>

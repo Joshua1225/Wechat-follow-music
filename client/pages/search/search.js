@@ -7,7 +7,8 @@ Page({
     confirmFlag: false,
     musicLoading: false, 
     musicLoadingComplete: false,
-    result:[]
+    result:[],
+    start:0
   },
   onLoad: function (option) {
     var that = this;
@@ -67,19 +68,20 @@ Page({
       },
       success:function(res)
       {
-        var tmp=[]
-        for(i in res.data)
-        {
-          tmp.push(res.data[i])
+        if (res.data!=0) {
+          that.data.result.concat(res.data)
+          console.log(that.data.result.concat(res.data))
+          that.setData({
+            musicloading: false,
+            musicloadingComplete: false,
+            start: that.data.start + 10,
+            result: that.data.result.concat(res.data)
+          })
         }
-        console.log(tmp)
-        that.setData({
-          musicloading: false,
-          musicloadingComplete: false,
-          start:that.data.start+10,
-          count:res.data.count,
-          result:res.data
-        })
+          
+          
+        
+  
       }
     })
   },
@@ -142,7 +144,7 @@ Page({
     this.setData({
       confirmFlag: true,
       start:0,
-      count:1,
+      result:[],
       musicLoading:false,
       musicLoadingComplete:false
     });
