@@ -1,26 +1,35 @@
 <view class="page">
     <view class="page__bd">
         <!--//歌单名字和按钮-->
-        <view class="weui-cells weui-cells_after-title">
+        <view>
             <view  class="weui-cell weui-cell_access" hover-class="weui-cell_active">
                 <view class="weui-cell__hd">
                     <image src="../../src/pic_160.png" style="margin-right: 5px;vertical-align: middle;width:100px; height: 100px;"></image>
                 </view>
-                <view class="weui-cell__bd">
-                    {{songListName}}
-                    <view bindtap='playSongs'>播放全部</view>
-                </view>
-                <view class="weui-cell__hd">
-                    <image wx:if="{{collection==false}}" src="../../src/like.png"  style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;" bindtap='dianZan'></image>
-                    <image wx:else src="../../src/dislike.png"  style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;" bindtap='dianZan'></image>
+                <view class="userinfo-nickname">
+                    <view>{{songListName}}</view>
+                    <view class="songListOperation">
+                        <view class="play-all">
+                            <text bindtap='playSongs'>播放全部</text>
+                        </view>
+                        <view class="giveLove">
+                            <image wx:if="{{collection==false}}" src="../../src/like.png"  style="margin-right: 5px;vertical-align: middle;width:50rpx; height: 50rpx;" bindtap='dianZan'></image>
+                            <image wx:else src="../../src/dislike.png"  style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;" bindtap='dianZan'></image>
+                        </view>
+                    </view>
                 </view>
             </view>
             <!--歌曲列表-->
-            <view wx:for="{{music}}" data-musicid="{{item.MusicId}}" class="weui-cell weui-cell_access" hover-class="weui-cell_active" bindtap='playSong'>
-              {{index+1}}:{{item.MusicName}}
-              <view bindtap='deleteSong'>删除该歌曲</view>
-            </view>
             
+            <view wx:for="{{music}}" data-musicid="{{item.MusicId}}" bindtap='playSong' class="music">
+              <view class="former-music" >
+              </view>
+              <view id='{{item.MusiclistId}}' bindtap='toSongList' class="music-item"  >
+                 {{index+1}}:{{item.MusicName}}
+              </view>
+              <image src="../../src/infoDelete.png" class="delete-item" style=" height:50rpx; padding:20rpx"></image> 
+            </view>
+
         </view>
     </view>
 </view>

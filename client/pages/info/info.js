@@ -136,7 +136,8 @@ Page({
           },
           success: function (res) {
             that.setData({
-              musicList: res.data
+              musicList: res.data,
+              hiddenmodalput: true
             });
           }
         })
