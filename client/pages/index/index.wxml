@@ -70,8 +70,8 @@
 
   </swiper-item>
   <swiper-item>
-    <button bindtap='DeleteAll' style='background:rgb(200,200,200)'><view style='color:white'>清空列表</view></button>
-    <scroll-view scroll-y style="height: 850rpx;">
+    <button bindtap='Return' class="return-button"></button>
+    <scroll-view scroll-y="true" style="height: 900rpx;">
       <view class="song-list{{isLight ? ' light' : ''}}" style="background:{{listBgColor}}">
         <view class="song-item {{index==musicListIndex?'playing':''}}" wx:for="{{musicList}}" wx:key="unique" bindtap="playsongTap" data-id="{{item.id}}" data-index="{{index}}" >
           <text class="song-number">{{index+1}}</text>
@@ -87,5 +87,6 @@
         </view>
       </view>
     </scroll-view>
+    <button bindtap='DeleteAll' style='background:rgb(200,200,200)'><view style='color:white'>清空列表</view></button>
   </swiper-item>
 </swiper>
