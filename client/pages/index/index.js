@@ -599,6 +599,11 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function (opt) {
+    if(opt.musicId)
+    {
+      this.insertMusic(opt.musicId)
+      opt.musicId=null
+    }
     var done = getApp().globalData.done
     if(!done)
     {
