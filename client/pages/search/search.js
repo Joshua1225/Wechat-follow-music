@@ -47,6 +47,33 @@ Page({
       this.setData({
         musicLoadingComplete:true
       })
+    else
+      wx.request({
+        url: config.service
+      })
+  },
+  deleteHistory:function(e)
+  {
+    var tmp=[]
+    var value = e.currentTarget.dataset.content
+    console.log(value)
+    for(let i in this.data.historyRec)
+    {
+      if(i!=value)
+      tmp.unshift(i)
+    }
+    console.log(value)
+    this.setData({
+      historyRec:tmp
+    })
+    wx.setStorageSync('history', tmp)
+  },
+  deleteAllHistory:function()
+  {
+    this.setData({
+      historyRec: []
+    })
+    wx.setStorageSync('history', this.data.historyRec)
   },
   inputValUpdate: function (e) {
     this.setData({
