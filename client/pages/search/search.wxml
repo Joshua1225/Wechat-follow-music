@@ -15,7 +15,7 @@
                     <view class="weui-search-bar__text">输入歌手名、歌曲名搜索</view>
                 </label>
             </view>
-            <view class="weui-search-bar__cancel-btn" hidden="{{!inputShowed}}" bindtap="hideInput">搜索</view>   
+            <view class="weui-search-bar__cancel-btn" hidden="{{!inputShowed}}" bindtap="inputConfirm">搜索</view>   
         </view>
          
         <view  wx:if="{{!confirmFlag}}" wx:for="{{historyRec}}" wx:key="id" data-content="{{item}}" class="weui-cell" hover-class="weui-cell_active" bindtap='inputValUpdate'>
