@@ -8,8 +8,9 @@
     <view class='container1'>
       <view class='icon_bar'>
         <image src="{{iconList_1[0].imagePath}}" class='image_icon' catchtap="{{iconList_1[0].func}}"></image>
+        <view class='title'>{{title}}</view>
         <button catchtap="{{iconList_1[1].func}}" class='image_button' open-type='share'>
-        <image src="{{iconList_1[1].imagePath}}" class='image_icon' catchtap="{{iconList_1[1].func}}"></image>
+          <image src="{{iconList_1[1].imagePath}}" class='image_icon' catchtap="{{iconList_1[1].func}}"></image>
         </button>
       </view>
       <swiper class='swiper' indicator-dots='{{true}}'>
@@ -23,7 +24,8 @@
               <view ref="lyricLine"
                     id="line{{index}}"
                     class="text {{currentLineNum == index ? 'current': '' }}"
-                    wx:for="{{lyric.lines}}">{{item.txt}}
+                    wx:for="{{lyric.lines}}"
+                    wx:key="{{index}}">{{item.txt}}
               </view>
             </view>
             <view wx:if="{{!lyric}}">

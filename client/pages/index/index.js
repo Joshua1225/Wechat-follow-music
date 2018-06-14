@@ -23,6 +23,7 @@ Page({
     currentText: '',
     toLineNum: -1,
     picturePath:'',
+    title:'',
     musicList:[],
     iconList_1: [
       {
@@ -117,9 +118,6 @@ Page({
       }
     })
     this.openList()
-    /*this.setData({
-      actionSheetHidden: !this.data.actionSheetHidden
-    })*/
   },
 
   openList: function () {
@@ -145,7 +143,6 @@ Page({
         that.close()
       }
     })
-    
   },
 
   listenerActionSheet: function (e) {
@@ -211,9 +208,11 @@ Page({
   f_3_2: function () {
     if(this.data.musicList.length!=0)
     {
+      this.setTitle()
+      this.getPicture()
+      this.getLyric()
       var up = "iconList_3[2].imagePath"
       var op = "iconList_3[2].i"
-      this.getPicture()
       if (this.data.iconList_3[2].i == 0) {
         this.setData({
           [up]: "../../src/pause.png",
@@ -304,6 +303,7 @@ Page({
       musicListIndex: e.currentTarget.dataset.index
     })
     innerAudioContext.src = 'http://140.143.149.22/music/' + e.currentTarget.dataset.id + '.mp3'
+
     this.f_3_2()
   },
 
@@ -326,17 +326,12 @@ Page({
         return
       }
     }
-    console.log('添加成功' + this.data.musicList.length)
 
     wx.request({
       url: `https://hy6e9qbe.qcloud.la/Music_controller/Music_getbyid?id=` + id0,
       success: function (res) {
-        var name0 = res.data[0]['MusicName']
-        var singer0 = res.data[0]['MusicSinger']
-        that.data.musicList.push({ id: id0, name: name0, singer:singer0})
+        that.data.musicList.push({ id: id0, name: res.data[0]['MusicName'], singer: res.data[0]['MusicSinger'], MusicCover: res.data[0]['MusicCover'], MusicLyric: res.data[0]['MusicLyric']})
         var arr = that.data.musicList
-        console.log(res.data[0]['MusicName'])
-        console.log(name0)
         that.setData({
           musicListIndex: musicListLength,
           [op]: 0,
@@ -375,7 +370,7 @@ Page({
       })
       innerAudioContext.src = 'http://140.143.149.22/music/' + this.data.musicList[this.data.musicListIndex]['id'] + '.mp3'
       this.getLyric()
-      this.getPicture();
+      this.getPicture()
     }
     else
     {
@@ -428,37 +423,47 @@ Page({
   //获取封面
   getPicture:function()
   {
-    this.setData({
-      picturePath: 'http://140.143.149.22/picture/' + this.data.musicList[this.data.musicListIndex]['id']
-    })
+    if (this.data.musicList[this.data.musicListIndex]['MusicCover']==1)
+    {
+      this.setData({
+        picturePath: 'http://140.143.149.22/picture/' + this.data.musicList[this.data.musicListIndex]['id']
+      })
+    }
+    else
+    {
+      this.setData({
+        picturePath: 'http://140.143.149.22/picture/0'
+      })
+    }
   },
 
   //获取歌词
   getLyric:function()
   {
-    var that=this
-    wx.request({
-      url: 'http://140.143.149.22/lyric/' + that.data.musicList[that.data.musicListIndex]['id'] +'.lrc',
-      success: function (res) {
-        if (res.statusCode==200){
-          const lyric = that._normalizeLyric(res.data)
-          const currentLyric = new Lyric(lyric)
-          that.setData({
-            lyric: currentLyric
-          })
-        }
-        else{
-          that.setData({
-            lyric: null,
-            currentText: ''
-          })
-        }
-      },
-      fail:function(res)
-      {
-        console.log(res)
-      }
-    })
+    if (this.data.musicList[this.data.musicListIndex]['MusicLyric'] == 1)
+    {
+      var that = this
+      wx.request({
+        url: 'http://140.143.149.22/lyric/' + that.data.musicList[that.data.musicListIndex]['id'] + '.lrc',
+        success: function (res) {
+          if (res.statusCode == 200) {
+            const lyric = that._normalizeLyric(res.data)
+            const currentLyric = new Lyric(lyric)
+            that.setData({
+              lyric: currentLyric
+            })
+          }
+        },
+      })
+    }
+    else
+    {
+      this.setData({
+        lyric: null,
+        currentText: ''
+      })
+    }
+    
   },
 
 
@@ -495,6 +500,24 @@ Page({
     return lyric.replace(/&#58;/g, ':').replace(/&#10;/g, '\n').replace(/&#46;/g, '.').replace(/&#32;/g, ' ').replace(/&#45;/g, '-').replace(/&#40;/g, '(').replace(/&#41;/g, ')')
   },
 
+  //改变标题
+  setTitle:function()
+  {
+    if (this.data.musicList.length!=0)
+    {
+      this.setData({
+        title: this.data.musicList[this.data.musicListIndex]['name']
+      })
+    }
+    else
+    {
+      this.setData({
+        title: ''
+      })
+    }
+    console.log('title:'+this.data.title)
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
@@ -528,7 +551,7 @@ Page({
         curTimeVal: 0
       })
       innerAudioContext.src = 'http://140.143.149.22/music/' + that.data.musicList[that.data.musicListIndex]['id'] + '.mp3'
-      innerAudioContext.play()
+      that.f_3_2()
     })
 
     wx.getStorage({
@@ -538,6 +561,10 @@ Page({
         that.setData({
           musicList: res.data
         })
+        that.setTitle()
+        that.getPicture()
+        that.getLyric()
+        innerAudioContext.src = 'http://140.143.149.22/music/' + that.data.musicList[that.data.musicListIndex]['id'] + '.mp3'
       }
     })
 
@@ -572,7 +599,6 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function (opt) {
-    //console.log(getApp().globalData.addSongs + "  " + getApp().globalData.done)
     var done = getApp().globalData.done
     if(!done)
     {
