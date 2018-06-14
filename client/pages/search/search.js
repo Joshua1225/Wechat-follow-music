@@ -1,13 +1,13 @@
 var config = require('../../config')
-var num=0
-var sum=0
+
 Page({
   data: {
     inputShowed: false,
     inputVal: "",
     confirmFlag: false,
     musicLoading: false, 
-    musicLoadingComplete: false
+    musicLoadingComplete: false,
+    result:[]
   },
   onLoad: function (option) {
     var that = this;
@@ -21,7 +21,7 @@ Page({
       }
     })
 
-  },
+  },  
   listen: function (e) {
     var id = e.currentTarget.dataset.musicid
     // console.log(id)
@@ -43,14 +43,45 @@ Page({
   },
   getMusic:function()
   {
-    if(num>sum)
+    var that=this
+    if(this.data.start>=this.data.count)
+    {
       this.setData({
-        musicLoadingComplete:true
+        musicloading: false,
+        musicloadingComplete: true
       })
-    else
-      wx.request({
-        url: config.service
+      return
+    }
+    else{
+      this.setData({
+        musicloading: true,
+        musicloadingComplete: false
       })
+    }
+  
+    wx.request({
+      url: `${config.service.musicUrl}/music_search`,
+      data:{
+        keywords:this.data.inputVal,
+        start:this.data.start
+      },
+      success:function(res)
+      {
+        var tmp=[]
+        for(i in res.data)
+        {
+          tmp.push(res.data[i])
+        }
+        console.log(tmp)
+        that.setData({
+          musicloading: false,
+          musicloadingComplete: false,
+          start:that.data.start+10,
+          count:res.data.count,
+          result:res.data
+        })
+      }
+    })
   },
   deleteHistory:function(e)
   {
@@ -109,9 +140,13 @@ Page({
   },
   inputConfirm: function (e) {
     this.setData({
-      confirmFlag: true
+      confirmFlag: true,
+      start:0,
+      count:1,
+      musicLoading:false,
+      musicLoadingComplete:false
     });
-
+    //Add history
     if (this.data.historyRec == null)
       this.data.historyRec = [];
     var flag = true;
@@ -131,23 +166,7 @@ Page({
       data: this.data.historyRec
     });
 
-    var that = this;
-    wx.request({
-      url: `${config.service.host}/Music_controller/Music_search`,
-      data: {
-        keywords: this.data.inputVal
-
-      },
-      success: function (res) {
-
-        console.log(res.data)
-        that.setData({
-          result: res.data
-        })
-      },
-      fail: function (err) {
-        console.log(err.data);
-      }
-    });
+    //request new musicdata
+    this.getMusic()
   }
 });
