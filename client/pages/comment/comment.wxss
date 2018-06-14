@@ -1,2 +1,45 @@
 /* pages/comment/comment.wxss */
 @import '../../src/weui.wxss';
+.userinfo-nickname{
+  padding: 8rpx 0 10rpx 0;
+  font-size: 45rpx;
+  color: #818A8F;
+  text-align: center;
+  justify-content:center;
+  margin-left: 50rpx;
+}
+.userinfo-vice-nickname{
+  padding: 8rpx 0 10rpx 0;
+  font-size: 30rpx;
+  color: #818A8F;
+  text-align: center;
+  justify-content:center;
+  margin-left: 50rpx;
+}
+.music{
+  width: 750rpx;
+  background: #ffffff;
+  padding: 0;
+  display: flex;
+}
+.former-music{
+  flex: 1;
+}
+.music-item{
+  flex: 12;
+  text-align: left;
+  font-size: 37rpx;
+  color: #6d6d6d;
+  line-height: 60rpx;
+  padding: 30rpx 0;
+  border-bottom: solid 1px #ebebeb;
+}
+.delete-item{
+  flex: 1.4;
+  text-align: center;
+  height:70rpx; 
+  padding:20rpx
+}
+.likeNum{
+  padding-top: 20rpx;
+}

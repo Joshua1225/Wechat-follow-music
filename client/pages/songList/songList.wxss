@@ -16,10 +16,12 @@
 }
 .play-all{
   color:#FFC0CB;
-  font-family:'KaiTi';
-  font-size:45rpx
+  font-family:'YouYuan';
+  font-size:40rpx;
+  padding-top: 0;
 }
 .giveLove{
+  height:55rpx;
   padding-left: 40rpx;
 }
 .myitem-name{
@@ -53,4 +55,6 @@
 .delete-item{
   flex: 1;
   text-align: center;
+  height:50rpx; 
+  padding:20rpx
 }

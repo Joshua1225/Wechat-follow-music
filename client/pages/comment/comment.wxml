@@ -9,20 +9,22 @@
                     </view>
                 </view>
                 <view>
-                    <view class="weui-cell__bd">{{musicName}}</view>
-                    <view class="weui-cell__bd" bindtap="test">歌手</view>
+                    <view class="userinfo-nickname">{{musicName}}</view>
+                    <view class="userinfo-vice-nickname">歌手</view>
                 </view>
                 
             </view>
         </view>
         <!--加载中-->
-       
-        <view wx:for="{{commentList}}"  class="weui-cell weui-cell_access" hover-class="weui-cell_active">0
-            <view>
-                {{index+1}}:{{item.Content}}    {{item.Likes}}
-            </view>
-            <image wx:if="{{item.IsLike==false}}" src="../../src/like.png"  data-Likes="{{item.Likes}}" data-IsLike="{{item.IsLike}}" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;" bindtap='like' data-idx='{{index}}' data-id='{{item.CommentId}}'></image>
-            <image wx:else  src="../../src/dislike.png" data-Likes="{{item.Likes}}" data-IsLike="{{item.IsLike}}" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;" bindtap="delLike" data-idx='{{index}}' data-id='{{item.CommentId}}'></image>
+        <view wx:for="{{commentList}}"  class="music">
+              <view class="former-music" >
+              </view>
+              <view id='{{item.MusiclistId}}' bindtap='playSong' data-musicid="{{item.MusicId}}" class="music-item"  >
+                 {{index+1}}:{{item.Content}} 
+              </view>
+              <text class="likeNum">{{item.Likes}}</text>
+              <image wx:if="{{item.IsLike==false}}" src="../../src/like.png"  data-Likes="{{item.Likes}}" data-IsLike="{{item.IsLike}}"  bindtap='like' data-idx='{{index}}' data-id='{{item.CommentId}}' class="delete-item"></image>
+              <image wx:else  src="../../src/dislike.png" data-Likes="{{item.Likes}}" data-IsLike="{{item.IsLike}}"  bindtap="delLike" data-idx='{{index}}' data-id='{{item.CommentId}}' class="delete-item"></image>
         </view>
 
         <!--输入评论-->

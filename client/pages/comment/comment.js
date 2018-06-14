@@ -21,11 +21,22 @@ Page({
   },
 
   onLoad: function (options) {
+    console.log("options");
+    console.log(options);
     //显示歌曲名称
     this.setData({
-      musicId: options.musicId,
-      songImg: 'http://140.143.149.22/picture/' + options.musicId
+      musicId: options.musicId
     })
+    if(options.musicCover=="0"){
+      this.setData({
+        songImg: 'http://140.143.149.22/picture/0' 
+      })
+    }
+    else{
+      this.setData({
+        songImg: 'http://140.143.149.22/picture/' + options.musicId
+      })
+    }
     this.getMusicInfo()
     this.getCommentInfo()
 
@@ -51,6 +62,8 @@ Page({
         id: this.data.musicId
       },
       success: function (res) {
+        console.log("comment err");
+        console.log(res.data[0]);
         that.setData({
           musicName: res.data[0].MusicName,
           musicSinger: res.data[0].MusicSinger,
@@ -144,18 +157,9 @@ Page({
         CommentId: commentId
       },
       success: function (res) {
-        console.log("显示成功提示框");
-        that.openToast();
         console.log(that.data.commentList);
       }
     })
-  },
-  openToast: function () {
-    wx.showToast({
-      title: '已完成',
-      icon: 'success',
-      duration: 1000
-    });
   },
   tabClick: function (e) {
     this.setData({

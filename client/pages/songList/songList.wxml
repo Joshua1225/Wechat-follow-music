@@ -7,27 +7,27 @@
                     <image src="../../src/pic_160.png" style="margin-right: 5px;vertical-align: middle;width:100px; height: 100px;"></image>
                 </view>
                 <view class="userinfo-nickname">
-                    <view>{{songListName}}</view>
+                    <view style="font-family:'KaiTi'">{{songListName}}</view>
                     <view class="songListOperation">
                         <view class="play-all">
                             <text bindtap='playSongs'>播放全部</text>
                         </view>
                         <view class="giveLove">
-                            <image wx:if="{{collection==false}}" src="../../src/like.png"  style="margin-right: 5px;vertical-align: middle;width:50rpx; height: 50rpx;" bindtap='dianZan'></image>
-                            <image wx:else src="../../src/dislike.png"  style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;" bindtap='dianZan'></image>
+                            <image wx:if="{{collection==false}}" src="../../src/like.png"  style="padding-top: 0rpx; margin-right: 5px;vertical-align: middle;width:50rpx; height: 50rpx;" bindtap='dianZan'></image>
+                            <image wx:else src="../../src/dislike.png"  style="padding-top: 0rpx;margin-right: 5px;vertical-align: middle;width:50px; height: 50px;" bindtap='dianZan'></image>
                         </view>
                     </view>
                 </view>
             </view>
             <!--歌曲列表-->
             
-            <view wx:for="{{music}}" data-musicid="{{item.MusicId}}" bindtap='playSong' class="music">
+            <view wx:for="{{music}}"  class="music">
               <view class="former-music" >
               </view>
-              <view id='{{item.MusiclistId}}' bindtap='toSongList' class="music-item"  >
+              <view id='{{item.MusiclistId}}' bindtap='playSong' data-musicid="{{item.MusicId}}" class="music-item"  >
                  {{index+1}}:{{item.MusicName}}
               </view>
-              <image src="../../src/infoDelete.png" class="delete-item" style=" height:50rpx; padding:20rpx"></image> 
+              <image src="../../src/infoDelete.png" class="delete-item" data-musicid="{{item.MusicId}}" bindtap='deleteSong'></image> 
             </view>
 
         </view>

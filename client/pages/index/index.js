@@ -153,7 +153,7 @@ Page({
 
   f_2_2: function () {
     wx.navigateTo({
-      url: '../comment/comment?musicId=' + this.data.musicList[this.data.musicListIndex]['id']
+      url: '../comment/comment?musicId=' + this.data.musicList[this.data.musicListIndex]['id'] + '&musicCover=' + this.data.musicList[this.data.musicListIndex]['MusicCover']
      
     })    
   },
@@ -330,9 +330,11 @@ Page({
 
     if(flag==0)
     {
+      
       wx.request({
         url: `https://hy6e9qbe.qcloud.la/Music_controller/Music_getbyid?id=` + id0,
         success: function (res) {
+          console.log('test:' + res.data + 'id0:' + id0 + ' musicListIndex:' + that.data.musicListIndex)
           that.data.musicList.push({ id: id0, name: res.data[0]['MusicName'], singer: res.data[0]['MusicSinger'], MusicCover: res.data[0]['MusicCover'], MusicLyric: res.data[0]['MusicLyric'] })
           var arr = that.data.musicList
           that.setData({
@@ -348,7 +350,7 @@ Page({
               console.log('缓存成功')
             }
           })
-          console.log('test:' + res.data + 'id0:' + id0 + ' musicListIndex:' + that.data.musicListIndex)
+          
           that.f_3_2()
         }
       })
