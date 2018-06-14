@@ -330,6 +330,7 @@ Page({
     wx.request({
       url: `https://hy6e9qbe.qcloud.la/Music_controller/Music_getbyid?id=` + id0,
       success: function (res) {
+        console.log('test:'+res.data+'id0:'+id0)
         that.data.musicList.push({ id: id0, name: res.data[0]['MusicName'], singer: res.data[0]['MusicSinger'], MusicCover: res.data[0]['MusicCover'], MusicLyric: res.data[0]['MusicLyric']})
         var arr = that.data.musicList
         that.setData({
@@ -523,8 +524,8 @@ Page({
    */
   onLoad: function (options) {
     if (options.musicId) {
-      this.insertMusic(opt.musicId)
-      optoptions.musicId = null
+      this.insertMusic(options.musicId)
+      options.musicId = null
     }
     var that = this
     getApp().globalData.indexPage=this
@@ -539,35 +540,36 @@ Page({
       console.log(res.errCode)
     })
     innerAudioContext.onEnded(() => {
-      var musicListIndex = that.data.musicListIndex
-      var musicListLength = that.data.musicList.length
+      var musicListIndex = this.data.musicListIndex
+      var musicListLength = this.data.musicList.length
+      var op = "iconList_3[2].i"
       if (this.data.playMode == 0) {
-        that.setData({
+        this.setData({
           musicListIndex: (musicListIndex + 1) % musicListLength
         })
       }
       else if (this.data.playMode == 1) {
-        that.setData({
+        this.setData({
           musicListIndex: Math.floor(Math.random() * musicListLength)
         })
       }
-      that.setData({
+      this.setData({
         curTimeVal: 0
       })
       innerAudioContext.src = 'http://140.143.149.22/music/' + that.data.musicList[that.data.musicListIndex]['id'] + '.mp3'
-      that.f_3_2()
+      this.setData({
+        [op]: 0
+      })
+      this.f_3_2()
     })
 
     wx.getStorage({
       key: 'musicList',
       success: function (res) {
-        if (res.statusCode==200)
-        {
-          that.setData({
-            musicList: res.data
-          })
-          innerAudioContext.src = 'http://140.143.149.22/music/' + that.data.musicList[that.data.musicListIndex]['id'] + '.mp3'
-        }
+        that.setData({
+          musicList: res.data
+        })
+        innerAudioContext.src = 'http://140.143.149.22/music/' + that.data.musicList[that.data.musicListIndex]['id'] + '.mp3'
         that.setTitle()
         that.getPicture()
         that.getLyric()
@@ -621,7 +623,11 @@ Page({
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-
+    var op = "iconList_3[2].i"
+    this.setData({
+      [op]: 1
+    })
+    this.f_3_2()
   },
 
   /**
@@ -653,7 +659,7 @@ Page({
     return {
       title: '分享给你一首好听的歌',
       desc: '音乐随想',
-      path: '/pages/index/index?musicId='+this.data.musicList[this.data.musicListIndex]
+      path: '/pages/index/index?musicId='+this.data.musicList[this.data.musicListIndex]['id']
     }
   }
 })
