@@ -60,7 +60,7 @@
 
 }
 .page{
-  height: 100ch;
+  height: 50ch;
   background: rgb(220,220,220)
 }
 .search_bar{
