@@ -1,9 +1,13 @@
 var config = require('../../config')
+var num=0
+var sum=0
 Page({
   data: {
     inputShowed: false,
     inputVal: "",
-    confirmFlag: false
+    confirmFlag: false,
+    musicLoading: false, 
+    musicLoadingComplete: false
   },
   onLoad: function (option) {
     var that = this;
@@ -36,6 +40,13 @@ Page({
       url: '/pages/index/index',
     })
 
+  },
+  getMusic:function()
+  {
+    if(num>sum)
+      this.setData({
+        musicLoadingComplete:true
+      })
   },
   inputValUpdate: function (e) {
     this.setData({

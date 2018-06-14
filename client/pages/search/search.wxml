@@ -1,4 +1,4 @@
-<view class="background">
+<view class="page_bd">
     <view class="page__my">
         <view class="weui-search-bar">
             <view class="weui-search-bar__form">            
@@ -23,11 +23,17 @@
                 <view>{{item}}</view>
             </view>
         </view>
-        <view  class="weui-cell" hover-class="weui-cell_active" wx:key="id" wx:if="{{confirmFlag}}" wx:for="{{result}}" wx:for-item="song" data-MusicId="{{song.MusicId}}" bindtap='listen'>
+        <scroll-view scroll-y='true' bindscrolltolower='getMusic'>
+         <view  class="weui-cell" hover-class="weui-cell_active" wx:key="id" wx:if="{{confirmFlag}}" wx:for="{{result}}" wx:for-item="song" data-MusicId="{{song.MusicId}}" bindtap='listen'>
                 <view class="weui-cell__bd">
                   <view class='name'>{{song.MusicName}}</view>
                   <view class='desc'>{{song.MusicSinger}}</view>
                 </view>
+               
         </view>
+        <view hidden='{{!musicLoading}}'><image  style="width: 48rpx;height: 48rpx"  src='../../src/loading.gif'/>正在载入更多..
+        </view>
+        <view hidden='{{!musicLoadingComplete}}'>已加载全部</view>
+        </scroll-view>
     </view>
 </view>

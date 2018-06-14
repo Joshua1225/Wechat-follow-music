@@ -24,4 +24,21 @@
   height:100ch;
   width:100ch;
 }
-
+.loading{  
+  padding: 10rpx;  
+  text-align: center;  
+}  
+.loading:before{  
+  display: inline-block;  
+  margin-right: 5rpx;  
+  vertical-align: middle;  
+  content: '';  
+  width: 40rpx;  
+  height: 40rpx;  
+  background: url(../../src/loading.gif) no-repeat;  
+  background-size: contain;  
+  animation: rotate 1s linear infinite;  
+}  
+.loading.complete:before{  
+  display: none;  
+} 
