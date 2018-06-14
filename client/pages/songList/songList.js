@@ -54,6 +54,7 @@ Page({
         id:that.data.songListId
       },
       success:function(res){
+        console.log(res.data)
         that.setData({
           songListName: res.data[0].MusiclistName
         });

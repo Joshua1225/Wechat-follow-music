@@ -14,7 +14,7 @@ Page({
     canIUse: false,//wx.canIUse('button.open-type.getUserInfo')
   },
   onLoad: function () {
-  this.getData();
+    this.getData();
 
     //获取微信头像，昵称
     // wx.getUserInfo({
@@ -39,6 +39,7 @@ Page({
         userid: value
       },
       success: function (res) {
+        console.log(res.data)
         that.setData({
           musicList: res.data,
         });
