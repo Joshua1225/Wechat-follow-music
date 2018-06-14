@@ -423,7 +423,7 @@ Page({
   //获取封面
   getPicture:function()
   {
-    if (this.data.musicList[this.data.musicListIndex]['MusicCover']==1)
+    if (this.data.musicList.length != 0 && this.data.musicList[this.data.musicListIndex]['MusicCover'] == 1)
     {
       this.setData({
         picturePath: 'http://140.143.149.22/picture/' + this.data.musicList[this.data.musicListIndex]['id']
@@ -440,7 +440,7 @@ Page({
   //获取歌词
   getLyric:function()
   {
-    if (this.data.musicList[this.data.musicListIndex]['MusicLyric'] == 1)
+    if (this.data.musicList.length != 0 && this.data.musicList[this.data.musicListIndex]['MusicLyric'] == 1)
     {
       var that = this
       wx.request({
@@ -561,14 +561,16 @@ Page({
     wx.getStorage({
       key: 'musicList',
       success: function (res) {
-        console.log(res.data)
-        that.setData({
-          musicList: res.data
-        })
+        if (res.statusCode==200)
+        {
+          that.setData({
+            musicList: res.data
+          })
+          innerAudioContext.src = 'http://140.143.149.22/music/' + that.data.musicList[that.data.musicListIndex]['id'] + '.mp3'
+        }
         that.setTitle()
         that.getPicture()
         that.getLyric()
-        innerAudioContext.src = 'http://140.143.149.22/music/' + that.data.musicList[that.data.musicListIndex]['id'] + '.mp3'
       }
     })
 
