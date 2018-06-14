@@ -309,9 +309,9 @@ Page({
 
   //添加播放列表相关
   insertMusic:function(id0){
-    var musicListLength = this.data.musicList.length
     var op = "iconList_3[2].i"
     var that = this
+    var flag = 0
 
     for (var i=0; i < this.data.musicList.length;i++)
     {
@@ -323,32 +323,37 @@ Page({
         })
         innerAudioContext.src = 'http://140.143.149.22/music/' + this.data.musicList[i]['id'] + '.mp3'
         this.f_3_2()
-        return
+        flag = 1
+        break
       }
     }
 
-    wx.request({
-      url: `https://hy6e9qbe.qcloud.la/Music_controller/Music_getbyid?id=` + id0,
-      success: function (res) {
-        console.log('test:'+res.data+'id0:'+id0)
-        that.data.musicList.push({ id: id0, name: res.data[0]['MusicName'], singer: res.data[0]['MusicSinger'], MusicCover: res.data[0]['MusicCover'], MusicLyric: res.data[0]['MusicLyric']})
-        var arr = that.data.musicList
-        that.setData({
-          musicListIndex: musicListLength,
-          [op]: 0,
-          musicList : arr
-        })
-        innerAudioContext.src = 'http://140.143.149.22/music/' + that.data.musicList[that.data.musicListIndex]['id'] + '.mp3'
-        wx.setStorage({
-          key: "musicList",
-          data: that.data.musicList,
-          success() {
-            console.log('缓存成功')
-          }
-        })
-        that.f_3_2()
-      }
-    })
+    if(flag==0)
+    {
+      wx.request({
+        url: `https://hy6e9qbe.qcloud.la/Music_controller/Music_getbyid?id=` + id0,
+        success: function (res) {
+          that.data.musicList.push({ id: id0, name: res.data[0]['MusicName'], singer: res.data[0]['MusicSinger'], MusicCover: res.data[0]['MusicCover'], MusicLyric: res.data[0]['MusicLyric'] })
+          var arr = that.data.musicList
+          that.setData({
+            musicListIndex: that.data.musicList.length-1,
+            [op]: 0,
+            musicList: arr
+          })
+          innerAudioContext.src = 'http://140.143.149.22/music/' + that.data.musicList[that.data.musicListIndex]['id'] + '.mp3'
+          wx.setStorage({
+            key: "musicList",
+            data: that.data.musicList,
+            success() {
+              console.log('缓存成功')
+            }
+          })
+          console.log('test:' + res.data + 'id0:' + id0 + ' musicListIndex:' + that.data.musicListIndex)
+          that.f_3_2()
+        }
+      })
+    }
+    
   },
   //从播放列表删除
   deleteMusic:function(e)
@@ -613,6 +618,7 @@ Page({
     {
       getApp().globalData.done=true
       var addSongs = getApp().globalData.addSongs
+      console.log('addSongs:'+addSongs)
       for(var i=0;i<addSongs.length;i++)
       {
         this.insertMusic(addSongs[i])
@@ -624,11 +630,6 @@ Page({
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-    var op = "iconList_3[2].i"
-    this.setData({
-      [op]: 1
-    })
-    this.f_3_2()
   },
 
   /**

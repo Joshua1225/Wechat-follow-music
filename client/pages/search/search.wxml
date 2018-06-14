@@ -15,6 +15,7 @@
                     <view class="weui-search-bar__text">输入歌手名、歌曲名搜索</view>
                 </label>
             </view>
+
             <view class="search_button" hidden="{{!inputShowed}}" bindtap="inputConfirm">搜索</view>   
         </view>
          <view wx:if="{{!confirmFlag}}" class='weui-cell'>历史搜索：</view>
