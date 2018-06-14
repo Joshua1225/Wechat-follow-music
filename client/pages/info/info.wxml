@@ -1,7 +1,8 @@
 <view class="page">
-    <view wx:if='{{!canIUse}}' class="page_bd">
+    <view wx:if='{{!canIUse}}' style="text-align: center;">
       <image src='../../src/user-unlogin.png' class='userinfo-avatar'></image>
-      <button open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" class>授权登录</button>
+      <button  open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" class="buttonClass">点次授权登陆，开始你的音乐之旅吧</button>
+      <image src='http://pic1.win4000.com/pic/7/ec/163d1126581.jpg' class="beginBackground"></image>
     </view>
     <view wx:else class="container more">
       
@@ -12,18 +13,18 @@
           </view>
           <view class="user-info flex-item">
             <text class="userinfo-nickname">{{nickName}}</text>
-            <text class="edit">查看或编辑个人主页</text>
+            <text class="edit" style="font-family:'STXingkai'">write the code,change the world</text>
           </view>
         </view>
 
         <!--歌单列表-->
-        <view class="my">
+        <view class="my" style="font-family:'YouYuan'">
             <view class="my-item flex-wrp">
               <view class="myitem-former-icon flex-item" >
                 <image src="../../src/songListIcon.png"></image>
               </view>
               <view class="myitem-name flex-item">
-                <text style="color:#FFC0CB">我的歌单</text>
+                <text style="color:#FFC0CB;font-family:'KaiTi';font-size:42rpx">我的歌单</text>
               </view>
             </view>
 
@@ -50,15 +51,16 @@
         </view>
       
         <!--历史评论-->
-        <view class="my">
+        <view class="my" style="font-family:'YouYuan'">
             <view class="my-item flex-wrp">
                   <view class="myitem-former-icon flex-item" >
                     <image src="../../src/infoCommentIcon.png"></image>
                   </view>
                   <view class="myitem-name flex-item">
-                    <text>我的历史评论</text>
+                    <text style="color:#87CEFA;font-family:'KaiTi';font-size:42rpx">我的历史评论</text>
                   </view>
             </view>
+
             <view wx:for="{{commentList}}" class="my-item flex-wrp">
               <view class="myitem-former-icon flex-item" >
               </view>
@@ -66,6 +68,7 @@
                  {{index+1}}:{{item.Content}}
               </view>
             </view>
+
         </view>
         
 
