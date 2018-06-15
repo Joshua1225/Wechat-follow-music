@@ -1,4 +1,3 @@
-
 var config = require('../../config')
 var sliderWidth = 96; // 需要设置slider的宽度，用于计算中间位置
 Page({
@@ -64,7 +63,6 @@ Page({
     */
   },
   bindGetUserInfo: function (e) {
-    console.log(e.detail.userInfo)
     wx.showLoading({
       title: '加载中',
     })
@@ -75,9 +73,21 @@ Page({
         nickName: e.detail.userInfo.nickName,
         avatarUrl: e.detail.userInfo.avatarUrl,
       })
+      console.log(e.detail.userInfo)
+      var value = wx.getStorageSync('userid')
+
+      wx.request({
+        url: `${config.service.host}/User_controller/updateinfo`,
+        data: {
+          userid: value,
+          userinfo: e.detail.userInfo
+        }
+      })
+     
       //用户按了允许授权按钮
     } else {
       //用户按了拒绝按钮
+      wx.hideLoading()
     }
   },
   tabClick: function (e) {
@@ -138,22 +148,7 @@ Page({
       }
     })
   },
-
-  openToast: function () {
-    wx.showToast({
-      title: '已完成',
-      icon: 'success',
-      duration: 3000
-    });
-  },
-  openLoading: function () {
-    wx.showToast({
-      title: '数据加载中',
-      icon: 'loading',
-      duration: 3000
-    });
-  },
-
+  
   
 
   //点击删除按钮事件
