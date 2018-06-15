@@ -70,9 +70,10 @@
             <view wx:for="{{commentList}}" class="my-item flex-wrp">
               <view class="myitem-former-icon flex-item" >
               </view>
-              <view id='{{item.MusiclistId}}' bindtap='toSongList' class="myitem-name flex-item"  >
+              <view id='{{item.MusiclistId}}' class="myitem-name flex-item"  >
                  {{index+1}}:{{item.Content}}
               </view>
+              <image src="../../src/infoDelete.png" data-commentid='{{item.CommentId}}' data-userid='{{item.UserId}}' bindtap = "delComment" class="myitem-icon flex-item" style=" height:50rpx; padding:20rpx"></image> 
             </view>
 
         </view>

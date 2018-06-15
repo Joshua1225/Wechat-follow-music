@@ -64,10 +64,11 @@
 .user .user-info .userinfo-nickname{
   padding: 8rpx 0 10rpx 0;
   font-size: 42rpx;
-  color: #818A8F;
+  color: #808080	;
+  font-family: 'KaiTi';
 }
 .user .user-info .edit{
-  font-size: 40rpx;
+  font-size: 30rpx;
   color: #bababa;
   line-height: 34rpx;
 }
