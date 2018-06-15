@@ -249,7 +249,7 @@ Page({
     var that=this;
     var value=wx.getStorageSync('userid')
     
-    console.log()
+    console.log(this.data.inputVal)
     //将inputVal插入这首歌的评论库
     wx.request({
       url: `${config.service.host}/Comment_add`,
