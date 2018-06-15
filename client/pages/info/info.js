@@ -14,18 +14,7 @@ Page({
     canIUse: false,//wx.canIUse('button.open-type.getUserInfo')
   },
   onLoad: function () {
-    this.getData();
-
-    //获取微信头像，昵称
-    // wx.getUserInfo({
-    //   success: function (res) {
-    //     that.setData({
-    //       nickName: res.userInfo.nickName,
-    //       avatarUrl: res.userInfo.avatarUrl,
-    //     })
-    //   },
-    // })
-    
+    this.getData();    
   },
   getData:function()
   {
@@ -60,6 +49,7 @@ Page({
         wx.hideLoading()
       }
     })
+    /*
     wx.getSystemInfo({
       success: function (res) {
         that.setData({
@@ -71,13 +61,13 @@ Page({
 
       }
     })
+    */
   },
   bindGetUserInfo: function (e) {
     console.log(e.detail.userInfo)
     wx.showLoading({
       title: '加载中',
     })
-    //this.setData({canIUse:wx.canIUse('button.open-type.getUserInfo')})
     if (e.detail.userInfo) {
       this.getData()
       this.setData({

@@ -43,3 +43,66 @@
 .likeNum{
   padding-top: 20rpx;
 }
+
+
+.search-header{
+    position: fixed;
+    bottom: 0;
+    width: 750rpx;
+    height: 91rpx;
+    display: flex;
+    background: #fff;
+    border-bottom: 1px solid rgba(0,0,0,.15);
+    padding: 0 31.25rpx;
+    font-size: 29rpx;
+    color: #333;
+}
+
+.search-header .input-box{
+    position: relative;
+    margin-bottom: 16rpx;
+    float: left;
+    width: 0;
+    flex: 8;
+    height: 59rpx;
+    line-height: 59rpx;
+    padding: 0 20rpx;
+    background: #f4f4f4;
+}
+
+.search-header .icon{
+    position: absolute;
+    top: 14rpx;
+    left: 20rpx;
+    width: 31rpx;
+    height: 31rpx;
+}
+
+.search-header .del{
+    position: absolute;
+    top: 3rpx;
+    right: 10rpx;
+    width: 53rpx;
+    height: 53rpx;
+    z-index: 10;
+}
+
+.search-header .keywrod{
+    position: absolute;
+    top: 0;
+    left: 40rpx;
+    width: 506rpx;
+    height: 59rpx;
+    padding-left: 30rpx;
+}
+
+.search-header .right{
+    margin-top: 24rpx;
+    margin-left: 31rpx;
+    margin-right: 6rpx;
+    width: 58rpx;
+    height: 43rpx;
+    line-height: 43rpx;
+    float: right;
+    flex:2;
+}
