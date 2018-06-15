@@ -28,27 +28,24 @@
         </view>
         </scroll-view>
         <!--输入评论-->
-            <view class="search-header">
-                <view class="input-box">
-                    <image class="icon" src="http://nos.netease.com/mailpub/hxm/yanxuan-wap/p/20150730/style/img/icon-normal/search2-2fb94833aa.png"></image>
-                    <input class="keyword" placeholder="请输入评论" value="{{inputVal}}" focus="{{inputShowed}}" bindinput="inputTyping" bindconfirm='insertComment'/>
-                    <image class="del" wx:if="{{inputVal.length > 0}}" bindtap="clearInput" src="http://nos.netease.com/mailpub/hxm/yanxuan-wap/p/20150730/style/img/icon-normal/clearIpt-f71b83e3c2.png"></image>
+            <view class="bottom-all">
+                <view class="search-header">
+                    <view class="input-box">
+                        <icon class="input-box-icon" type='search'></icon>
+                        <input type="text" class="weui-search-bar__input" placeholder="请输入评论" value="{{inputVal}}" focus="{{inputShowed}}" bindinput="inputTyping" bindconfirm='insertComment'/>
+                        <view class="weui-icon-clear" wx:if="{{inputVal.length > 0}}" bindtap="clearInput">
+                            <icon type="clear" size="14"></icon>
+                        </view>
+                    </view>
+                    <label class="weui-search-bar__label" hidden="{{inputShowed}}" bindtap="showInput">
+                        <view class="weui-search-bar__text">请输入评论</view>
+                    </label>
                 </view>
-                <label class="weui-search-bar__label" hidden="{{inputShowed}}" bindtap="showInput">
-                    <view class="weui-search-bar__text">请输入评论</view>
-                </label>
-                <view class="right" hidden="{{!inputShowed}}" bindtap="insertComment">发表</view>
+                <view class="del" hidden="{{!inputShowed}}" bindtap="insertComment">发表</view>
             </view>
             
 
-              <view class="search-header">
-                <view class="input-box">
-                  <image class="icon" src="http://nos.netease.com/mailpub/hxm/yanxuan-wap/p/20150730/style/img/icon-normal/search2-2fb94833aa.png"></image>
-                  <input name="input" class="keywrod" focus="true" value="{{keyword}}" confirm-type="search" bindinput="inputChange" bindfocus="inputFocus" bindconfirm="onKeywordConfirm" confirm-type="search" placeholder="请输入评论" />
-                  <image class="del" wx:if="{{inputVal.length > 0}}" bindtap="clearInput" src="http://nos.netease.com/mailpub/hxm/yanxuan-wap/p/20150730/style/img/icon-normal/clearIpt-f71b83e3c2.png"></image>
-                </view>
-                <view class="right" bindtap="closeSearch">取消</view>
-              </view>
+       
             
 
     </view>
