@@ -45,20 +45,26 @@ Page({
   getMusic:function()
   {
     var that=this
-    if(this.data.start>=this.data.count)
-    {
-      this.setData({
-        musicloading: false,
-        musicloadingComplete: true
+    // if(this.data.start>=this.data.count)
+    // {
+    //   this.setData({
+    //     musicloading: false,
+    //     musicloadingComplete: true
+    //   })
+    //   return
+    // }
+      if(that.data.musicLoadingComplete==true)
+      {
+        that.setData({
+          musicLoading: false,
+          musicLoadingComplete: true
+        })
+        return
+      }
+      that.setData({
+        musicLoading: true,
+        musicLoadingComplete: false
       })
-      return
-    }
-    else{
-      this.setData({
-        musicloading: true,
-        musicloadingComplete: false
-      })
-    }
   
     wx.request({
       url: `${config.service.musicUrl}/music_search`,
@@ -68,21 +74,28 @@ Page({
       },
       success:function(res)
       {
-        if (res.data!=0) {
+        console.log(res.data.length)
+        if (res.data.length!=0) {
           that.data.result.concat(res.data)
           console.log(that.data.result.concat(res.data))
           that.setData({
-            musicloading: false,
-            musicloadingComplete: false,
-            start: that.data.start + 10,
+            musicLoading: false,
+            musicLoadingComplete: false,
             result: that.data.result.concat(res.data)
           })
         }
-          
-          
-        
-  
+        else
+        {
+          that.setData({
+            musicLoading: false,
+            musicLoadingComplete: true
+          })
+        }
+         
       }
+    })
+    that.setData({
+      start: that.data.start + 10
     })
   },
   deleteHistory:function(e)
@@ -144,9 +157,9 @@ Page({
     this.setData({
       confirmFlag: true,
       start:0,
-      result:[],
-      musicLoading:false,
-      musicLoadingComplete:false
+      result: [],
+      musicLoading: true,
+      musicLoadingComplete: false
     });
     //Add history
     if (this.data.historyRec == null)

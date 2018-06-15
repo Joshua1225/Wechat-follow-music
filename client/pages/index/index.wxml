@@ -70,7 +70,7 @@
 
   </swiper-item>
   <swiper-item>
-    <button bindtap='Return' class="return-button"></button>
+    <button bindtap='Return' class="return-button"><image class='return-image' src='../../src/up1.png'></image></button>
     <scroll-view scroll-y="true" style="height: 917rpx;">
       <view class="song-list{{isLight ? ' light' : ''}}" style="background:{{listBgColor}}">
         <view class="song-item {{index==musicListIndex?'playing':''}}" wx:for="{{musicList}}" wx:key="unique" bindtap="playsongTap" data-id="{{item.id}}" data-index="{{index}}" >

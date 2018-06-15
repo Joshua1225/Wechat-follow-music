@@ -27,6 +27,7 @@
               <image wx:else  src="../../src/dislike.png" data-Likes="{{item.Likes}}" data-IsLike="{{item.IsLike}}"  bindtap="delLike" data-idx='{{index}}' data-id='{{item.CommentId}}' class="delete-item"></image>
         </view>
         </scroll-view>
+
         <!--输入评论-->
          <view class="bottom-all">        
             <view class="search-header">            
@@ -37,20 +38,13 @@
                          <icon type="clear" size="14" bindtap="hideInput"></icon>
                     </view>
                 </view>
-
                 <label style="" class="label-all" hidden="{{inputShowed}}" bindtap="showInput">
                     <icon class="weui-icon-search" type="search" size="13"></icon>
                     <view class="label-text">输入歌手名、歌曲名搜索</view>
                 </label>
             </view>
-
             <view class="right" hidden="{{!inputShowed}}" bindtap="insertComment">发表</view>   
-        </view>
-
-            
-
-       
-            
+        </view>          
 
     </view>
 </view>

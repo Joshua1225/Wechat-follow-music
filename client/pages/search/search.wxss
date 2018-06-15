@@ -13,7 +13,10 @@
     margin-top: 4px;
     color: grey;
 }
-
+.loadingText{
+  width: 750rpx;
+  height: 100rpx
+}
 .page_my
 {
   background: rgb(224,224,224);
