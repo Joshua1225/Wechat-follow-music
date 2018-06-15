@@ -20,10 +20,12 @@ App({
           userid: value
         },
         success: function (res1) {//回调函数获取结果处理
-
-          if (res1.data == "bool(false)\n") {//失效-重新获取code登录
+          console.log(res1.data)
+          if (res1.data == 'bool(false)\n') {//失效-重新获取code登录
+            console.log('false')
             wx.login({
               success: function (res2) {//回填函数向服务器转发code换取3rd-key
+                console.log(res2.code)
                 wx.request({
                   url: config.service.loginUrl,
                   data: {

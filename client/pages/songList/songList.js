@@ -1,5 +1,5 @@
 var config = require('../../config')
-var app=getApp();
+var app = getApp();
 var sliderWidth = 96; // 需要设置slider的宽度，用于计算中间位置
 Page({
   data: {
@@ -7,29 +7,29 @@ Page({
     activeIndex: 1,
     sliderOffset: 0,
     sliderLeft: 0,
-    songListName:"",
-    music:{},//歌单下歌曲数组
-    collection:false,
-    songListId:""
+    songListName: "",
+    music: {},//歌单下歌曲数组
+    collection: false,
+    songListId: ""
   },
   //设置该页面的转发信息
   onShareAppMessage: function () {
     console.log(this.songListId)
     return {
       title: '转发标题',
-      path: '/pages/songList/songList?songListId='+this.data.songListId,
-      desc:'desc',
-      success:function(res){
-        var shareTickets=res.share
+      path: '/pages/songList/songList?songListId=' + this.data.songListId,
+      desc: 'desc',
+      success: function (res) {
+        var shareTickets = res.share
       }
-      }
+    }
   },
   onLoad: function (options) {
     wx.showLoading({
       title: '加载中',
     })
     console.log(options)
-    var that=this;
+    var that = this;
     //获取手机系统信息
     wx.getSystemInfo({
       success: function (res) {
@@ -41,19 +41,19 @@ Page({
     });
     //显示当前页面的转发按钮
     wx.showShareMenu({
-      withShareTicket:true
-    })  
+      withShareTicket: true
+    })
     //显示歌单名称
-    
+
     that.setData({
-      songListId:options.songListId
+      songListId: options.songListId
     })
     wx.request({
       url: `${config.service.host}/Musiclist_controller/Musiclist_getbyid`,
-      data:{
-        id:that.data.songListId
+      data: {
+        id: that.data.songListId
       },
-      success:function(res){
+      success: function (res) {
         console.log(res.data)
         that.setData({
           songListName: res.data[0].MusiclistName
@@ -74,7 +74,7 @@ Page({
       success: function (res) {
         console.log(res);
         that.setData({
-          music:res.data
+          music: res.data
         })
       }
     })
@@ -87,53 +87,51 @@ Page({
   },
   //改变点赞状态
   dianZan: function (e) {
-    var that=this;
+    var that = this;
     var value = wx.getStorageSync('userid');
     var temp = this.data.collection;
     console.log(temp);
     this.setData({
       collection: !temp
-    }) 
-      wx.request({
-        url: `${config.service.host}/Musiclist_controller/Musiclist_copy`,
-        data:{
-          musiclistid: this.data.songListId,
-          userid:value
-        },
-        success:function(res){
-          console.log("add success");
-          console.log(that.data.songListId);
-        },
-        fail:function(err){
-          console.log(err);
-        }
-      })
+    })
+    wx.request({
+      url: `${config.service.host}/Musiclist_controller/Musiclist_copy`,
+      data: {
+        musiclistid: this.data.songListId,
+        userid: value
+      },
+      success: function (res) {
+        console.log("add success");
+        console.log(that.data.songListId);
+      },
+      fail: function (err) {
+        console.log(err);
+      }
+    })
   },
   //播放歌单里的歌
   playSong: function (e) {
     var musicid = e.target.dataset.musicid;
-    console.log("musicId"+musicid);
-    app.globalData.addSongs=[musicid];
-    app.globalData.done=false;
+    console.log("musicId" + musicid);
+    app.globalData.addSongs = [musicid];
+    app.globalData.done = false;
     wx.switchTab({
       url: '/pages/index/index',
-      success:function(res){
+      success: function (res) {
         console.log("tosong");
         console.log(res);
       },
-      fail:function(err){
+      fail: function (err) {
         console.log(err);
       }
     })
   },
   //播放歌单里的所有歌曲
-  playSongs:function()
-  {
+  playSongs: function () {
     var len = this.data.music.length
-    var idList=[]
-    for(var i=0;i<len;i++)
-    {
-      idList[i]=this.data.music[i].MusicId
+    var idList = []
+    for (var i = 0; i < len; i++) {
+      idList[i] = this.data.music[i].MusicId
     }
     app.globalData.addSongs = [idList];
     app.globalData.done = false;
@@ -148,8 +146,7 @@ Page({
       }
     })
   },
-  deleteSong:function(e)
-  {
+  deleteSong: function (e) {
     //获取列表中要删除项的下标
     var musicid = e.target.dataset.musicid;
     var music = this.data.music;
@@ -159,13 +156,13 @@ Page({
     var value = wx.getStorageSync('userid');
     var that = this;
     that.setData({
-      music:music
+      music: music
     })
     //从歌单里删除歌曲记录
     wx.request({
       url: `${config.service.host}/Musiclist_controller/Musiclist_delete`,
       data: {
-        musiclistid:that.data.songListId,
+        musiclistid: that.data.songListId,
         musicid: musicid
       },
       success: function (res) {
@@ -175,23 +172,21 @@ Page({
         console.log(err);
       }
     })
-  }, 
-  
-  addSonglist:function()
-  {
-    var value=wx.getStorageSync('userid')
+  },
+
+  addSonglist: function () {
+    var value = wx.getStorageSync('userid')
     console.log(value)
     wx.request({
       url: 'https://hy6e9qbe.qcloud.la/Musiclist_controller/Musiclist_copy',
-      data:{
-        musiclistid:this.data.songListId,
-        userid:value
+      data: {
+        musiclistid: this.data.songListId,
+        userid: value
       },
-      success:function(res)
-      {
+      success: function (res) {
         console.log(res)
       }
     })
-    
+
   }
 });

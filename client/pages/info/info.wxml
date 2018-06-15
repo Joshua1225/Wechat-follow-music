@@ -1,11 +1,17 @@
 <view class="page">
     <view wx:if='{{!canIUse}}' style="text-align: center;">
-      <image src='../../src/user-unlogin.png' class='userinfo-avatar'></image>
-      <button  open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" class="buttonClass">点次授权登陆，开始你的音乐之旅吧</button>
-      <image src='http://pic1.win4000.com/pic/7/ec/163d1126581.jpg' class="beginBackground"></image>
+
+      <!--头像和昵称-->
+        <view wx:if='{{!canIUse}}' class="user flex-wrp">
+          <view class="avatar flex-item">
+            <image class="userinfo-avatar" src='../../src/user-unlogin.png' background-size="cover"></image>
+          </view>
+          <view class="user-info flex-item">
+            <button  open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" class="buttonClass">点次授权登陆</button>
+          </view>
+        </view>
     </view>
     <view wx:else class="container more">
-      
         <!--头像和昵称-->
         <view class="user flex-wrp">
           <view class="avatar flex-item">
@@ -33,7 +39,7 @@
                 <image src="../../src/addList.jpg" bindtap="modalinput"></image>
               </view>
               <modal hidden="{{hiddenmodalput}}" title="请输入歌单名" confirm-text="提交" cancel-text="取消" bindcancel="cancel" bindconfirm="confirm">  
-                    <input class="weui-input"  placeholder="请输入文本" bindinput='inputSLName'/>
+                    <input class="weui-input"  placeholder="歌单1" bindinput='inputSLName'/>
               </modal>
               <view class="myitem-name flex-item">
                 <text>创建歌单</text>
