@@ -5,9 +5,10 @@ Page({
     inputShowed: false,
     inputVal: "",
     confirmFlag: false,
-    musicLoading: false, 
-    musicLoadingComplete: false,
-    result:[]
+    musicLoading: true, 
+    musicLoadingComplete: true,
+    result:[],
+    start:0
   },
   onLoad: function (option) {
     var that = this;
@@ -52,7 +53,7 @@ Page({
     //   })
     //   return
     // }
-    
+      if(that.data.musicloadingComplete)
       that.setData({
         musicloading: true,
         musicloadingComplete: false
@@ -68,14 +69,19 @@ Page({
       success:function(res)
       {
         console.log(res)
-        
-        that.setData({
-          musicloading: false,
-          musicloadingComplete: false,
-          start:that.data.start+10,
-          result:res.data
-        })
+        if (res.data.length!=0) {
+          that.data.result.concat(res.data)
+          console.log(that.data.result.concat(res.data))
+          that.setData({
+            musicloading: false,
+            musicloadingComplete: true,
+            result: that.data.result.concat(res.data)
+          })
+        }
       }
+    })
+    that.setData({
+      start: that.data.start + 10
     })
   },
   deleteHistory:function(e)
@@ -137,7 +143,7 @@ Page({
     this.setData({
       confirmFlag: true,
       start:0,
-      count:1,
+      result:[],
       musicLoading:false,
       musicLoadingComplete:false
     });

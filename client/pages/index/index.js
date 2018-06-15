@@ -258,6 +258,13 @@ Page({
     })
   },
 
+  Return:function()
+  {
+    this.setData({
+      currentIndex: 0
+    })
+  },
+
   //进度条相关
   updateTime: function (that) {
 
@@ -524,6 +531,7 @@ Page({
     console.log('title:'+this.data.title)
   },
 
+
   /**
    * 生命周期函数--监听页面加载
    */
@@ -663,5 +671,5 @@ Page({
       desc: '音乐随想',
       path: '/pages/index/index?musicId='+this.data.musicList[this.data.musicListIndex]['id']
     }
-  }
+  },
 })
