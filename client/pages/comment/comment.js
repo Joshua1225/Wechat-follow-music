@@ -65,7 +65,7 @@ Page({
       },
       success: function (res) {
         console.log("comment err");
-        console.log(res.data[0].UserInfo['nickName']);
+        console.log(res.data);
         that.setData({
           musicName: res.data[0].MusicName,
           musicSinger: res.data[0].MusicSinger,
