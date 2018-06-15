@@ -49,6 +49,10 @@ Page({
     //   }
     // });
   },//onload结束
+  inputFocus:function()
+  {
+    
+  },
   getMusicInfo:function()
   {
     var that = this;

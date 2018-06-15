@@ -5,8 +5,8 @@ Page({
     inputShowed: false,
     inputVal: "",
     confirmFlag: false,
-    musicLoading: true, 
-    musicLoadingComplete: true,
+    musicLoading: false, 
+    musicLoadingComplete: false,
     result:[],
     start:0
   },
@@ -53,12 +53,18 @@ Page({
     //   })
     //   return
     // }
-      if(that.data.musicloadingComplete)
+      if(that.data.musicloadingComplete==true)
+      {
+        that.setData({
+          musicloading: false,
+          musicloadingComplete: true
+        })
+        return
+      }
       that.setData({
         musicloading: true,
         musicloadingComplete: false
       })
-
   
     wx.request({
       url: `${config.service.musicUrl}/music_search`,
@@ -68,16 +74,24 @@ Page({
       },
       success:function(res)
       {
-        console.log(res)
+        console.log(res.data.length)
         if (res.data.length!=0) {
           that.data.result.concat(res.data)
           console.log(that.data.result.concat(res.data))
           that.setData({
             musicloading: false,
-            musicloadingComplete: true,
+            musicloadingComplete: false,
             result: that.data.result.concat(res.data)
           })
         }
+        else
+        {
+          that.setData({
+            musicloading: false,
+            musicloadingComplete: true
+          })
+        }
+         
       }
     })
     that.setData({
@@ -143,9 +157,9 @@ Page({
     this.setData({
       confirmFlag: true,
       start:0,
-      result:[],
-      musicLoading:false,
-      musicLoadingComplete:false
+      result: [],
+      musicloading: true,
+      musicloadingComplete: false
     });
     //Add history
     if (this.data.historyRec == null)
