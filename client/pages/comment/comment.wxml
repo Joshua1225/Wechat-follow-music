@@ -22,11 +22,11 @@
         <view wx:for="{{commentList}}"  class="music">
               <view class="former-music" >
               </view>
-              <view id='{{item.MusiclistId}}' bindtap='playSong' data-musicid="{{item.MusicId}}" class="music-item"  >
-                 {{index+1}}:{{item.Content}} 
+              <view id='{{item.MusiclistId}}' bindtap='playSong' data-userid="{{item.UserId}}" data-musicid="{{item.MusicId}}" class="music-item"  >
+                 {{item.UserInfo.nickName}}:{{item.Content}} 
               </view>
               <text class="likeNum">{{item.Likes}}</text>
-              <image wx:if="{{item.IsLike==false}}" src="../../src/like.png"  data-Likes="{{item.Likes}}" data-IsLike="{{item.IsLike}}"  bindtap='like' data-idx='{{index}}' data-id='{{item.CommentId}}' class="delete-item"></image>
+              <image wx:if="{{item.IsLike==false}}" src="../../src/like.png"  data-test="{{item}}" data-Likes="{{item.Likes}}" data-IsLike="{{item.IsLike}}"  bindtap='like' data-idx='{{index}}' data-id='{{item.CommentId}}' class="delete-item"></image>
               <image wx:else  src="../../src/dislike.png" data-Likes="{{item.Likes}}" data-IsLike="{{item.IsLike}}"  bindtap="delLike" data-idx='{{index}}' data-id='{{item.CommentId}}' class="delete-item"></image>
         </view>
         <view hidden='{{!loadingLower}}'><image  style="width: 48rpx;height: 48rpx"  src='../../src/loading.gif'/>正在载入更多..

@@ -205,6 +205,36 @@ Page({
       url: '../songList/songList?songListId='+sli,
       
     })
+  },
+  delComment:function(e){
+    console.log("delcomm");
+    //获取列表中要删除项的下标
+    var commentid = e.target.dataset.commentid;
+    var userid=e.target.dataset.userid;
+    var commentList = this.data.commentList;
+    console.log("userid"+userid);
+    console.log("commid"+commentid);
+    //移除列表中下标为MusiclistId的项
+    commentList.splice(commentid, 1);
+    console.log(commentList);
+    this.setData({
+      commentList: commentList
+    })
+    var value = wx.getStorageSync('userid');
+    var that = this;
+    wx.request({
+      url: `${config.service.host}/Comment_delete`,
+      data: {
+        CommentId:commentid,
+        UserId: userid
+      },
+      success: function (res) {
+        console.log("del suc");
+      },
+      fail:function(err){
+        console.log(err);
+      }
+    })
   }
 });
 

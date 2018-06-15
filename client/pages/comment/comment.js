@@ -172,6 +172,8 @@ Page({
   },
   //点赞
   like:function(e){
+    console.log("test");
+    console.log(e.target.dataset.test);
     var tempIndex = e.target.dataset.idx;
     console.log("tempIndex" + tempIndex);
     console.log(this.data.commentList[tempIndex]);
