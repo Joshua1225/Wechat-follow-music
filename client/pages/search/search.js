@@ -53,17 +53,17 @@ Page({
     //   })
     //   return
     // }
-      if(that.data.musicloadingComplete==true)
+      if(that.data.musicLoadingComplete==true)
       {
         that.setData({
-          musicloading: false,
-          musicloadingComplete: true
+          musicLoading: false,
+          musicLoadingComplete: true
         })
         return
       }
       that.setData({
-        musicloading: true,
-        musicloadingComplete: false
+        musicLoading: true,
+        musicLoadingComplete: false
       })
   
     wx.request({
@@ -79,16 +79,16 @@ Page({
           that.data.result.concat(res.data)
           console.log(that.data.result.concat(res.data))
           that.setData({
-            musicloading: false,
-            musicloadingComplete: false,
+            musicLoading: false,
+            musicLoadingComplete: false,
             result: that.data.result.concat(res.data)
           })
         }
         else
         {
           that.setData({
-            musicloading: false,
-            musicloadingComplete: true
+            musicLoading: false,
+            musicLoadingComplete: true
           })
         }
          
@@ -158,8 +158,8 @@ Page({
       confirmFlag: true,
       start:0,
       result: [],
-      musicloading: true,
-      musicloadingComplete: false
+      musicLoading: true,
+      musicLoadingComplete: false
     });
     //Add history
     if (this.data.historyRec == null)

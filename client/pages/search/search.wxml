@@ -38,6 +38,6 @@
         </view>
         <view hidden='{{!musicLoading}}'><image  style="width: 48rpx;height: 48rpx"  src='../../src/loading.gif'/>正在载入更多..
         </view>
-        <view class="loadingText" hidden='false'>已加载全部</view>
+        <view class="loadingText" hidden='{{!musicLoadingComplete}}'>已加载全部</view>
         </scroll-view>
 </view>
