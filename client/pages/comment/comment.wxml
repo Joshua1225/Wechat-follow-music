@@ -15,7 +15,8 @@
                 
             </view>
         </view>
-        <!--加载中--><scroll-view scroll-y='true' style='height:875rpx' bindscrolltolower="getLowerComment" bindscrolltoupper="getUpperComment">
+
+        <!--加载中--><scroll-view scroll-y='true' style='height:875rpx' bindscrolltoupper="getUpperComment" bindscrolltolower="getLowerComment">
         <view hidden='{{!loadingUpper}}'><image  style="width: 48rpx;height: 48rpx"  src='../../src/loading.gif'/>正在载入更多..
         </view>
         <view wx:for="{{commentList}}"  class="music">
@@ -34,27 +35,21 @@
         </scroll-view>
 
         <!--输入评论-->
-        <view style='display:flex;position:relative;flex-direction:row;'>
-        
-            <view class="weui-search-bar__form">            
-                <view class="weui-search-bar__box">
-                    <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
-                    <input type="text" class="weui-search-bar__input" placeholder="输入歌手名、歌曲名搜索" value="{{inputVal}}" focus="{{inputShowed}}" bindinput="inputTyping" bindconfirm='insertComment' />
+         <view class="bottom-all">        
+            <view class="search-header">            
+                <view class="input-box">
+                    <icon class="input-box-icon" type="search" size="14"></icon>
+                    <input type="text" class="keyword" placeholder="输入歌手名、歌曲名搜索" value="{{inputVal}}" focus="{{inputShowed}}" bindinput="inputTyping" bindconfirm='insertComment' />
                     <view class="weui-icon-clear" wx:if="{{inputVal.length > 0}}" bindtap="clearInput">
                          <icon type="clear" size="14" bindtap="hideInput"></icon>
                     </view>
                 </view>
-
-                <label class="weui-search-bar__label" hidden="{{inputShowed}}" bindtap="showInput">
+                <label style="" class="label-all" hidden="{{inputShowed}}" bindtap="showInput">
                     <icon class="weui-icon-search" type="search" size="13"></icon>
-                    <view class="weui-search-bar__text">输入歌手名、歌曲名搜索</view>
+                    <view class="label-text">输入歌手名、歌曲名搜索</view>
                 </label>
             </view>
-
-            <view class="search_button" hidden="{{!inputShowed}}" bindtap="insertComment">发表</view>   
-        </view>
-              
-            
-
+            <view class="right" hidden="{{!inputShowed}}" bindtap="insertComment">发表</view>   
+        </view>          
     </view>
 </view>

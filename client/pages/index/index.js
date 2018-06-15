@@ -2,7 +2,8 @@
 var config = require('../../config')
 var innerAudioContext = wx.createInnerAudioContext()
 const Lyric = require('../../utils/lyric.js')
-var imageUtil = require('../../utils/util.js');
+var imageUtil = require('../../utils/util.js')
+var favorite 
 Page({
 
   /**
@@ -86,16 +87,35 @@ Page({
   f_2_0: function (event) {
     var up = "iconList_2[0].imagePath";
     var op = "iconList_2[0].i";
-    if (this.data.iconList_2[0].i == 0) {
-      this.setData({
-        [up]: "../../src/dislike.png",
-        [op]: 1
+    var that = this
+    if (that.data.iconList_2[0].i == 0) {
+      wx.request({
+        url: `https://hy6e9qbe.qcloud.la/Musiclist_controller/Musiclist_add`,
+        data: {
+          musiclistid: favorite,
+          musicid: that.data.musicList[that.data.musicListIndex]['id']
+        },
+        success: function (res) {
+          that.setData({
+            [up]: "../../src/dislike.png",
+            [op]: 1
+          })
+        }
       })
     }
     else {
-      this.setData({
-        [up]: "../../src/like.png",
-        [op]: 0
+      wx.request({
+        url: `https://hy6e9qbe.qcloud.la/Musiclist_controller/Musiclist_delete`,
+        data: {
+          musiclistid: favorite,
+          musicid: that.data.musicList[that.data.musicListIndex]['id']
+        },
+        success: function (res) {
+          that.setData({
+            [up]: "../../src/like.png",
+            [op]: 0
+          })
+        }
       })
     }
   },
@@ -211,6 +231,7 @@ Page({
       this.setTitle()
       this.getPicture()
       this.getLyric()
+      this.isFavorite()
       var up = "iconList_3[2].imagePath"
       var op = "iconList_3[2].i"
       if (this.data.iconList_3[2].i == 0) {
@@ -384,18 +405,16 @@ Page({
         musicListIndex: this.data.musicListIndex % arr.length
       })
       innerAudioContext.src = 'http://140.143.149.22/music/' + this.data.musicList[this.data.musicListIndex]['id'] + '.mp3'
-      this.getLyric()
-      this.getPicture()
     }
     else
     {
       innerAudioContext.destroy()
       innerAudioContext=wx.createInnerAudioContext()
-      this.setData({
-        lyric:null,
-        picturePath:''
-      })
     }
+    this.getLyric()
+    this.getPicture()
+    this.isFavorite()
+    this.setTitle()
     var up = "iconList_3[2].imagePath"
     var op = "iconList_3[2].i"
     this.setData({
@@ -435,6 +454,47 @@ Page({
     })
   },
 
+  //是否是喜欢的歌曲
+  isFavorite:function()
+  {
+    var that =this
+    var up = "iconList_2[0].imagePath";
+    var op = "iconList_2[0].i";
+    if (this.data.musicList.length != 0)
+    {
+      wx.request({
+        url: 'https://hy6e9qbe.qcloud.la/Musiclist_controller/Musiclist_contains',
+        data:{
+          musiclistid: favorite,
+          musicid: this.data.musicList[this.data.musicListIndex]['id']
+        },
+        success: function (res) {
+          if(res.data=="bool(true)\n")
+          {
+            that.setData({
+              [up]: "../../src/dislike.png",
+              [op]: 1
+            })
+          }
+          else
+          {
+            that.setData({
+              [up]: "../../src/like.png",
+              [op]: 0
+            })
+          }
+        }
+      })
+    }
+    else
+    {
+      this.setData({
+        [up]: "../../src/like.png",
+        [op]: 0
+      })
+    }
+  },
+
   //获取封面
   getPicture:function()
   {
@@ -468,7 +528,7 @@ Page({
               lyric: currentLyric
             })
           }
-        },
+        }
       })
     }
     else
@@ -544,7 +604,6 @@ Page({
       options.musicId = null
     }
     var that = this
-    getApp().globalData.indexPage=this
     innerAudioContext.onPlay(() => {
       console.log('开始播放')
       that.getLyric()
@@ -582,10 +641,18 @@ Page({
     wx.getStorage({
       key: 'musicList',
       success: function (res) {
+        var userid = wx.getStorageSync('userid')
         that.setData({
           musicList: res.data
         })
         innerAudioContext.src = 'http://140.143.149.22/music/' + that.data.musicList[that.data.musicListIndex]['id'] + '.mp3'
+        wx.request({
+          url: `https://hy6e9qbe.qcloud.la/User_controller/getMusicList?userid=` + userid,
+          success: function (res) {
+            favorite = res.data
+            that.isFavorite()
+          }
+        })
         that.setTitle()
         that.getPicture()
         that.getLyric()

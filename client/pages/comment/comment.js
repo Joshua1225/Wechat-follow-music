@@ -275,8 +275,10 @@ Page({
             that.setData({
               start: count,
               commentList: [],
-              loadingUpperComplete:false
+              loadingUpperComplete:false,
+              loadingLowerComplete:false
             })
+            that.data.loadingLowerComplete = true
             that.getUpperComment()
           }
         })
