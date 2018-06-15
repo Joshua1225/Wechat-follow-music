@@ -17,9 +17,13 @@ Page({
     test1:"",
     test2:"",
     //评论是否点赞数组
-    musicId:""
+    musicId:"",
+    loadingLower:false,
+    loadingUpper:false,
+    loadinglowerComplete:false,
+    loadingUpperComplete:true,
+    start:0
   },
-
   onLoad: function (options) {
     console.log("options");
     console.log(options);
@@ -38,7 +42,7 @@ Page({
       })
     }
     this.getMusicInfo()
-    this.getCommentInfo()
+    this.getLowerComment()
 
     // wx.getSystemInfo({
     //   success: function (res) {
@@ -49,16 +53,10 @@ Page({
     //   }
     // });
   },//onload结束
-  inputFocus:function()
-  {
-    
-  },
   getMusicInfo:function()
   {
     var that = this;
-    
     //歌曲名称信息
-    
     var value = wx.getStorageSync('userid');
     wx.request({
       url: `${config.service.host}/Music_controller/Music_getbyid`,
@@ -67,7 +65,7 @@ Page({
       },
       success: function (res) {
         console.log("comment err");
-        console.log(res.data[0]);
+        console.log(res.data);
         that.setData({
           musicName: res.data[0].MusicName,
           musicSinger: res.data[0].MusicSinger,
@@ -79,30 +77,98 @@ Page({
     })
   },
   //点赞列表渲染
-  getCommentInfo:function()
+  getLowerComment:function()
   {
-    var value = wx.getStorageSync('userid');
     var that =this 
-    wx.showLoading({
-      title: '加载中',
-    })
+    var value = wx.getStorageSync('userid');
+    if(that.data.loadingLowerComplete==true)
+      return
+    else
+      that.setData({
+        loadingLower:true,
+        loadingLowerComplete:false
+      })
+
+    console.log(this.data.musicId)
+    console.log(this.data.start)
     wx.request({
       url: `${config.service.host}/Comment_selectbymusic`,
       data: {
+        UserId:value,
         MusicId: this.data.musicId,
-        UserId: value
+        Start: this.data.start
       },
       success: function (res) {
-        that.setData({
-          commentList: res.data
-        });
-        wx.hideLoading()
+        console.log(res)
+        if(res.data.length!=0)
+        {
+          that.setData({
+            commentList:that.data.commentList.concat(res.data),
+            loadingLower:false,
+            loadingLowerComplete:false
+          });
+        }
+        else
+        {
+          that.setData({
+            loadingLower: false,
+            loadingLowerComplete: true
+          });
+        }
       },
       fail:function(res1)
       {
-        wx.hideLoading()
+        //wx.hideLoading()
       }
     })
+    that.setData({
+      start:that.data.start+10
+    })
+  },
+  getUpperComment:function()
+  {
+    var that = this
+    var value = wx.getStorageSync('userid');
+    
+    if (that.data.loadingUpperComplete == true||that.data.start-10<0)
+      return
+    else
+      that.setData({
+        loadingUpper: true,
+        loadingUpperComplete: false
+      })
+    wx.request({
+      url: `${config.service.host}/Comment_selectbymusic`,
+      data: {
+        UserId:value,
+        MusicId: this.data.musicId,
+        Start: this.data.start-10
+      },
+      success: function (res) {
+        if (res.data.length != 0) {
+          console.log(res)
+          that.setData({
+            commentList: res.data.concat(that.data.commentList),
+            loadingUpper: false,
+            loadingUpperComplete: false
+          });
+        }
+        else {
+          that.setData({
+            loadingUpper: false,
+            loadingUpperComplete: true
+          });
+        }
+      },
+      fail: function (res1) {
+        
+      }
+    })
+    that.setData({
+      start: that.data.start-10
+    })
+
+
   },
   //点赞
   like:function(e){
@@ -180,9 +246,7 @@ Page({
   insertComment: function () {
     var that=this;
     var value=wx.getStorageSync('userid')
-    this.setData({
-      inputShowed: false
-    });
+    
     console.log()
     //将inputVal插入这首歌的评论库
     wx.request({
@@ -196,12 +260,33 @@ Page({
         console.log(res)
         console.log("Insert!")
            //重新渲染评论列表
-        that.getCommentInfo();
+        var count
+        wx.request({
+          url: `${config.service.host}/Comment_count`,
+          data:{
+            MusicId:that.data.musicId
+          },
+          success:function(res)
+          {
+            console.log(res.data)
+            count = res.data
+              
+            that.data.loadingLowerComplete=true
+            that.setData({
+              start: count,
+              commentList: [],
+              loadingUpperComplete:false
+            })
+            that.getUpperComment()
+          }
+        })
+        
       },
       fail:function(err){
         console.log(err);
       }
     })
+    this.clearInput()
   },
   //清楚评论内容
   clearInput: function () {

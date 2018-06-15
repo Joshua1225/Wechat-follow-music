@@ -15,7 +15,9 @@
                 
             </view>
         </view>
-        <!--加载中--><scroll-view style='height:10000rpx'>
+        <!--加载中--><scroll-view scroll-y='true' style='height:875rpx' bindscrolltolower="getLowerComment" bindscrolltoupper="getUpperComment">
+        <view hidden='{{!loadingUpper}}'><image  style="width: 48rpx;height: 48rpx"  src='../../src/loading.gif'/>正在载入更多..
+        </view>
         <view wx:for="{{commentList}}"  class="music">
               <view class="former-music" >
               </view>
@@ -26,30 +28,31 @@
               <image wx:if="{{item.IsLike==false}}" src="../../src/like.png"  data-Likes="{{item.Likes}}" data-IsLike="{{item.IsLike}}"  bindtap='like' data-idx='{{index}}' data-id='{{item.CommentId}}' class="delete-item"></image>
               <image wx:else  src="../../src/dislike.png" data-Likes="{{item.Likes}}" data-IsLike="{{item.IsLike}}"  bindtap="delLike" data-idx='{{index}}' data-id='{{item.CommentId}}' class="delete-item"></image>
         </view>
+        <view hidden='{{!loadingLower}}'><image  style="width: 48rpx;height: 48rpx"  src='../../src/loading.gif'/>正在载入更多..
+        </view>
+        <view class="loadingText" hidden='{{!loadingLowerComplete}}'>已加载全部</view>
         </scroll-view>
 
         <!--输入评论-->
+        <view style='display:flex;position:relative;flex-direction:row;'>
         
-            <view class="search-header">
-
-            
-
-                <view class="input-box">
+            <view class="weui-search-bar__form">            
+                <view class="weui-search-bar__box">
                     <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
-                    <input type="text" class="weui-search-bar__input" placeholder="输入歌手名、歌曲名搜索" value="{{inputVal}}" focus="{{inputShowed}}" bindinput="inputTyping" bindconfirm='inputConfirm' />
+                    <input type="text" class="weui-search-bar__input" placeholder="输入歌手名、歌曲名搜索" value="{{inputVal}}" focus="{{inputShowed}}" bindinput="inputTyping" bindconfirm='insertComment' />
                     <view class="weui-icon-clear" wx:if="{{inputVal.length > 0}}" bindtap="clearInput">
                          <icon type="clear" size="14" bindtap="hideInput"></icon>
                     </view>
                 </view>
 
                 <label class="weui-search-bar__label" hidden="{{inputShowed}}" bindtap="showInput">
-                    <view class="weui-search-bar__text">请输入评论</view>
+                    <icon class="weui-icon-search" type="search" size="13"></icon>
+                    <view class="weui-search-bar__text">输入歌手名、歌曲名搜索</view>
                 </label>
-                <view class="right" hidden="{{!inputShowed}}" bindtap="insertComment">发表</view>
-
             </view>
-            
 
+            <view class="search_button" hidden="{{!inputShowed}}" bindtap="insertComment">发表</view>   
+        </view>
               
             
 

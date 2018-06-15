@@ -1,6 +1,7 @@
  <view class="page">
 
         <view class="weui-search-bar search_bar">
+        
             <view class="weui-search-bar__form">            
                 <view class="weui-search-bar__box">
                     <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
