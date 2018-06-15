@@ -46,63 +46,82 @@
 
 .bottom-all{
   display:flex;
-  flex-direction: row;
+  position:relative;
+  flex-direction:row;
+  padding-top:0rpx;
+    padding-bottom: 0rpx;
+    margin-top:0rpx;
+    margin-bottom: 0rpx;
+    font-size:20px;
 }
-.search-header{
-    position: fixed;
-    bottom: 0;
-    width: 500rpx;
-    height: 91rpx;
-    background: #fff;
-    border-bottom: 1px solid rgba(0,0,0,.15);
-    padding: 0 31.25rpx;
-    font-size: 29rpx;
-    color: #333;
-    display:flex;
-    flex-direction: row;
-    flex:5;
-    margin:0px;
+ .search-header{
+  position:relative;
+  flex:auto;
+  background:#fff;
+  padding:0rpx;
 }
 
-.search-header .input-box{
-    position: relative;
-    margin-bottom: 16rpx;
-    float: left;
-    flex: 5;
-    height:70rpx;
-    line-height: 70rpx;
-    padding: 0 20rpx;
-    background: #f4f4f4;
-    display:flex;
-    flex-direction: row;
+.input-box{
+    margin-left: 30rpx;
+    position:relative;
+    padding-left:30px;
+    padding-right:5px;
+    width:90%;
+    height:100%;
+    box-sizing:border-box;
+    z-index:1;
+    background-color:#F5F5F5;
 }
 
 .input-box-icon{
-  height:50rpx;
-  width:50rpx;
+ position:absolute;
+ left:10px;top:7px;
+ size:80px;
 }
 
-.bottom-all .del{
-    height: 53rpx;
-    flex:2;
+.del{
+    position:absolute;
+    top:0;
+    right:0;
+    padding:7px 8px;
+    font-size:0
 }
 
-.search-header .keywrod{
-    position: absolute;
-    top: 0;
-    left: 40rpx;
-    width: 506rpx;
-    height: 59rpx;
-    padding-left: 30rpx;
+.keywrod{
+    height:28px;
+    line-height:28px;
+    font-size:1ch;
+    font-family: 'YouYuan';
 }
 
-.search-header .right{
-    margin-top: 24rpx;
+.right{
+    margin-top: 5rpx;
+    margin-bottom:33rpx;
     margin-left: 31rpx;
-    margin-right: 6rpx;
+    margin-right: 10rpx;
     width: 58rpx;
     height: 43rpx;
     line-height: 43rpx;
     float: right;
     flex:2;
+    font-family:'YouYuan';
+}
+
+.label-all{
+  position:absolute;
+  top:0;right:0;
+  bottom:0;
+  left:0;
+  z-index:2;
+  border-radius:3px;
+  text-align:center;
+  color:#9b9b9b;
+  background:#fff;
+  line-height:40rpx;
+
+}
+.label-text{
+  display:inline-block;
+  font-size:40rpx;
+  vertical-align:middle
 }
