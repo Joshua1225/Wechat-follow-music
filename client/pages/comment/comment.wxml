@@ -23,7 +23,7 @@
               <view class="former-music" >
               </view>
               <view id='{{item.MusiclistId}}' bindtap='playSong' data-userid="{{item.UserId}}" data-musicid="{{item.MusicId}}" class="music-item"  >
-                 {{item.UserInfo.nickName}}:{{item.Content}} 
+                 {{item.UserInfo['nickName']}}:{{item.Content}} 
               </view>
               <text class="likeNum">{{item.Likes}}</text>
               <image wx:if="{{item.IsLike==false}}" src="../../src/like.png"  data-test="{{item}}" data-Likes="{{item.Likes}}" data-IsLike="{{item.IsLike}}"  bindtap='like' data-idx='{{index}}' data-id='{{item.CommentId}}' class="delete-item"></image>
