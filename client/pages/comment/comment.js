@@ -66,6 +66,7 @@ Page({
       success: function (res) {
         console.log("comment err");
         console.log(res.data);
+        
         that.setData({
           musicName: res.data[0].MusicName,
           musicSinger: res.data[0].MusicSinger,
@@ -100,6 +101,11 @@ Page({
       },
       success: function (res) {
         console.log(res)
+        
+         
+          console.log(res.data[0].UserInfo)
+          console.log(JSON.parse(res.data[0].UserInfo))
+      
         if(res.data.length!=0)
         {
           that.setData({

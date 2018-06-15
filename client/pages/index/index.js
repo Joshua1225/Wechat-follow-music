@@ -32,8 +32,7 @@ Page({
         func: "f_1_0"
       },
       {
-        imagePath: "../../src/share.png",
-        func: "f_1_1"
+        imagePath: "../../src/share.png"
       }
     ],
     iconList_2: [

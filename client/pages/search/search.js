@@ -154,6 +154,9 @@ Page({
     });
   },
   inputConfirm: function (e) {
+    if(this.data.inputVal==''){
+      return
+    }
     this.setData({
       confirmFlag: true,
       start:0,
