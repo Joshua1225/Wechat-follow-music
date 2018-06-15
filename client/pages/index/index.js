@@ -614,6 +614,14 @@ Page({
       console.log(res.errMsg)
       console.log(res.errCode)
     })
+    innerAudioContext.onPause((res) => {
+      var up = "iconList_3[2].imagePath"
+      var op = "iconList_3[2].i"
+      that.setData({
+        [up]: "../../src/play.png",
+        [op]: 0
+      })
+    })
     innerAudioContext.onEnded(() => {
       var musicListIndex = this.data.musicListIndex
       var musicListLength = this.data.musicList.length
