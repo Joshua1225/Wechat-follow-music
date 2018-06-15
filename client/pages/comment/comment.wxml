@@ -16,15 +16,13 @@
             </view>
         </view>
         <!--加载中-->
-       
-        <view wx:for="{{commentList}}"  class="weui-cell weui-cell_access" hover-class="weui-cell_active">0
-            <view>
+       <scroll-view>
+        <view wx:for="{{commentList}}"  class="weui-cell weui-cell_access" hover-class="weui-cell_active">
                 {{index+1}}:{{item.Content}}    {{item.Likes}}
-            </view>
             <image wx:if="{{item.IsLike==false}}" src="../../src/like.png"  data-Likes="{{item.Likes}}" data-IsLike="{{item.IsLike}}" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;" bindtap='like' data-idx='{{index}}' data-id='{{item.CommentId}}'></image>
             <image wx:else  src="../../src/dislike.png" data-Likes="{{item.Likes}}" data-IsLike="{{item.IsLike}}" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;" bindtap="delLike" data-idx='{{index}}' data-id='{{item.CommentId}}'></image>
         </view>
-
+      </scroll-view>
         <!--输入评论-->
         <view class="weui-search-bar">
             <view class="weui-search-bar__form">

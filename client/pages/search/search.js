@@ -44,20 +44,20 @@ Page({
   getMusic:function()
   {
     var that=this
-    if(this.data.start>=this.data.count)
-    {
-      this.setData({
-        musicloading: false,
-        musicloadingComplete: true
-      })
-      return
-    }
-    else{
-      this.setData({
+    // if(this.data.start>=this.data.count)
+    // {
+    //   this.setData({
+    //     musicloading: false,
+    //     musicloadingComplete: true
+    //   })
+    //   return
+    // }
+    
+      that.setData({
         musicloading: true,
         musicloadingComplete: false
       })
-    }
+
   
     wx.request({
       url: `${config.service.musicUrl}/music_search`,
@@ -67,17 +67,12 @@ Page({
       },
       success:function(res)
       {
-        var tmp=[]
-        for(i in res.data)
-        {
-          tmp.push(res.data[i])
-        }
-        console.log(tmp)
+        console.log(res)
+        
         that.setData({
           musicloading: false,
           musicloadingComplete: false,
           start:that.data.start+10,
-          count:res.data.count,
           result:res.data
         })
       }
