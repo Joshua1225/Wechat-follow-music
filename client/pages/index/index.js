@@ -238,7 +238,7 @@ Page({
         musicListIndex: Math.floor(Math.random() * musicListLength)
       })
     }
-    else {
+    else if (this.data.playMode == 1){
       this.setData({
         musicListIndex: (musicListIndex + musicListLength - 1) % musicListLength
       })
@@ -301,7 +301,7 @@ Page({
         musicListIndex: Math.floor(Math.random() * musicListLength)
       })
     }
-    else {
+    else if (this.data.playMode == 0){
       this.setData({
         musicListIndex: (musicListIndex + 1) % musicListLength
       })
