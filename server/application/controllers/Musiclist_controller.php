@@ -237,11 +237,12 @@ class Musiclist_controller extends CI_Controller
     public function Musiclist_contains()
     {
         $this->load->model('Musiclist_model');
+
         try{
             $this->Musiclist_model->init();
             if(!array_key_exists('musicid',$_GET) || !array_key_exists('musiclistid',$_GET))
             {
-                throw new Exception( Constrants::E_PARAM_NOT_EXIST);
+                throw new Exception( 'E_PARAM_NOT_EXIST');
             }
 
             var_dump($this->Musiclist_model->Musiclist_contains($_GET['musiclistid'],$_GET['musicid']));
