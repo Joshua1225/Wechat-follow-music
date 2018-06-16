@@ -75,7 +75,7 @@
 
 }
 .page{
-  height: 50ch;
+  height: 100vh;
   background: 	#F5F5F5;
   
 }
@@ -83,12 +83,12 @@
   padding:1px 2px; 
 }
 .search_button{
-  margin-left:5rpx;
   line-height:28rpx;
   color:#000000;
   white-space:nowrap;
-  margin-right:5rpx;
-  
+  margin:auto;
+  display:flex;
+  align-items:center
 }
 
 .history-search{
