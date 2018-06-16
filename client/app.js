@@ -38,7 +38,7 @@ App({
                     wx.request({
                       url: config.service.authUrl,
                       data: {
-                        userid: value
+                        userid:res3.data
                       },
                       success: function (res4) {
                         if (res4.data == 'bool(true)\n')
@@ -48,7 +48,7 @@ App({
                     wx.request({
                       url: `${config.service.userUrl}/getMusicList`,
                       data: {
-                        userid: value
+                        userid:res3.data
                       },
                       success: function (res5) {
                         getApp().globalData.favorite = res5.data

@@ -231,9 +231,9 @@ Page({
   
   //跳转歌单页面!!!!!!!!!!!!
   toSongList:function(e){
-    //console.log(e.target.id)
+    console.log(e.target.id)
     
-    var sli = (e.target.id);
+    var sli = e.target.id;
     this.setData({
       hidden:true
     })

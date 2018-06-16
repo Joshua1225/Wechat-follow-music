@@ -17,11 +17,11 @@
     "list": [
       {
         "pagePath": "pages/index/index",
-        "text": "首页"
+        "text": "正在播放"
       },
       {
         "pagePath": "pages/info/info",
-        "text": "日志"
+        "text": "个人信息"
       }
     ]
   }
