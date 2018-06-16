@@ -130,7 +130,7 @@ class User_model extends CI_Model
         $query = $this->db->query('select count(*) from User where password = \''.$password.'\'');
 
         $exist =  (bool)$query->result_array()[0]['count(*)'];
-
+        echo Constrants::E_CANNOT_DELETE_FAVORITE;
         if(!$exist) throw new Exception(Constrants::E_LOGIN_ERROR);           ///不存在用户的情况
 
         ///存在用户时取得其id

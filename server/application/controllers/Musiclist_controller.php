@@ -177,7 +177,7 @@ class Musiclist_controller extends CI_Controller
             {
                 throw new Exception( Constrants::E_PARAM_NOT_EXIST);
             }
-
+            $this->User_model->password=$_GET['userid'];
             if(!$this->User_model->User_islogin()) throw new Exception(Constrants::E_LOGIN_ERROR);
             $userid=$this->User_model->User_getid($_GET['userid']);
             $musiclistid = $_GET['musiclistid'];
