@@ -263,9 +263,13 @@ Page({
           [up]: "../../src/pause.png",
           [op]: 1
         })
-        innerAudioContext.coverImgUrl = 'http://140.143.149.22/picture/' + this.data.musicList[this.data.musicListIndex]['id']
-        innerAudioContext.title = this.data.musicList[this.data.musicListIndex]['name']
-        innerAudioContext.src = 'http://140.143.149.22/music/' + this.data.musicList[this.data.musicListIndex]['id'] + '.mp3'
+        console.log(this.data.iconList_3[2].imagePath)
+        if (innerAudioContext.src != 'http://140.143.149.22/music/' + this.data.musicList[this.data.musicListIndex]['id'] + '.mp3')
+        {
+          innerAudioContext.coverImgUrl = 'http://140.143.149.22/picture/' + this.data.musicList[this.data.musicListIndex]['id']
+          innerAudioContext.title = this.data.musicList[this.data.musicListIndex]['name']
+          innerAudioContext.src = 'http://140.143.149.22/music/' + this.data.musicList[this.data.musicListIndex]['id'] + '.mp3'
+        }
         innerAudioContext.play()
         console.log('innerAudioContext.src:'+innerAudioContext.src)
       }
@@ -274,7 +278,8 @@ Page({
           [up]: "../../src/play.png",
           [op]: 0
         })
-        innerAudioContext.pause()
+        console.log(this.data.iconList_3[2].imagePath)
+        innerAudioContext.pause(this.data.iconList_3[2].imagePath)
       }
     }
     else
@@ -283,6 +288,7 @@ Page({
         [up]: "../../src/play.png",
         [op]: 0
       })
+      console.log(this.data.iconList_3[2].imagePath)
     }
   },
 
@@ -322,20 +328,7 @@ Page({
   //进度条相关
   updateTime: function (that) {
 
-    innerAudioContext.onTimeUpdate((res) => {
-
-      //更新时把当前的值给slide组件里的value值。slide的滑块就能实现同步更新
-
-
-      that.setData({
-        duration: innerAudioContext.duration.toFixed(2) * 100,
-        curTimeVal: innerAudioContext.currentTime.toFixed(2) * 100,
-      })
-      if (that.data.lyric) {
-        that.handleLyric(innerAudioContext.currentTime*1000)
-      }
-      
-    })
+    
   },
   //拖动滑块
 
@@ -353,7 +346,7 @@ Page({
     this.f_3_2()
     innerAudioContext.seek(curval / 100); //让滑块跳转至指定位置
 
-    this.updateTime(that) //注意这里要继续出发updataTime事件，
+    //this.updateTime(that) //注意这里要继续出发updataTime事件，
   },
 
   //播放列表点击播放
@@ -450,6 +443,16 @@ Page({
         })
       }
     }
+    else
+    {
+      innerAudioContext.stop()
+      var op = "iconList_3[2].i"
+      this.setData({
+        [op]: 1
+      })
+      this.isFavorite()
+      this.f_3_2()
+    }
     this.getLyric()
     this.getPicture()
     this.setTitle()
@@ -540,7 +543,7 @@ Page({
       this.setData({
         picturePath: 'http://140.143.149.22/picture/0'
       })
-      //innerAudioContext.coverImgUrl = 'http://140.143.149.22/picture/0'
+      innerAudioContext.coverImgUrl = 'http://140.143.149.22/picture/0'
     }
   },
 
@@ -642,7 +645,7 @@ Page({
       console.log('开始播放')
       that.getLyric()
       console.log(innerAudioContext.src)
-      that.updateTime(that)
+      //that.updateTime(that)
       var up = "iconList_3[2].imagePath"
       var op = "iconList_3[2].i"
       that.setData({
@@ -655,20 +658,34 @@ Page({
       console.log(res.errCode)
     })
     innerAudioContext.onPause((res) => {
-      var up = "iconList_3[2].imagePath"
+      /*var up = "iconList_3[2].imagePath"
       var op = "iconList_3[2].i"
       that.setData({
         [up]: "../../src/play.png",
         [op]: 0
-      })
+      })*/
     })
     innerAudioContext.onStop((res) => {
-      var up = "iconList_3[2].imagePath"
+      /*var up = "iconList_3[2].imagePath"
       var op = "iconList_3[2].i"
       that.setData({
         [up]: "../../src/play.png",
         [op]: 0
+      })*/
+    })
+    innerAudioContext.onTimeUpdate((res) => {
+
+      //更新时把当前的值给slide组件里的value值。slide的滑块就能实现同步更新
+
+
+      that.setData({
+        duration: innerAudioContext.duration.toFixed(2) * 100,
+        curTimeVal: innerAudioContext.currentTime.toFixed(2) * 100,
       })
+      if (that.data.lyric) {
+        that.handleLyric(innerAudioContext.currentTime * 1000)
+      }
+
     })
     innerAudioContext.onEnded(() => {
       var musicListIndex = this.data.musicListIndex
@@ -714,8 +731,6 @@ Page({
         that.getLyric()
       }
     })
-    innerAudioContext.stop()
-    innerAudioContext.pause()
     this.setData({
       isLight: true,
       listBgColor: this.dealColor('14737632')
