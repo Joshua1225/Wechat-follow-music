@@ -1,11 +1,12 @@
 {
   "pages":[
     "pages/info/info",
-    "pages/comment/comment",
-    
     "pages/index/index",
     
     "pages/songList/songList",
+    
+    "pages/comment/comment",
+    
     "pages/search/search"
   ],
   "window":{
