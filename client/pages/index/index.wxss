@@ -50,14 +50,22 @@
   justify-content: space-between;
   align-items: center;
 }
+.container2{
+  height:95vh;
+}
 .return-button{
   background:rgb(200,200,200);
   width:750rpx;
-  height: 100rpx
+  height: 10vh
 }
 .return-image{
   width:300rpx;
   height: 100rpx
+}
+.clear-button{
+  background:rgb(200,200,200);
+  width:750rpx;
+  height: 10vh
 }
 .swiper_cover_lyric{
   width: 100%;
