@@ -182,7 +182,7 @@ Page({
       clickGood:false
     })
     wx.showLoading({
-      title: '点赞~~~',
+      title: '正在点赞',
     })
     console.log("test");
     console.log(e.target.dataset.test);
@@ -304,9 +304,10 @@ Page({
           },
           success:function(res)
           {
-            console.log(res.data)
-            count = res.data
-              
+            var count = parseInt(res.data)
+            if(count<10)
+              count=10
+            
             that.data.loadingLowerComplete=true
             that.setData({
               start: count,
