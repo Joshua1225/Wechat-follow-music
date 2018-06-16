@@ -83,7 +83,7 @@ Page({
           userinfo: e.detail.userInfo
         }
       })
-     
+      getApp().globalData.authorized = true
       //用户按了允许授权按钮
     } else {
       //用户按了拒绝按钮
