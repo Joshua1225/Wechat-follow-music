@@ -41,25 +41,33 @@ class Musiclist_controller extends CI_Controller
             {
                 throw new Exception( Constrants::E_PARAM_NOT_EXIST);
             }
+            $start = 0;
+            if(array_key_exists('start',$_GET)) $start = $_GET['start'];
+            echo $this->Musiclist_model->Musiclist_musics($_GET['id'],$start);
         }
         catch (Exception $e)
         {
             echo Constrants::E_Catch($e);
             return;
         }
-        echo $this->Musiclist_model->Musiclist_musics($_GET['id']);
+
 
     }
 
     public function Musiclist_getbyuserid()
     {
         $this->load->model('Musiclist_model');
+        $this->load->model('User_model');
+
         try{
             $this->Musiclist_model->init();
             if(!array_key_exists('userid',$_GET))
             {
                 throw new Exception( Constrants::E_PARAM_NOT_EXIST);
             }
+
+            $this->User_model->password = $_GET['userid'];
+            if(!$this->User_model->User_islogin()) throw new Exception(Constrants::E_LOGIN_ERROR);
 
             echo $this->Musiclist_model->Musiclist_getbyuserid($_GET['userid']);
         }
@@ -74,13 +82,15 @@ class Musiclist_controller extends CI_Controller
     public function Musiclist_insert()
     {
         $this->load->model('Musiclist_model');
-        $this->load->model('User');
+        $this->load->model('User_model');
         try{
             $this->Musiclist_model->init();
             if(!array_key_exists('name',$_GET) || !array_key_exists('userid',$_GET))
             {
                 throw new Exception( Constrants::E_PARAM_NOT_EXIST);
             }
+            $this->User_model->password=$_GET['userid'];
+            if(!$this->User_model->User_islogin()) throw new Exception(Constrants::E_LOGIN_ERROR);
         }
         catch (Exception $e)
         {
@@ -88,7 +98,7 @@ class Musiclist_controller extends CI_Controller
             return;
         }
         $this->Musiclist_model->MusiclistName=$_GET['name'];
-        $this->Musiclist_model->UserId=$this->User->User_getid($_GET['userid']);
+        $this->Musiclist_model->UserId=$this->User_model->User_getid($_GET['userid']);
         try{
             var_dump($this->Musiclist_model->Musiclist_insert());
         }
@@ -155,6 +165,87 @@ class Musiclist_controller extends CI_Controller
             return;
         }
 
+    }
+
+    public function Musiclist_remove()
+    {
+        $this->load->model('Musiclist_model');
+        try{
+            $this->Musiclist_model->init();
+            if(!array_key_exists('id',$_GET))
+            {
+                throw new Exception( Constrants::E_PARAM_NOT_EXIST);
+            }
+            var_dump($this->Musiclist_model->Musiclist_remove($_GET['id']));
+        }
+        catch (Exception $e)
+        {
+            echo Constrants::E_Catch($e);
+            return;
+        }
+
+    }
+
+    public  function Musiclist_copy()
+    {
+        $this->load->model('Musiclist_model');
+        $this->load->model('User_model');
+        try{
+            $this->Musiclist_model->init();
+            if(!array_key_exists('musiclistid',$_GET) || !array_key_exists('userid',$_GET))
+            {
+                throw new Exception( Constrants::E_PARAM_NOT_EXIST);
+            }
+
+            $this->User_model->password = $_GET['userid'];
+            if(!$this->User_model->User_islogin()) throw new Exception(Constrants::E_LOGIN_ERROR);
+
+            var_dump($this->Musiclist_model->Musiclist_copy($_GET['musiclistid'],$this->User_model->User_getid($_GET['userid'])));
+        }
+        catch (Exception $e)
+        {
+            echo Constrants::E_Catch($e);
+            return;
+        }
+    }
+
+    public function Musiclist_musicscount()
+    {
+        $this->load->model('Musiclist_model');
+        try{
+            $this->Musiclist_model->init();
+            if(!array_key_exists('id',$_GET))
+            {
+                throw new Exception( Constrants::E_PARAM_NOT_EXIST);
+            }
+
+            echo $this->Musiclist_model->Musiclist_musicscount($_GET['id']);
+        }
+        catch (Exception $e)
+        {
+            echo Constrants::E_Catch($e);
+            return;
+        }
+
+    }
+
+    public function Musiclist_contains()
+    {
+        $this->load->model('Musiclist_model');
+        try{
+            $this->Musiclist_model->init();
+            if(!array_key_exists('musicid',$_GET) || !array_key_exists('musiclistid',$_GET))
+            {
+                throw new Exception( Constrants::E_PARAM_NOT_EXIST);
+            }
+
+            var_dump($this->Musiclist_model->Musiclist_contains($_GET['musiclistid'],$_GET['musicid']));
+        }
+        catch (Exception $e)
+        {
+            echo Constrants::E_Catch($e);
+            return;
+        }
     }
 
 }

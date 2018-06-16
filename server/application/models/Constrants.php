@@ -16,6 +16,7 @@ class Constrants
     /* MySQL */
     // 连接数据库错误
     const E_CONNECT_TO_DB = 'E_CONNECT_TO_DB';
+
     // 插入数据错误
     const E_EXEC_SQL_QUERY = 'E_EXEC_SQL_QUERY';
 
@@ -23,8 +24,14 @@ class Constrants
     //参数不存在
     const E_PARAM_NOT_EXIST = 'E_PARAM_NOT_EXIST';
 
+    //歌单不存在
+    const E_MUSICLIST_NOT_EXIST = 'E_MUSICLIST_NOT_EXIST';
+
+    //歌单不存在
+    const E_MUSIC_NOT_EXIST = 'E_MUSIC_NOT_EXIST';
     /*登陆异常*/
     //用户id不存在或失效
     const E_LOGIN_ERROR ='E_LOGIN_ERROR';
 
+    const E_PARAM_ILLEGAL='E_PARAM_ILLEGAL';
 }

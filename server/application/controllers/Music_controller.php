@@ -22,13 +22,17 @@ class Music_controller extends CI_Controller
             {
                 throw new Exception( Constrants::E_PARAM_NOT_EXIST);
             }
+
+            $start = 0;
+            if(array_key_exists('start',$_GET)) $start = $_GET['start'];
+            echo $this->Music_model->Music_search($_GET['keywords'],$start);
         }
         catch (Exception $e)
         {
             echo Constrants::E_Catch($e);
             return;
         }
-        echo $this->Music_model->Music_search($_GET['keywords']);
+
     }
 
     public function Music_getbyid()

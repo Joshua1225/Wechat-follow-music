@@ -9,10 +9,12 @@
 class User_model extends CI_Model
 {
     public $UserId;
-    public $UserInfo;
     public $session_key;
     public $password;
     public $lastlogin;
+    public $Musiclist;
+    public $nickName;
+    public $avatarUrl;
 
     public function init()
     {
@@ -21,8 +23,47 @@ class User_model extends CI_Model
 
     public function User_insert() {
         $this->load->database();
+        $this->Musiclist=-1;
         $succeed = $this->db->insert('User',$this);
         return $succeed;
+    }
+
+    public function getMusicList()
+    {
+        $querystring = 'select MusicList from User where UserId =\''.$this->UserId.'\'';
+        $query = $this->db->query($querystring);
+        return $query->result_array()[0]['MusicList'];
+    }
+
+    public function User_updateMusicList()
+    {
+        $this->load->database();
+
+        $querystring = 'select * from User where UserId =\''.$this->UserId.'\'';
+        $query = $this->db->query($querystring);
+
+        //echo json_encode($query->result_array()[0]);
+
+        if(!key_exists('MusicList',$query->result_array()[0])) echo 123;// throw new Exception(Constrants::E_LOGIN_ERROR);
+
+        if($query->result_array()[0]['MusicList']!='-1') return;
+
+        $this->load->model('Musiclist_model');
+
+        $this->Musiclist_model->MusiclistName=md5($this->UserId);
+        $this->Musiclist_model->MusicIdList='';
+        $this->Musiclist_model->UserId=$this->UserId;
+
+        $this->Musiclist_model->Musiclist_insert();
+
+        $querystring = 'select * from Musiclist where MusiclistName =\''.md5($this->UserId).'\'';
+        $query = $this->db->query($querystring);
+
+        $querystring = 'update User set MusicList = \''.$query->result_array()[0]['MusiclistId'].'\''.
+            'where UserId = \''.$this->UserId.'\'';
+        //echo $querystring;
+        $this->db->query($querystring);
+
     }
 
     public function User_exist()
@@ -30,7 +71,7 @@ class User_model extends CI_Model
         $this->load->database();
         $query = $this->db->query('select count(*) from User where UserId = \''.$this->UserId.'\'');
         $query->result_array();
-        echo $query->result_array()[0]['count(*)'];
+        //echo $query->result_array()[0]['count(*)'];
         return (bool)$query->result_array()[0]['count(*)'];
     }
 
@@ -50,7 +91,18 @@ class User_model extends CI_Model
         $query = $this->db->query('select count(*) from User where password = \''.$passwd.'\'');
 
         $exist =  (bool)$query->result_array()[0]['count(*)'];
+        ///////////////
+        //echo ('select * from User where password = \''.$passwd.'\'');
 
+//        echo $passwd.' ';
+//        echo json_encode($query->result_array());
+//
+//        $query = $this->db->query('select * from User ');
+//
+//        echo $passwd.' ';
+//        echo json_encode($query->result_array());
+        ///////////////////////
+        //echo 'hello1';
         if(!$exist) return false;           ///不存在用户的情况
 
         ///存在用户时验证上次登陆时间，间隔不超过30天
@@ -75,7 +127,7 @@ class User_model extends CI_Model
 
         $exist =  (bool)$query->result_array()[0]['count(*)'];
 
-        if(!$exist) return 'error';           ///不存在用户的情况
+        if(!$exist) throw new Exception(Constrants::E_LOGIN_ERROR);           ///不存在用户的情况
 
         ///存在用户时取得其id
 
@@ -90,8 +142,8 @@ class User_model extends CI_Model
 
         $exist =  (bool)$query->result_array()[0]['count(*)'];
 
-        if(!$exist) return '       ///不存在用户的情况
-        error';
+        if(!$exist) return        ///不存在用户的情况
+        'error';
         ///存在用户时取得其id
 
         $query2 = $this->db->query('select password from User where UserId = \''.$userid.'\'');
@@ -133,10 +185,20 @@ class User_model extends CI_Model
             throw (new Exception(Constrants::E_LOGIN_ERROR));
         }
         $this->load->database();
-        $querystring = 'update User set UserInfo = \''.$this->UserInfo.'\''.
+
+        $querystring = 'update User set nickName = \''.$this->nickName.'\''.
+            ' ,avatarUrl = \''.$this->avatarUrl.'\''.
             'where password = \''.$this->password.'\'';
 
         $query = $this->db->query($querystring);
     }
 
+    public function User_authorization()
+    {
+        $this->load->database();
+        $query = $this->db->query('select count(*) from User where UserId = \''.$this->UserId.'\' and avatarUrl is not null');
+        $query->result_array();
+        //echo $query->result_array()[0]['count(*)'];
+        return (bool)$query->result_array()[0]['count(*)'];
+    }
 }

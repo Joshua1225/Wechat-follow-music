@@ -22,58 +22,68 @@ class User_controller extends CI_Controller
 //    }
 
     ///登陆，用户创建更新用户数据
+    /**
+     *
+     */
     public function login()
     {
+        $this->load->model('User_model');
         try{
+
             $this->User_model->init();
             if(!array_key_exists('code',$_GET))
             {
                 throw new Exception( Constrants::E_PARAM_NOT_EXIST);
             }
+
+            $get = $_GET['code'];
+
+            $url='https://api.weixin.qq.com/sns/jscode2session?appid=wx420d331ec7f1c098&secret=460d8f231cf7fb75f2c2f09f6380989d&js_code='.
+                $get.'&grant_type=authorization_code';
+            $obj = file_get_contents($url);
+            //echo $obj;
+            $html = json_decode($obj);
+            //echo $html;
+
+            if(!property_exists($html,'openid'))
+            {
+                echo 'error';
+                return;
+            }
+
+            $openid = $html->openid;
+            $session_key = $html->session_key;
+
+            $time = time();
+            $password = md5($session_key.$time);
+
+            //修改模型内容
+            $this->User_model->UserId=$openid;
+            $this->User_model->session_key = $session_key;
+            $this->User_model->password = $password;
+            $this->User_model->lastlogin = $time;
+            /////
+            ///
+            /// 判断用户是否存在
+            if($this->User_model->User_exist())
+            {
+                $this->User_model->User_update();
+                //sleep(0.5);
+                $this->User_model->User_updateMusicList();
+            }
+            else
+            {
+                $this->User_model->User_insert();
+                //sleep(0.5);
+                $this->User_model->User_updateMusicList();
+            }
+            echo  $password;
         }
         catch (Exception $e)
         {
             echo Constrants::E_Catch($e);
             return;
         }
-            $get = $_GET['code'];
-
-        $url='https://api.weixin.qq.com/sns/jscode2session?appid=wx420d331ec7f1c098&secret=460d8f231cf7fb75f2c2f09f6380989d&js_code='.
-            $get.'&grant_type=authorization_code';
-        $obj = file_get_contents($url);
-        //echo $obj;
-        $html = json_decode($obj);
-        //echo $html;
-
-        if(!property_exists($html,'openid'))
-        {
-            echo 'error';
-            return;
-        }
-
-        $openid = $html->openid;
-        $session_key = $html->session_key;
-        $this->load->model('User_model');
-        $time = time();
-        $password = md5($session_key.$time);
-
-        //修改模型内容
-        $this->User_model->UserId=$openid;
-        $this->User_model->session_key = $session_key;
-        $this ->User_model->password = $password;
-        $this->User_model->lastlogin = $time;
-        /////
-        ///
-        /// 判断用户是否存在
-        if($this->User_model->User_exist())
-        {
-            $this->User_model->User_update();
-        }
-        else
-        {
-            $this->User_model->User_insert();
-        }
-        echo  $password;
     }
 
     ///验证登陆状态
@@ -110,20 +120,16 @@ class User_controller extends CI_Controller
                 throw new Exception( Constrants::E_PARAM_NOT_EXIST);
             }
             $password = $_GET['userid'];
-            $userinfo = $_GET['userinfo'];
-        }
-        catch (Exception $e)
-        {
-            echo Constrants::E_Catch($e);
-            return;
-        }
+            $info = json_decode($_GET['userinfo']);
 
+            $userinfo = array();
+            $userinfo['nickName'] = $info->nickName;
+            $userinfo['avatarUrl'] = $info->avatarUrl;
 
+            $this ->User_model->password = $password;
+            $this ->User_model->nickName = $info->nickName;
+            $this ->User_model->avatarUrl = $info->avatarUrl;
 
-        $this ->User_model->password = $password;
-        $this ->User_model->UserInfo = $userinfo;
-
-        try {
             $this->User_model->User_updateinfo();
         }
         catch (Exception $e)
@@ -131,4 +137,43 @@ class User_controller extends CI_Controller
             echo Constrants::E_Catch($e);
         }
     }
+
+    public function getMusicList()
+    {
+        try{
+            $this->load->model('User_model');
+            if(!array_key_exists('userid',$_GET))
+            {
+                throw new Exception( Constrants::E_PARAM_NOT_EXIST);
+            }
+
+            $this->User_model->UserId = $this->User_model->User_getid ($_GET['userid']);
+            echo $this->User_model->getMusicList();
+        }
+        catch (Exception $e)
+        {
+            echo Constrants::E_Catch($e);
+            return;
+        }
+    }
+
+    public function User_authorization()
+    {
+        try{
+            $this->load->model('User_model');
+            if(!array_key_exists('userid',$_GET))
+            {
+                throw new Exception( Constrants::E_PARAM_NOT_EXIST);
+            }
+
+            $this->User_model->UserId = $this->User_model->User_getid ($_GET['userid']);
+            var_dump($this->User_model->User_authorization());
+        }
+        catch (Exception $e)
+        {
+            echo Constrants::E_Catch($e);
+            return;
+        }
+    }
+
 }
