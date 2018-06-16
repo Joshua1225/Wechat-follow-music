@@ -147,17 +147,27 @@ Page({
     })
   },
   deleteSong: function (e) {
+    wx.showLoading({
+      title: '删除中',
+    })
     //获取列表中要删除项的下标
     var musicid = e.target.dataset.musicid;
-    var music = this.data.music;
+    var music = new Array()
+    console.log(this.data.music)
+    console.log(musicid)
     //移除列表中下标为MusiclistId的项
-    music.splice(musicid, 1);
+    for(var i=0;i<this.data.music.length;i++)
+    {
+      if (this.data.music[i]['MusicId'] != musicid)
+      {
+        music.push(this.data.music[i])
+      }
+    }
+    console.log(music)
     //更新歌单列表的状态
     var value = wx.getStorageSync('userid');
     var that = this;
-    that.setData({
-      music: music
-    })
+    
     //从歌单里删除歌曲记录
     wx.request({
       url: `${config.service.host}/Musiclist_controller/Musiclist_delete`,
@@ -167,6 +177,15 @@ Page({
       },
       success: function (res) {
         console.log("music del");
+        that.setData({
+          music: music
+        })
+        wx.hideLoading()
+        wx.showToast({
+          title: '删除成功',
+          duration: 1000
+        })
+
       },
       fail: function (err) {
         console.log(err);
