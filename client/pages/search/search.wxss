@@ -1,6 +1,7 @@
 /**index.wxss**/
 @import '../../src/weui.wxss';
 .name {
+  
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
@@ -54,27 +55,57 @@
 }
 .item_search{
   width: 550rpx;
+  opacity: 0.6;
+  font-size:35rpx;
 }
 .item_del{
   width: 50rpx;
   display:flex;
   flex-direction:row;
   justify-content:center;
+  opacity: 0.6;
+}
+.clear-all{
+  font-size:30rpx; 
+  font-color:#000000;
+  opacity:0.8;
+  margin-top:18rpx;
+  margin-left:18rpx;
 
 }
 .page{
   height: 50ch;
-  background: rgb(220,220,220)
+  background: 	#F5F5F5;
+  
 }
 .search_bar{
-  background: #D3D3D3;
   padding:1px 2px; 
 }
 .search_button{
-  margin-left:5px;
-  line-height:28px;
+  margin-left:5rpx;
+  line-height:28rpx;
   color:#000000;
   white-space:nowrap;
-  margin-right:5px;
+  margin-right:5rpx;
+  
+}
+
+.history-search{
+  margin-top:25rpx;
+  margin-left:25rpx;
+}
+.history-search-image{
+  width:45rpx;
+  height:45rpx;
+  opacity: 0.3;
+}
+.history-search-word{
+  color:#708090;
+  font-size:42rpx;
+  margin-left: 8rpx;
+}
+.search-list{
+  padding:10px 15px;position:relative;display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-align:center;-webkit-align-items:center;align-items:center;
+  background-color:#ececec;
   
 }
