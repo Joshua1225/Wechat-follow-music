@@ -102,12 +102,14 @@ Page({
   {
     var tmp=[]
     var value = e.currentTarget.dataset.content
-    console.log(value)
-    for(let i in this.data.historyRec)
+    var preHistoryRec = this.data.historyRec
+
+    for(var i=0;i<preHistoryRec.length;i++)
     {
-      if(i!=value)
-      tmp.unshift(i)
+      if (preHistoryRec[i]!=value)
+        tmp.push(preHistoryRec[i])
     }
+    console.log(tmp)
     console.log(value)
     this.setData({
       historyRec:tmp
