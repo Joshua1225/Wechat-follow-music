@@ -204,8 +204,10 @@ Page({
   delComment:function(e){
     console.log("delcomm");
     //获取列表中要删除项的下标
+    var value=wx.getStorageSync('userid')
+
     var commentid = e.target.dataset.commentid;
-    var userid=e.target.dataset.userid;
+    var userid=value;
     var commentList = this.data.commentList;
     console.log("userid"+userid);
     console.log("commid"+commentid);
