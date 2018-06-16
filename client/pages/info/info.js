@@ -1,4 +1,4 @@
- var config = require('../../config')
+var config = require('../../config')
 var sliderWidth = 96; // 需要设置slider的宽度，用于计算中间位置
 Page({
   data: {
@@ -14,6 +14,13 @@ Page({
   },
   onLoad: function () {
     this.getData();    
+  },
+  onShow:function()
+  {
+    wx.showLoading({
+      title: '正在加载',
+    })
+    this.getData()
   },
   getData:function()
   {
