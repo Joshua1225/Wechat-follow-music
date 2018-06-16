@@ -138,7 +138,7 @@ Page({
           data: {
             userid: value
           },
-          success: function (res) {
+          success: function (res) { 
             wx.hideLoading()
             wx.showToast({
               title: '添加成功',
