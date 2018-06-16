@@ -11,6 +11,7 @@ class Like_isliked extends CI_Controller {
       $this->load->model('Likelist_model');
       $this->load->model('User_model');
 
+
       try{
         if(!(array_key_exists('UserId',$_GET)&&array_key_exists('CommentId',$_GET)&&array_key_exists('MusicId',$_GET))){
           throw new Exception(Likelist_constraints::E_PARAM_NOT_EXIST);

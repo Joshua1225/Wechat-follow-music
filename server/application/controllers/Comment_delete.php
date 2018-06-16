@@ -11,6 +11,7 @@ class Comment_delete extends CI_Controller {
       $this->load->model('Likelist_model');
       $this->load->model('User_model');
 
+
       try{
         if(!(array_key_exists('UserId',$_GET)&&array_key_exists('CommentId',$_GET))){
           throw new Exception(Comment_constraints::E_PARAM_NOT_EXIST);
