@@ -27,7 +27,7 @@ Page({
         userid: value
       },
       success: function (res) {
-        console.log(res.data)
+        
         that.setData({
           musicList: res.data,
         });
@@ -161,33 +161,42 @@ Page({
 
   //点击删除按钮事件
   delItem: function (e) {
-    //获取列表中要删除项的下标
-    var MusiclistId = e.target.dataset.musiclistid;
-    var musicList = this.data.musicList;
-    //移除列表中下标为MusiclistId的项
-    musicList.splice(MusiclistId, 1);
-    //更新歌单列表的状态
-    var value=wx.getStorageSync('userid');
-    var that=this;
-    wx.request({
-      url: `${config.service.host}/Musiclist_controller/Musiclist_getbyuserid`,
-      data: {
-        userid: value
-      },
-      success: function (res) {
-        console.log(res.data);
-        that.setData({
-          musicList: res.data
-        });
-      }
+    var value = wx.getStorageSync('userid');
+    var that = this;
+
+    wx.showLoading({
+      title: '删除中',
     })
+    //获取列表中要删除项的下标
+    var musiclistId = e.target.dataset.musiclistid;
+    var preMusicList = this.data.musicList;
+    
+    var musicList=new Array();
+    
+
+    //移除列表中下标为MusiclistId的项
+    for (var i = 0; i < preMusicList.length; i++) {
+      if (preMusicList[i]['MusiclistId'] != musiclistId) {
+        musicList.push(preMusicList[i])
+      }
+    }
+    //更新歌单列表的状态
     //数据库删除歌单
+    
     wx.request({
       url: `${config.service.host}/Musiclist_controller/Musiclist_remove`,
       data: {
-        id: MusiclistId
+        id: musiclistId
       },
       success: function (res) {
+        wx.hideLoading()
+        wx.showToast({
+          title: '删除成功',
+          duration:500
+        })
+        that.setData({
+          musicList:musicList
+        })
       },
       fail: function (err) {
         console.log(err);
@@ -213,13 +222,12 @@ Page({
     console.log("delcomm");
     //获取列表中要删除项的下标
     var value=wx.getStorageSync('userid')
-
     var commentid = e.target.dataset.commentid;
     var userid = wx.getStorageSync('userid');
     var commentList = new Array();
     console.log("userid"+userid);
     console.log("commid"+commentid);
-    //移除列表中下标为MusiclistId的项
+    //移除列表中下标为的项
     for (var i = 0; i <this.data.commentList.length;i++)
     {
       if (this.data.commentList[i]['CommentId'] != commentid)
