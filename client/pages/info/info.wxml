@@ -1,16 +1,19 @@
 <view class="page">
-    <view wx:if='{{!canIUse}}' style="text-align: center;">
-
       <!--头像和昵称-->
-        <view wx:if='{{!canIUse}}' class="user flex-wrp">
+    <view wx:if='{{!canIUse}}' class="container more">
+        <view class="user flex-wrp">
           <view class="avatar flex-item">
             <image class="userinfo-avatar" src='../../src/user-unlogin.png' background-size="cover"></image>
           </view>
           <view class="user-info flex-item">
-            <button  open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" class="buttonClass">点次授权登陆</button>
+            <button  open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" class="buttonClass">点此授权登陆</button>
           </view>
         </view>
+        <view>
+            <image src='http://img.hb.aicdn.com/d42d96d43010d82ade34662e89026a5840bac8fd16a6d-4tBSWx_fw658'></image>
+        </view>
     </view>
+  
     <view wx:else class="container more">
         <!--头像和昵称-->
         <view class="user flex-wrp">
