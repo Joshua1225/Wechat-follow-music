@@ -544,7 +544,7 @@ Page({
       this.setData({
         picturePath: 'http://140.143.149.22/picture/0'
       })
-      innerAudioContext.coverImgUrl = 'http://140.143.149.22/picture/0'
+      //innerAudioContext.coverImgUrl = 'http://140.143.149.22/picture/0'
     }
   },
 
@@ -619,7 +619,6 @@ Page({
       this.setData({
         title: this.data.musicList[this.data.musicListIndex]['name']
       })
-      
     }
     else
     {
