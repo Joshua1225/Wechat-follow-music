@@ -48,7 +48,15 @@
                 <text>创建歌单</text>
               </view>
             </view>
-
+            
+             <!--歌单之我喜欢的音乐-->
+             <view class="my-item flex-wrp">
+            <view class="myitem-former-icon flex-item" >
+              </view>
+              <view  id='{{favorite}}' bindtap='toSongList' class="myitem-name flex-item"  >
+                我喜欢的音乐
+              </view>
+           </view>
             <view wx:for="{{musicList}}" class="my-item flex-wrp">
               <view class="myitem-former-icon flex-item" >
               </view>
