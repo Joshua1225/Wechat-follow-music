@@ -34,4 +34,7 @@ class Constrants
     const E_LOGIN_ERROR ='E_LOGIN_ERROR';
 
     const E_PARAM_ILLEGAL='E_PARAM_ILLEGAL';
+
+    //尝试删除最喜欢的音乐
+    const E_CANNOT_DELETE_FAVORITE = 'E_CANNOT_DELETE_FAVORITE';
 }

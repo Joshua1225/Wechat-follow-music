@@ -97,6 +97,7 @@ class User_controller extends CI_Controller
             {
                 throw new Exception( Constrants::E_PARAM_NOT_EXIST);
             }
+            $this->User_model->User_updateMusicList();
         }
         catch (Exception $e)
         {
