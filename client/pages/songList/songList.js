@@ -129,11 +129,11 @@ Page({
   //播放歌单里的所有歌曲
   playSongs: function () {
     var len = this.data.music.length
-    var idList = []
+    var idList =new Array()
     for (var i = 0; i < len; i++) {
-      idList[i] = this.data.music[i].MusicId
+      idList.push(this.data.music[i].MusicId)
     }
-    app.globalData.addSongs = [idList];
+    app.globalData.addSongs =idList;
     app.globalData.done = false;
 
     wx.switchTab({
