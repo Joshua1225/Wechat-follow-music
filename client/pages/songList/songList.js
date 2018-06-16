@@ -26,7 +26,7 @@ Page({
   },
   onLoad: function (options) {
     wx.showLoading({
-      title: '加载中',
+      title: '正在加载',
     })
     console.log(options)
     var that = this;

@@ -66,8 +66,7 @@
         <view class="close-playlist" bindtap="close">关闭</view>
       </view>
     </view>
-    <loading hidden="{{hiddenLoading}}">正在加载</loading>
-
+    
   </swiper-item>
   <swiper-item >
     <view class='container2'>

@@ -37,19 +37,17 @@
               </view>
             </view>
 
-            <view class="my-item flex-wrp" bindtap="modalinput">
-            
+            <view class="my-item flex-wrp">
               <view class="myitem-former-icon flex-item" >
-                <image src="../../src/addList.jpg" ></image>
+                <image src="../../src/addList.jpg" bindtap="modalinput"></image>
               </view>
-              
+              <modal hidden="{{hiddenmodalput}}" title="请输入歌单名" confirm-text="提交" cancel-text="取消" bindcancel="cancel" bindconfirm="confirm">  
+                    <input class="weui-input"  placeholder="歌单1" bindinput='inputSLName'/>
+              </modal>
               <view class="myitem-name flex-item">
                 <text>创建歌单</text>
               </view>
             </view>
-            <modal hidden="{{hiddenmodalput}}" title="请输入歌单名" confirm-text="提交" cancel-text="取消" bindcancel="cancel" bindconfirm="confirm">  
-                    <input class="weui-input"  placeholder="歌单1" bindinput='inputSLName'/>
-            </modal>
 
             <view wx:for="{{musicList}}" class="my-item flex-wrp">
               <view class="myitem-former-icon flex-item" >

@@ -64,7 +64,7 @@ Page({
   },
   bindGetUserInfo: function (e) {
     wx.showLoading({
-      title: '加载中',
+      title: '正在加载',
     })
     if (e.detail.userInfo) {
       this.getData()
@@ -118,7 +118,7 @@ Page({
   //确认  
   confirm: function (e) {
     wx.showLoading({
-      title: '添加中',
+      title: '正在添加',
     })
     var that = this;
     var value=wx.getStorageSync('userid')
@@ -165,7 +165,7 @@ Page({
     var that = this;
 
     wx.showLoading({
-      title: '删除中',
+      title: '正在删除',
     })
     //获取列表中要删除项的下标
     var musiclistId = e.target.dataset.musiclistid;
@@ -219,7 +219,9 @@ Page({
     })
   },
   delComment:function(e){
-    console.log("delcomm");
+    wx.showLoading({
+      title: '正在删除',
+    })
     //获取列表中要删除项的下标
     var value=wx.getStorageSync('userid')
     var commentid = e.target.dataset.commentid;
@@ -236,9 +238,7 @@ Page({
       }
     }
     console.log(commentList);
-    this.setData({
-      commentList: commentList
-    })
+    
     var that = this;
     wx.request({
       url: `${config.service.host}/Comment_delete`,
@@ -247,7 +247,14 @@ Page({
         UserId: userid
       },
       success: function (res) {
-        console.log(res);
+        wx.hideLoading()
+        wx.showToast({
+          title: '删除成功',
+          duration:500
+        })
+        that.setData({
+          commentList: commentList
+        })
       },
       fail:function(err){
         console.log(err);
