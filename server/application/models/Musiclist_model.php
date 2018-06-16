@@ -183,10 +183,21 @@ class Musiclist_model extends CI_Model
         return $this->db->query($querystring);
     }
 
-    public function Musiclist_remove($id)
+    public function Musiclist_remove($userid,$musiclistid)
     {
         $this->load->database();
-        $querystring = 'delete from Musiclist where MusiclistId = \''.$id.'\'';
+
+        $querystring = 'select * from User where UserId = \''.$userid.'\'';
+        $query = $this->db->query($querystring);
+
+        if($query->result_array()[0]['LikeList'] == $musiclistid) throw new Exception(Constrants::E_CANNOT_DELETE_FAVORITE);
+        /////判断歌单存在
+        $querystring = 'select UserId,MusicIdList,MusiclistName from Musiclist where MusiclistId = \''.$musiclistid.'\'';
+        $query = $this->db->query($querystring);
+
+        if(count($query->result_array()) == 0) throw new Exception(Constrants::E_MUSICLIST_NOT_EXIST);
+        /////////////
+        $querystring = 'delete from Musiclist where MusiclistId = \''.$musiclistid.'\'';
         $query = $this->db->query($querystring);
         return $query;
 

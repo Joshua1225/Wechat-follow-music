@@ -40,14 +40,14 @@
             <view class="search-header" style="border:25rpx solid white;">            
                 <view class="input-box">
                     <icon class="input-box-icon" type="search" size="14"></icon>
-                    <input type="text" class="keyword"  placeholder="输入歌手名、歌曲名搜索" value="{{inputVal}}" focus="{{inputShowed}}" bindinput="inputTyping" bindconfirm='insertComment' />
+                    <input type="text" class="keyword"  placeholder="输入评论内容" value="{{inputVal}}" focus="{{inputShowed}}" bindinput="inputTyping" bindconfirm='insertComment' />
                     <view class="weui-icon-clear" wx:if="{{inputVal.length > 0}}" bindtap="clearInput">
                          <icon type="clear" size="14" bindtap="hideInput"></icon>
                     </view>
                 </view>
                 <label style="" class="label-all" hidden="{{inputShowed}}" bindtap="showInput">
                     <icon class="weui-icon-search" type="search" size="13"></icon>
-                    <view class="label-text">输入歌手名、歌曲名搜索</view>
+                    <view class="label-text">输入评论内容</view>
                 </label>
             </view>
             <view class="right"  hidden="{{!inputShowed}}" bindtap="insertComment">发表</view>   

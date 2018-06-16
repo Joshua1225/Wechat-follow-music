@@ -150,7 +150,7 @@ Page({
       }
     })
     this.openList()
-  },
+  },  
 
   openList: function () {
     this.setData({
@@ -259,11 +259,17 @@ Page({
       this.getLyric()
       this.isFavorite()
       if (this.data.iconList_3[2].i == 0) {
-        innerAudioContext.src = 'http://140.143.149.22/music/' + this.data.musicList[this.data.musicListIndex]['id'] + '.mp3'
         this.setData({
           [up]: "../../src/pause.png",
           [op]: 1
         })
+        console.log(this.data.iconList_3[2].imagePath)
+        if (innerAudioContext.src != 'http://140.143.149.22/music/' + this.data.musicList[this.data.musicListIndex]['id'] + '.mp3')
+        {
+          innerAudioContext.coverImgUrl = 'http://140.143.149.22/picture/' + this.data.musicList[this.data.musicListIndex]['id']
+          innerAudioContext.title = this.data.musicList[this.data.musicListIndex]['name']
+          innerAudioContext.src = 'http://140.143.149.22/music/' + this.data.musicList[this.data.musicListIndex]['id'] + '.mp3'
+        }
         innerAudioContext.play()
         console.log('innerAudioContext.src:'+innerAudioContext.src)
       }
@@ -272,7 +278,8 @@ Page({
           [up]: "../../src/play.png",
           [op]: 0
         })
-        innerAudioContext.pause()
+        console.log(this.data.iconList_3[2].imagePath)
+        innerAudioContext.pause(this.data.iconList_3[2].imagePath)
       }
     }
     else
@@ -281,6 +288,7 @@ Page({
         [up]: "../../src/play.png",
         [op]: 0
       })
+      console.log(this.data.iconList_3[2].imagePath)
     }
   },
 
@@ -320,20 +328,7 @@ Page({
   //进度条相关
   updateTime: function (that) {
 
-    innerAudioContext.onTimeUpdate((res) => {
-
-      //更新时把当前的值给slide组件里的value值。slide的滑块就能实现同步更新
-
-
-      that.setData({
-        duration: innerAudioContext.duration.toFixed(2) * 100,
-        curTimeVal: innerAudioContext.currentTime.toFixed(2) * 100,
-      })
-      if (that.data.lyric) {
-        that.handleLyric(innerAudioContext.currentTime*1000)
-      }
-      
-    })
+    
   },
   //拖动滑块
 
@@ -344,14 +339,14 @@ Page({
     let that = this;
 
     var curval = e.detail.value; //滑块拖动的当前值
-
+    var op = "iconList_3[2].i"
+    this.setData({
+      [op]: 0
+    })
+    this.f_3_2()
     innerAudioContext.seek(curval / 100); //让滑块跳转至指定位置
 
-    /*innerAudioContext.onSeeked((res) => {
-
-      this.updateTime(that) //注意这里要继续出发updataTime事件，
-
-    })*/
+    //this.updateTime(that) //注意这里要继续出发updataTime事件，
   },
 
   //播放列表点击播放
@@ -428,24 +423,39 @@ Page({
     })
     if (this.data.musicList.length!=0)
     {
+      if (this.data.musicListIndex == e.currentTarget.dataset.index)
+      {
+        this.setData({
+          musicListIndex: this.data.musicListIndex % arr.length
+        })
+        innerAudioContext.stop()
+        var op = "iconList_3[2].i"
+        this.setData({
+          [op]: 1
+        })
+        this.isFavorite()
+        this.f_3_2()
+      }
+      else if(this.data.musicListIndex > e.currentTarget.dataset.index)
+      {
+        this.setData({
+          musicListIndex: this.data.musicListIndex -1
+        })
+      }
+    }
+    else
+    {
+      innerAudioContext.stop()
+      var op = "iconList_3[2].i"
       this.setData({
-        musicListIndex: this.data.musicListIndex % arr.length
+        [op]: 1
       })
-
+      this.isFavorite()
+      this.f_3_2()
     }
     this.getLyric()
     this.getPicture()
-    this.isFavorite()
     this.setTitle()
-    innerAudioContext.stop()
-    var op = "iconList_3[2].i"
-    this.setData({
-      [op]: 1
-    })
-    this.f_3_2()
-    this.setData({
-      curTimeVal: 0
-    })
     wx.setStorage({
       key: "musicList",
       data: this.data.musicList,
@@ -493,6 +503,7 @@ Page({
           musicid: this.data.musicList[this.data.musicListIndex]['id']
         },
         success: function (res) {
+          console.log(res.data)
           if(res.data=="bool(true)\n")
           {
             that.setData({
@@ -533,6 +544,7 @@ Page({
       this.setData({
         picturePath: 'http://140.143.149.22/picture/0'
       })
+      innerAudioContext.coverImgUrl = 'http://140.143.149.22/picture/0'
     }
   },
 
@@ -607,12 +619,14 @@ Page({
       this.setData({
         title: this.data.musicList[this.data.musicListIndex]['name']
       })
+      
     }
     else
     {
       this.setData({
         title: ''
       })
+      innerAudioContext.title =''
     }
     console.log('title:'+this.data.title)
   },
@@ -632,27 +646,47 @@ Page({
       console.log('开始播放')
       that.getLyric()
       console.log(innerAudioContext.src)
-      that.updateTime(that)
+      //that.updateTime(that)
+      var up = "iconList_3[2].imagePath"
+      var op = "iconList_3[2].i"
+      that.setData({
+        [up]: "../../src/pause.png",
+        [op]: 1
+      })
     })
     innerAudioContext.onError((res) => {
       console.log(res.errMsg)
       console.log(res.errCode)
     })
     innerAudioContext.onPause((res) => {
-      var up = "iconList_3[2].imagePath"
+      /*var up = "iconList_3[2].imagePath"
       var op = "iconList_3[2].i"
       that.setData({
         [up]: "../../src/play.png",
         [op]: 0
-      })
+      })*/
     })
     innerAudioContext.onStop((res) => {
-      var up = "iconList_3[2].imagePath"
+      /*var up = "iconList_3[2].imagePath"
       var op = "iconList_3[2].i"
       that.setData({
         [up]: "../../src/play.png",
         [op]: 0
+      })*/
+    })
+    innerAudioContext.onTimeUpdate((res) => {
+
+      //更新时把当前的值给slide组件里的value值。slide的滑块就能实现同步更新
+
+
+      that.setData({
+        duration: innerAudioContext.duration.toFixed(2) * 100,
+        curTimeVal: innerAudioContext.currentTime.toFixed(2) * 100,
       })
+      if (that.data.lyric) {
+        that.handleLyric(innerAudioContext.currentTime * 1000)
+      }
+
     })
     innerAudioContext.onEnded(() => {
       var musicListIndex = this.data.musicListIndex
@@ -681,6 +715,7 @@ Page({
       key: 'musicList',
       success: function (res) {
         var userid = wx.getStorageSync('userid')
+        console.log(userid)
         that.setData({
           musicList: res.data
         })
@@ -690,6 +725,7 @@ Page({
           url: `https://hy6e9qbe.qcloud.la/User_controller/getMusicList?userid=` + userid,
           success: function (res) {
             favorite = res.data
+            console.log(res.data)
             that.isFavorite()
           }
         })
@@ -698,8 +734,6 @@ Page({
         that.getLyric()
       }
     })
-    innerAudioContext.stop()
-    innerAudioContext.pause()
     this.setData({
       isLight: true,
       listBgColor: this.dealColor('14737632')

@@ -18,7 +18,9 @@ var config = {
 
         authUrl: `${host}/User_controller/User_authorization`,
 
-        musicUrl: `${host}/Music_controller/`
+        musicUrl: `${host}/Music_controller/`,
+
+        userUrl: `${host}/User_controller/`
     }
 };
 

@@ -170,13 +170,18 @@ class Musiclist_controller extends CI_Controller
     public function Musiclist_remove()
     {
         $this->load->model('Musiclist_model');
+        $this->load->model('User_model');
         try{
             $this->Musiclist_model->init();
-            if(!array_key_exists('id',$_GET))
+            if(!array_key_exists('userid',$_GET)||!array_key_exists('musiclistid',$_GET))
             {
                 throw new Exception( Constrants::E_PARAM_NOT_EXIST);
             }
-            var_dump($this->Musiclist_model->Musiclist_remove($_GET['id']));
+            $this->User_model->password=$_GET['userid'];
+            if(!$this->User_model->User_islogin()) throw new Exception(Constrants::E_LOGIN_ERROR);
+            $userid=$this->User_model->User_getid($_GET['userid']);
+            $musiclistid = $_GET['musiclistid'];
+            var_dump($this->Musiclist_model->Musiclist_remove($userid,$musiclistid));
         }
         catch (Exception $e)
         {

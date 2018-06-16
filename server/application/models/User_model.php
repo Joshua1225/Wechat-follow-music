@@ -40,13 +40,13 @@ class User_model extends CI_Model
         $this->load->database();
 
         $querystring = 'select * from User where UserId =\''.$this->UserId.'\'';
-        $query = $this->db->query($querystring);
+        $query0 = $this->db->query($querystring);
 
         //echo json_encode($query->result_array()[0]);
 
-        if(!key_exists('MusicList',$query->result_array()[0])) echo 123;// throw new Exception(Constrants::E_LOGIN_ERROR);
+        //if(!key_exists(0,$query0->result_array()[])) throw new Exception(Constrants::E_LOGIN_ERROR);
 
-        if($query->result_array()[0]['MusicList']!='-1') return;
+        if($query0->result_array()[0]['MusicList']!='-1') return;
 
         $this->load->model('Musiclist_model');
 
@@ -64,6 +64,10 @@ class User_model extends CI_Model
         //echo $querystring;
         $this->db->query($querystring);
 
+        $querystring = 'update Musiclist set MusiclistName = \'我喜欢的音乐\''.
+            'where MusiclistId = \''.$query->result_array()[0]['MusiclistId'].'\'';
+        //echo $querystring;
+        $this->db->query($querystring);
     }
 
     public function User_exist()
@@ -126,7 +130,7 @@ class User_model extends CI_Model
         $query = $this->db->query('select count(*) from User where password = \''.$password.'\'');
 
         $exist =  (bool)$query->result_array()[0]['count(*)'];
-
+        echo Constrants::E_CANNOT_DELETE_FAVORITE;
         if(!$exist) throw new Exception(Constrants::E_LOGIN_ERROR);           ///不存在用户的情况
 
         ///存在用户时取得其id
