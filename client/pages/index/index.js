@@ -1,4 +1,4 @@
-  // pages/play/play.js
+   // pages/play/play.js
 var config = require('../../config')
 var innerAudioContext = wx.getBackgroundAudioManager()
 const Lyric = require('../../utils/lyric.js')
@@ -14,7 +14,6 @@ Page({
     playMode: 0,
     curTimeVal: 0,
     duration: 0,
-    hiddenLoading:true,
     actionSheetHidden:true,
     actionSheetItems:[],
     listBgColor: '',
@@ -134,8 +133,8 @@ Page({
       })
       return
     }
-    this.setData({
-      hiddenLoading:false
+    wx.showLoading({
+      title: '正在加载',
     })
     var userid = wx.getStorageSync('userid')
     var that=this
@@ -143,10 +142,10 @@ Page({
     wx.request({
       url: `https://hy6e9qbe.qcloud.la/Musiclist_controller/Musiclist_getbyuserid?userid=` + userid,
       success: function (res) {
+        wx.hideLoading()
         var arr = res.data
         that.setData({
-          actionSheetItems: arr,
-          hiddenLoading: true
+          actionSheetItems: arr
         });
       }
     })
@@ -173,6 +172,10 @@ Page({
         musicid: that.data.musicList[that.data.musicListIndex]['id']
       },
       success: function (res) {
+        wx.showToast({
+          title: '添加成功',
+          duration:500
+        })
         that.close()
       }
     })
