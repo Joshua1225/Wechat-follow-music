@@ -6,7 +6,8 @@ App({
   globalData:{
     addSongs:[],
     done:true,
-    authorized:false
+    authorized:false,
+    favorite:0
   },
   onLaunch: function () {
     var islogin = false;
