@@ -4,7 +4,7 @@
     <list default="true" id="fae8977f-22f4-42f9-8124-17bcc1dc47be" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/application/controllers/Musiclist_controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/server/application/controllers/Musiclist_controller.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/application/models/Musiclist_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/server/application/models/Musiclist_model.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/application/controllers/User_controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/server/application/controllers/User_controller.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/application/models/User_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/server/application/models/User_model.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -36,8 +36,8 @@
       <file leaf-file-name="Musiclist_controller.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server/application/controllers/Musiclist_controller.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="208">
-              <caret line="236" column="35" selection-start-line="236" selection-start-column="30" selection-end-line="236" selection-end-column="35" />
+            <state relative-caret-position="4347">
+              <caret line="240" column="12" selection-start-line="240" selection-start-column="12" selection-end-line="240" selection-end-column="12" />
             </state>
           </provider>
         </entry>
@@ -45,8 +45,8 @@
       <file leaf-file-name="Musiclist_model.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server/application/models/Musiclist_model.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="512">
-              <caret line="254" column="59" lean-forward="true" selection-start-line="254" selection-start-column="59" selection-end-line="254" selection-end-column="59" />
+            <state relative-caret-position="430">
+              <caret line="251" lean-forward="true" selection-start-line="251" selection-end-line="251" />
             </state>
           </provider>
         </entry>
@@ -54,15 +54,19 @@
       <file leaf-file-name="User_model.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/server/application/models/User_model.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="569">
-              <caret line="147" lean-forward="true" selection-start-line="147" selection-end-line="147" />
+            <state relative-caret-position="341">
+              <caret line="121" column="42" selection-start-line="121" selection-start-column="42" selection-end-line="121" selection-end-column="42" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Exception_model.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/server/application/models/Exception_model.php">
-          <provider selected="true" editor-type-id="text-editor" />
+      <file leaf-file-name="User_controller.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server/application/controllers/User_controller.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="291">
+              <caret line="99" column="14" selection-start-line="99" selection-start-column="14" selection-end-line="99" selection-end-column="14" />
+            </state>
+          </provider>
         </entry>
       </file>
     </leaf>
@@ -71,12 +75,16 @@
     <findStrings>
       <find>getid</find>
       <find>get</find>
-      <find>islogin</find>
       <find>Users</find>
       <find>delete</find>
       <find>getM</find>
-      <find>cont</find>
       <find>conta</find>
+      <find>Constrants</find>
+      <find>$this</find>
+      <find>islo</find>
+      <find>cont</find>
+      <find>E_LOGIN</find>
+      <find>islogin</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -85,9 +93,9 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/server/application/controllers/User_controller.php" />
-        <option value="$PROJECT_DIR$/server/application/controllers/Musiclist_controller.php" />
         <option value="$PROJECT_DIR$/server/application/models/Musiclist_model.php" />
+        <option value="$PROJECT_DIR$/server/application/controllers/Musiclist_controller.php" />
+        <option value="$PROJECT_DIR$/server/application/controllers/User_controller.php" />
         <option value="$PROJECT_DIR$/server/application/models/User_model.php" />
       </list>
     </option>
@@ -112,7 +120,7 @@
       <path value="$PROJECT_DIR$/server/vendor/qcloud/cos-sdk-v5" />
     </include_path>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="85" />
     <option name="y" value="25" />
     <option name="width" value="1750" />
@@ -194,15 +202,15 @@
       <workItem from="1529167169375" duration="43000" />
       <workItem from="1529167775689" duration="752000" />
       <workItem from="1529169925363" duration="95000" />
-      <workItem from="1529170349801" duration="1657000" />
+      <workItem from="1529170349801" duration="3557000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2547000" />
+    <option name="totallyTimeSpent" value="4447000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="838" extended-state="7" />
+    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2600536" />
@@ -278,30 +286,6 @@
     <entry file="file://$PROJECT_DIR$/server/application/controllers/Music_controller.php">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/application/controllers/Musiclist_controller.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="236" column="35" selection-start-line="236" selection-start-column="30" selection-end-line="236" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/application/controllers/User_controller.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="139" column="41" lean-forward="true" selection-start-line="139" selection-start-column="41" selection-end-line="139" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/application/models/Musiclist_model.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="512">
-          <caret line="254" column="59" lean-forward="true" selection-start-line="254" selection-start-column="59" selection-end-line="254" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/application/models/Exception_model.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/server/application/models/Constrants.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="141">
@@ -309,10 +293,34 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/server/application/models/Exception_model.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/application/controllers/Musiclist_controller.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4347">
+          <caret line="240" column="12" selection-start-line="240" selection-start-column="12" selection-end-line="240" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/application/models/Musiclist_model.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="430">
+          <caret line="251" lean-forward="true" selection-start-line="251" selection-end-line="251" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/application/controllers/User_controller.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="291">
+          <caret line="99" column="14" selection-start-line="99" selection-start-column="14" selection-end-line="99" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/server/application/models/User_model.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="569">
-          <caret line="147" lean-forward="true" selection-start-line="147" selection-end-line="147" />
+        <state relative-caret-position="341">
+          <caret line="121" column="42" selection-start-line="121" selection-start-column="42" selection-end-line="121" selection-end-column="42" />
         </state>
       </provider>
     </entry>
