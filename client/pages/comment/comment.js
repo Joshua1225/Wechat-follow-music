@@ -182,7 +182,7 @@ Page({
       clickGood:false
     })
     wx.showLoading({
-      title: '点赞~~~',
+      title: '正在点赞',
     })
     console.log("test");
     console.log(e.target.dataset.test);
