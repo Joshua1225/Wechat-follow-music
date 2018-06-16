@@ -13,6 +13,11 @@ class Musiclist_model extends CI_Model
     public $UserId;
     public $MusicCount;
 
+    public function init()
+    {
+        require('Constrants.php');
+    }
+
     public function Musiclist_select()
     {
         $this->load->database();
@@ -71,8 +76,9 @@ class Musiclist_model extends CI_Model
     {
         $this->load->database();
         $this->load->model('User_model');
+        $this->init();
 
-        if(!$this->User_model->User_islogin()) return 'error';
+        if(!$this->User_model->User_islogin()) throw new Exception(Constrants::E_LOGIN_ERROR);
 
         $userid = $this->User_model->User_getid($password);
 
@@ -89,6 +95,10 @@ class Musiclist_model extends CI_Model
     {
         $this->load->database();
         $this->load->model('User_model');
+
+        $this->init();
+
+        if(!$this->User_model->User_islogin()) throw new Exception(Constrants::E_LOGIN_ERROR);
 
         if(!$this->User_model->User_islogin()) return 'error';
 
@@ -135,13 +145,14 @@ class Musiclist_model extends CI_Model
     public function Musiclist_delete($MusiclistId,$MusicId)
     {
         $this->load->database();
+        $this->init();
         $querystring = 'select MusicIdList from Musiclist where MusiclistId = \''.$MusiclistId.'\'';
         $query = $this->db->query($querystring);
 
         $result = $query->result_array()[0]['MusicIdList'];
         $musics = explode(';',$result);
 
-        if(!in_array($MusicId,$musics)) return false;
+        if(!in_array($MusicId,$musics)) throw new Exception(Constrants::E_EXEC_SQL_QUERY);
 
         $count = count($musics);
 

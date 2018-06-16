@@ -12,6 +12,11 @@ class Music_model extends CI_Model
     public $MusicSinger;
     public $MusicLyric;
 
+    public function init()
+    {
+        require('Constrants.php');
+    }
+
     public function Music_select()
     {
         $this->load->database();
@@ -47,7 +52,6 @@ class Music_model extends CI_Model
 
         $query = $this->db->query($querystring);
 
-        //echo $querystring;
         return json_encode($query->result());
     }
 

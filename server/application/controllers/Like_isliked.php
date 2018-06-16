@@ -28,9 +28,11 @@ class Like_isliked extends CI_Controller {
       $this->load->model('Likelist_model');
       $this->load->model('User_model');
 
-      if(!$this->User_model->islogin($_GET['UserId'])){
-        var_dump(false);
-      }
+      $this->User_model->password = $_GET['Userid'];
+      if(!$this->User_model->User_islogin()){
+      var_dump(false);
+      return;
+     }
       $userid=$this->User_model->get_Userid($_GET['UserId']);
       if($this->Likelist_model->isInList($userid,$_GET['MusicId'],$_GET['CommentId'])){
         var_dump(true);

@@ -5,12 +5,19 @@
  * Date: 2018/5/10
  * Time: 23:10
  */
+
 class User_model extends CI_Model
 {
     public $UserId;
+    public $UserInfo;
     public $session_key;
     public $password;
     public $lastlogin;
+
+    public function init()
+    {
+        require('Constrants.php');
+    }
 
     public function User_insert() {
         $this->load->database();
@@ -23,6 +30,16 @@ class User_model extends CI_Model
         $this->load->database();
         $query = $this->db->query('select count(*) from User where UserId = \''.$this->UserId.'\'');
         $query->result_array();
+        echo $query->result_array()[0]['count(*)'];
+        return (bool)$query->result_array()[0]['count(*)'];
+    }
+
+    public function User_exist_bypasswd()
+    {
+        $this->load->database();
+        $query = $this->db->query('select count(*) from User where password = \''.$this->password.'\'');
+        $query->result_array();
+        echo $query->result_array()[0]['count(*)'];
         return (bool)$query->result_array()[0]['count(*)'];
     }
 
@@ -106,6 +123,19 @@ class User_model extends CI_Model
         $querystring = 'update User set lastlogin = \''.time().'\''.
             'where password = \''.$this->password.'\'';
         //echo $querystring;
+        $query = $this->db->query($querystring);
+    }
+
+    public function User_updateinfo()
+    {
+        if($this->User_islogin() == false)
+        {
+            throw (new Exception(Constrants::E_LOGIN_ERROR));
+        }
+        $this->load->database();
+        $querystring = 'update User set UserInfo = \''.$this->UserInfo.'\''.
+            'where password = \''.$this->password.'\'';
+
         $query = $this->db->query($querystring);
     }
 

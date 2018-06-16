@@ -28,7 +28,8 @@ class Comment_add extends CI_Controller {
     
     
     $this->load->model('User_model');
-    if(!$this->User_model->islogin($_GET['UserId'])){
+    $this->User_model->password = $_GET['Userid'];
+    if(!$this->User_model->User_islogin()){
       var_dump(false);
       return;
     }

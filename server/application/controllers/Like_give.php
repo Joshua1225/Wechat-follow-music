@@ -28,9 +28,10 @@ class Like_give extends CI_Controller {
       $this->load->model('Likelist_model');
       $this->load->model('User_model');
 
-      if(!$this->User_model->islogin($_GET['UserId'])){
-        var_dump(false);
-        return;
+      $this->User_model->password = $_GET['Userid'];
+      if(!$this->User_model->User_islogin()){
+      var_dump(false);
+      return;
       }
       if(!isEixist($_GET['CommentId'])){
         var_dump(false);

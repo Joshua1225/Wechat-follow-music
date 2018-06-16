@@ -26,10 +26,12 @@ class Comment_delete extends CI_Controller {
       $this->load->model('Comment_model');
       $this->load->model('Likelist_model');
 
-      if(!$this->User_model->islogin($_GET['UserId'])){
-        var_dump(false);
-        return;
-      }
+      $this->load->model('User_model');
+      $this->User_model->password = $_GET['Userid'];
+      if(!$this->User_model->User_islogin()){
+      var_dump(false);
+      return;
+     }
       $userid=$this->User_model->get_Userid($_GET['UserId']);
       if(!$this->Comment_model->idBelong($userid)){
         var_dump(false);

@@ -24,8 +24,22 @@ class User_controller extends CI_Controller
     ///登陆，用户创建更新用户数据
     public function login()
     {
+        try{
+            $this->User_model->init();
+            if(!array_key_exists('code',$_GET))
+            {
+                throw new Exception( Constrants::E_PARAM_NOT_EXIST);
+            }
+        }
+        catch (Exception $e)
+        {
+            echo Constrants::E_Catch($e);
+            return;
+        }
+            $get = $_GET['code'];
+
         $url='https://api.weixin.qq.com/sns/jscode2session?appid=wx420d331ec7f1c098&secret=460d8f231cf7fb75f2c2f09f6380989d&js_code='.
-            $_GET['code'].'&grant_type=authorization_code';
+            $get.'&grant_type=authorization_code';
         $obj = file_get_contents($url);
         //echo $obj;
         $html = json_decode($obj);
@@ -63,10 +77,58 @@ class User_controller extends CI_Controller
     }
 
     ///验证登陆状态
-    public function User_islogin()
+    public function islogin()
     {
         $this->load->model('User_model');
+
+        try{
+            $this->User_model->init();
+            if(!array_key_exists('userid',$_GET))
+            {
+                throw new Exception( Constrants::E_PARAM_NOT_EXIST);
+            }
+        }
+        catch (Exception $e)
+        {
+            echo Constrants::E_Catch($e);
+            return;
+        }
+
         $this ->User_model->password = $_GET['userid'];
         var_dump( $this ->User_model->User_islogin());
+    }
+
+    //更新用户昵称
+    public function updateinfo()
+    {
+        $this->load->model('User_model');
+
+        try{
+            $this->User_model->init();
+            if(!array_key_exists('userid',$_GET) || !array_key_exists('userinfo',$_GET))
+            {
+                throw new Exception( Constrants::E_PARAM_NOT_EXIST);
+            }
+            $password = $_GET['userid'];
+            $userinfo = $_GET['userinfo'];
+        }
+        catch (Exception $e)
+        {
+            echo Constrants::E_Catch($e);
+            return;
+        }
+
+
+
+        $this ->User_model->password = $password;
+        $this ->User_model->UserInfo = $userinfo;
+
+        try {
+            $this->User_model->User_updateinfo();
+        }
+        catch (Exception $e)
+        {
+            echo Constrants::E_Catch($e);
+        }
     }
 }
