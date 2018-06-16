@@ -22,7 +22,8 @@ Page({
     loadingUpper:false,
     loadinglowerComplete:false,
     loadingUpperComplete:true,
-    start:0
+    start:0,
+    clickGood:true
   },
   onLoad: function (options) {
     console.log("options");
@@ -175,6 +176,14 @@ Page({
   },
   //点赞
   like:function(e){
+    if (!this.data.clickGood)
+      return
+    this.setData({
+      clickGood:false
+    })
+    wx.showLoading({
+      title: '正在点赞',
+    })
     console.log("test");
     console.log(e.target.dataset.test);
     var tempIndex = e.target.dataset.idx;
@@ -202,12 +211,26 @@ Page({
         },
         success:function(res){
           that.setData({
-            commentList: that.data.commentList
+            commentList: that.data.commentList,
+            clickGood:true
+          })
+          wx.hideLoading()
+          wx.showToast({
+            title: '点赞成功',
+            duration: 1000
           })
         }
       })
   },
   delLike: function (e) {
+    if (!this.data.clickGood)
+      return
+    wx.showLoading({
+      title: '取消~~~',
+    })
+    this.setData({
+      clickGood: false
+    })
     var tempIndex = e.target.dataset.idx;
     console.log("tempIndex" + tempIndex);
     console.log(this.data.commentList[tempIndex]);
@@ -233,6 +256,14 @@ Page({
       },
       success: function (res) {
         console.log(that.data.commentList);
+        that.setData({
+          clickGood: true
+        })
+        wx.hideLoading()
+        wx.showToast({
+          title: '取消成功',
+          duration: 1000
+        })
       }
     })
   },
@@ -273,9 +304,10 @@ Page({
           },
           success:function(res)
           {
-            console.log(res.data)
-            count = res.data
-              
+            var count = parseInt(res.data)
+            if(count<10)
+              count=10
+            
             that.data.loadingLowerComplete=true
             that.setData({
               start: count,

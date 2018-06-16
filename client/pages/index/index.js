@@ -265,7 +265,7 @@ Page({
           [op]: 1
         })
         innerAudioContext.play()
-        console.log(innerAudioContext.src)
+        console.log('innerAudioContext.src:'+innerAudioContext.src)
       }
       else {
         this.setData({
