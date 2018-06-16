@@ -84,6 +84,13 @@ Page({
   },
 
   f_2_0: function (event) {
+    if (getApp().globalData.authorized == false) {
+      wx.showToast({
+        title: '请授权登录',
+        icon: 'loading'
+      })
+      return
+    }
     var up = "iconList_2[0].imagePath";
     var op = "iconList_2[0].i";
     var that = this
@@ -119,7 +126,14 @@ Page({
     }
   },
 
-  f_2_1: function () {
+  f_2_1: function (){
+    if (getApp().globalData.authorized == false) {
+      wx.showToast({
+        title: '请授权登录',
+        icon: 'loading'
+      })
+      return
+    }
     this.setData({
       hiddenLoading:false
     })
@@ -171,6 +185,15 @@ Page({
   },
 
   f_2_2: function () {
+    if (getApp().globalData.authorized==false)
+    {
+      wx.showToast({
+        title: '请授权登录',
+        icon:'loading'
+      })
+      return
+    }
+    
     wx.navigateTo({
       url: '../comment/comment?musicId=' + this.data.musicList[this.data.musicListIndex]['id'] + '&musicCover=' + this.data.musicList[this.data.musicListIndex]['MusicCover']
      

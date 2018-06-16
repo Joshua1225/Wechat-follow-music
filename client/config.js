@@ -16,6 +16,7 @@ var config = {
 
         isloginUrl: `${host}/User_controller/islogin`,
 
+        authUrl: `${host}/User_controller/User_authorization`,
 
         musicUrl: `${host}/Music_controller/`
     }

@@ -4,40 +4,50 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Comment_add extends CI_Controller {
   
   public function index() {
-
-    function shutdownfunc()
-    {
-      if ($error = error_get_last()) {
-        var_dump('<b>register_shutdown_function: Type:' . $error['type'] . ' Msg: ' . $error['message'] . ' in ' . $error['file'] . ' on line ' . $error['line'] . '</b>');
-        die();
-      }
-    }
-
-    function errorfun($type, $message, $file, $line)
-    {
-      var_dump('<b>set_error_handler: ' . $type . ':' . $message . ' in ' . $file . ' on ' . $line . ' line .</b><br />');
-      die();
-    }
-
-    set_error_handler('errorfun');
-    register_shutdown_function('shutdownfunc');
-
     $this->load->database();
     $this->load->model('Comment_model');
-
-    
-    
     $this->load->model('User_model');
-    if(!$this->User_model->islogin($_GET['UserId'])){
-      var_dump(false);
+
+    try{
+        if(!(array_key_exists('UserId',$_GET)&&array_key_exists('MusicId',$_GET)&&array_key_exists('Content',$_GET))){
+          throw new Exception(Comment_constraints::E_PARAM_NOT_EXIST);
+        }
+      }
+      catch(Exception $e){
+        echo $e->getMessage();
+        return;
+      }
+
+    $this->User_model->init();
+    try{
+      $this->User_model->password = $_GET['UserId'];
+      if(!$this->User_model->User_islogin()){
+        throw new Exception(Constrants::E_LOGIN_ERROR);
+        //return;
+      }
+    }
+    catch(Exception $e){
+      echo $e->getMessage();
       return;
     }
-    $userid=$this->User_model->get_Userid($_GET['UserId']);
-    $this->Comment_model->insertNewComment(
+
+    try{
+      $userid=$this->User_model->User_getid($_GET['UserId']);
+      $this->User_model->UserId = $userid;
+      if(!$this->User_model->User_authorization()){
+        throw new Exception(Comment_constraints::E_NOT_AUTHORIZED);
+      } 
+      $this->Comment_model->insertNewComment(
       $_GET['MusicId'],
       $userid,
       $_GET['Content']
-    );
+      );
+    }
+    catch(Exception $e){
+      echo $e->getMessage();
+      return;
+    }
+    
     var_dump(true);
     //$_POST[]  
   }

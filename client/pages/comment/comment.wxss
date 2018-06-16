@@ -1,5 +1,12 @@
 /* pages/comment/comment.wxss */
 @import '../../src/weui.wxss';
+.userinfo-avatar{
+  flex:1;
+  display:inline-block;
+  width:100rpx;
+  height:100rpx;
+  border-radius:80rpx
+}
 .userinfo-nickname{
   padding: 8rpx 0 10rpx 0;
   font-size: 45rpx;
