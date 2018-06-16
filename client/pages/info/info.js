@@ -10,7 +10,8 @@ Page({
     inputVal:"",
     nickName:"",
     avatarUrl:"",
-    canIUse: false,//wx.canIUse('button.open-type.getUserInfo')
+    canIUse: false//wx.canIUse('button.open-type.getUserInfo')
+    
   },
   onLoad: function () {
     this.getData();    
@@ -27,6 +28,10 @@ Page({
     var that= this;
     //获取userid
     var value= wx.getStorageSync('userid');
+    var favor = getApp().globalData.favorite
+    this.setData({
+      favorite:getApp().globalData.favorite
+    }) 
     //歌单列表渲染
     wx.request({
       url: `${config.service.host}/Musiclist_controller/Musiclist_getbyuserid`,
@@ -34,10 +39,18 @@ Page({
         userid: value
       },
       success: function (res) {
+        console.log(res.data)
         
+        var preMusicList=res.data
+        var tmp=new Array()
+        for (var i = 0;i <preMusicList.length;i++)
+        {
+          if (preMusicList[i]['MusiclistId'] != favor)
+            tmp.push(preMusicList[i])
+        }
         that.setData({
-          musicList: res.data,
-        });
+          musicList: tmp
+        })
       }
       
     })
@@ -193,9 +206,11 @@ Page({
     wx.request({
       url: `${config.service.host}/Musiclist_controller/Musiclist_remove`,
       data: {
-        id: musiclistId
+        userid:value,
+        musiclistid: musiclistId
       },
       success: function (res) {
+        console.log(res.data)
         wx.hideLoading()
         wx.showToast({
           title: '删除成功',
