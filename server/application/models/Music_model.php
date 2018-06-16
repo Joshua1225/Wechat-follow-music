@@ -11,6 +11,12 @@ class Music_model extends CI_Model
     public $MusicName;
     public $MusicSinger;
     public $MusicLyric;
+    public $MusicCover;
+
+    public function init()
+    {
+        require('Constrants.php');
+    }
 
     public function Music_select()
     {
@@ -20,7 +26,7 @@ class Music_model extends CI_Model
         return json_encode($query->result_array());
     }
 
-    public function Music_search($keywords)
+    public function Music_search($keywords,$start)
     {
         $this->load->database();
 
@@ -28,13 +34,21 @@ class Music_model extends CI_Model
 
         $search = '%'.$s.'%';
 
-        $querystring = 'select * from Music where MusicName like \''.$search . '\' or MusicSinger like \''.$search.'\'';
+        $querystring = 'select * from Music where MusicName like \''.$search . '\' or MusicSinger like \''.$search.'\' limit '.$start.','.'10';
 
         $query = $this->db->query($querystring);
 
+        $result = $query->result_array();
+
+        $querystring = 'select count(*) from Music where MusicName like \''.$search . '\' or MusicSinger like \''.$search.'\'';
+
+        $query = $this->db->query($querystring);
+
+        //$result['count'] = $query->result_array()[0]['count(*)'];
+
         //echo $querystring;
 
-        return json_encode($query->result_array());
+        return json_encode($result);
     }
 
     public function Music_getbyid($id)
@@ -47,7 +61,6 @@ class Music_model extends CI_Model
 
         $query = $this->db->query($querystring);
 
-        //echo $querystring;
         return json_encode($query->result());
     }
 

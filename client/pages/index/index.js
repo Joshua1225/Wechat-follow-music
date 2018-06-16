@@ -1,6 +1,6 @@
   // pages/play/play.js
 var config = require('../../config')
-var innerAudioContext = wx.createInnerAudioContext()
+var innerAudioContext = wx.getBackgroundAudioManager()
 const Lyric = require('../../utils/lyric.js')
 var imageUtil = require('../../utils/util.js')
 var favorite 
@@ -84,6 +84,13 @@ Page({
   },
 
   f_2_0: function (event) {
+    if (getApp().globalData.authorized == false) {
+      wx.showToast({
+        title: '请授权登录',
+        icon: 'loading'
+      })
+      return
+    }
     var up = "iconList_2[0].imagePath";
     var op = "iconList_2[0].i";
     var that = this
@@ -119,7 +126,14 @@ Page({
     }
   },
 
-  f_2_1: function () {
+  f_2_1: function (){
+    if (getApp().globalData.authorized == false) {
+      wx.showToast({
+        title: '请授权登录',
+        icon: 'loading'
+      })
+      return
+    }
     this.setData({
       hiddenLoading:false
     })
@@ -171,6 +185,15 @@ Page({
   },
 
   f_2_2: function () {
+    if (getApp().globalData.authorized==false)
+    {
+      wx.showToast({
+        title: '请授权登录',
+        icon:'loading'
+      })
+      return
+    }
+    
     wx.navigateTo({
       url: '../comment/comment?musicId=' + this.data.musicList[this.data.musicListIndex]['id'] + '&musicCover=' + this.data.musicList[this.data.musicListIndex]['MusicCover']
      
@@ -217,7 +240,6 @@ Page({
         musicListIndex: (musicListIndex + musicListLength - 1) % musicListLength
       })
     }
-    innerAudioContext.src = 'http://140.143.149.22/music/' + this.data.musicList[this.data.musicListIndex]['id'] + '.mp3'
     this.setData({
       [op]: 0
     })
@@ -225,15 +247,16 @@ Page({
   },
 
   f_3_2: function () {
+    var up = "iconList_3[2].imagePath"
+    var op = "iconList_3[2].i"
     if(this.data.musicList.length!=0)
     {
       this.setTitle()
       this.getPicture()
       this.getLyric()
       this.isFavorite()
-      var up = "iconList_3[2].imagePath"
-      var op = "iconList_3[2].i"
       if (this.data.iconList_3[2].i == 0) {
+        innerAudioContext.src = 'http://140.143.149.22/music/' + this.data.musicList[this.data.musicListIndex]['id'] + '.mp3'
         this.setData({
           [up]: "../../src/pause.png",
           [op]: 1
@@ -248,6 +271,13 @@ Page({
         })
         innerAudioContext.pause()
       }
+    }
+    else
+    {
+      this.setData({
+        [up]: "../../src/play.png",
+        [op]: 0
+      })
     }
   },
 
@@ -265,7 +295,6 @@ Page({
         musicListIndex: (musicListIndex + 1) % musicListLength
       })
     }
-    innerAudioContext.src = 'http://140.143.149.22/music/' + this.data.musicList[this.data.musicListIndex]['id'] + '.mp3'
     this.setData({
        [op]: 0
     })
@@ -315,11 +344,11 @@ Page({
 
     innerAudioContext.seek(curval / 100); //让滑块跳转至指定位置
 
-    innerAudioContext.onSeeked((res) => {
+    /*innerAudioContext.onSeeked((res) => {
 
       this.updateTime(that) //注意这里要继续出发updataTime事件，
 
-    })
+    })*/
   },
 
   //播放列表点击播放
@@ -329,8 +358,6 @@ Page({
       [op]: 0,
       musicListIndex: e.currentTarget.dataset.index
     })
-    innerAudioContext.src = 'http://140.143.149.22/music/' + e.currentTarget.dataset.id + '.mp3'
-
     this.f_3_2()
   },
 
@@ -348,7 +375,6 @@ Page({
           musicListIndex:i,
           [op]: 0
         })
-        innerAudioContext.src = 'http://140.143.149.22/music/' + this.data.musicList[i]['id'] + '.mp3'
         this.f_3_2()
         flag = 1
         break
@@ -369,8 +395,7 @@ Page({
             [op]: 0,
             musicList: arr
           })
-          innerAudioContext.src = 'http://140.143.149.22/music/' + that.data.musicList[that.data.musicListIndex]['id'] + '.mp3'
-          wx.setStorage({
+            wx.setStorage({
             key: "musicList",
             data: that.data.musicList,
             success() {
@@ -403,22 +428,20 @@ Page({
       this.setData({
         musicListIndex: this.data.musicListIndex % arr.length
       })
-      innerAudioContext.src = 'http://140.143.149.22/music/' + this.data.musicList[this.data.musicListIndex]['id'] + '.mp3'
-    }
-    else
-    {
-      innerAudioContext.destroy()
-      innerAudioContext=wx.createInnerAudioContext()
+
     }
     this.getLyric()
     this.getPicture()
     this.isFavorite()
     this.setTitle()
-    var up = "iconList_3[2].imagePath"
+    innerAudioContext.stop()
     var op = "iconList_3[2].i"
     this.setData({
-      [up]: "../../src/play.png",
-      [op]: 0
+      [op]: 1
+    })
+    this.f_3_2()
+    this.setData({
+      curTimeVal: 0
     })
     wx.setStorage({
       key: "musicList",
@@ -428,22 +451,21 @@ Page({
       }
     })
   },
-  //
+  //播放列表全删除
   DeleteAll:function()
   {
-    innerAudioContext.destroy()
-    innerAudioContext = wx.createInnerAudioContext()
+    innerAudioContext.stop()
     this.setData({
       musicList:[],
       lyric: null,
-      picturePath: ''
+      title:'',
+      picturePath: 'http://140.143.149.22/picture/0'
     })
-    var up = "iconList_3[2].imagePath"
     var op = "iconList_3[2].i"
     this.setData({
-      [up]: "../../src/play.png",
-      [op]: 0
+      [op]: 1
     })
+    this.f_3_2()
     wx.setStorage({
       key: "musicList",
       data: this.data.musicList,
@@ -638,7 +660,6 @@ Page({
       this.setData({
         curTimeVal: 0
       })
-      innerAudioContext.src = 'http://140.143.149.22/music/' + that.data.musicList[that.data.musicListIndex]['id'] + '.mp3'
       this.setData({
         [op]: 0
       })
@@ -652,7 +673,8 @@ Page({
         that.setData({
           musicList: res.data
         })
-        innerAudioContext.src = 'http://140.143.149.22/music/' + that.data.musicList[that.data.musicListIndex]['id'] + '.mp3'
+        
+        innerAudioContext.pause()
         wx.request({
           url: `https://hy6e9qbe.qcloud.la/User_controller/getMusicList?userid=` + userid,
           success: function (res) {
@@ -665,7 +687,8 @@ Page({
         that.getLyric()
       }
     })
-
+    innerAudioContext.stop()
+    innerAudioContext.pause()
     this.setData({
       isLight: true,
       listBgColor: this.dealColor('14737632')

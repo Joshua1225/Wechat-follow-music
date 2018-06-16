@@ -101,10 +101,7 @@ Page({
       },
       success: function (res) {
         console.log(res)
-        
-         
-          console.log(res.data[0].UserInfo)
-          console.log(JSON.parse(res.data[0].UserInfo))
+      
       
         if(res.data.length!=0)
         {

@@ -11,7 +11,12 @@ class Musiclist_model extends CI_Model
     public $MusiclistName;
     public $MusicIdList;
     public $UserId;
-    public $MusicCount;
+    public $txtStyle;
+
+    public function init()
+    {
+        require('Constrants.php');
+    }
 
     public function Musiclist_select()
     {
@@ -42,28 +47,44 @@ class Musiclist_model extends CI_Model
         //echo $querystring;
 
         $array = $query->result_array();
-        foreach ($array as $x)
+        foreach ($array as $x => $y)
         {
-            $x->UserId = $this->User_model->getpassword($x->UserId);
+            $array[$x]['UserId'] = $this->User_model->User_getpassword($array[$x]['UserId']);
         }
 
         return json_encode($array);
 
     }
 
-    public function Musiclist_musics($id)
+    public function Musiclist_musics($id,$start)
     {
         $this->load->database();
         $s = $id;
-        $querystring = 'select MusicIdList from Musiclist where MusiclistId = \''.$s.'\'';
+        $querystring = 'select MusicIdList from Musiclist where MusiclistId =\''.$s.'\' limit '.$start.','.'10';
 
         $query = $this->db->query($querystring);
 
+        //echo $querystring;
+
         //echo json_encode($query->result_array());
+
+        if(!array_key_exists(0,$query->result_array())) throw new Exception(Constrants::E_MUSICLIST_NOT_EXIST);
 
         $musiclist = explode(';',$query->result_array()[0]['MusicIdList']);
 
-        return json_encode($musiclist);
+        $result = array();
+
+        foreach ($musiclist as $m)
+        {
+            $querystring = 'select * from Music where MusicId = \''.$m.'\'';
+
+            $query = $this->db->query($querystring);
+
+            if(array_key_exists(0,$query->result_array())) array_push($result,$query->result_array()[0]);
+        }
+
+
+        return json_encode($result);
 
     }
 
@@ -71,8 +92,6 @@ class Musiclist_model extends CI_Model
     {
         $this->load->database();
         $this->load->model('User_model');
-
-        if(!$this->User_model->User_islogin()) return 'error';
 
         $userid = $this->User_model->User_getid($password);
 
@@ -82,16 +101,19 @@ class Musiclist_model extends CI_Model
 
         //echo $querystring;
 
+        $array = $query->result_array();
+        foreach ($array as $x => $y)
+        {
+            $array[$x]['UserId'] = $this->User_model->User_getpassword($array[$x]['UserId']);
+        }
+
         return json_encode($query->result_array());
     }
 
     public function Musiclist_insert()
     {
         $this->load->database();
-        $this->load->model('User_model');
-
-        if(!$this->User_model->User_islogin()) return 'error';
-
+        //$this->load->model('User_model');
         $succeed = $this->db->insert('Musiclist',$this);
         return $succeed;
     }
@@ -112,6 +134,9 @@ class Musiclist_model extends CI_Model
         $query = $this->db->query($querystring);
 
         $result = $query->result_array()[0]['MusicIdList'];
+
+        if(!array_key_exists('MusicIdList',$query->result_array()[0])) throw new Exception(Constrants::E_MUSICLIST_NOT_EXIST);
+
         $musics = explode(';',$result);
 
         if(in_array($MusicId,$musics)) return false;
@@ -141,7 +166,7 @@ class Musiclist_model extends CI_Model
         $result = $query->result_array()[0]['MusicIdList'];
         $musics = explode(';',$result);
 
-        if(!in_array($MusicId,$musics)) return false;
+        if(!in_array($MusicId,$musics)) throw new Exception(Constrants::E_EXEC_SQL_QUERY);
 
         $count = count($musics);
 
@@ -156,7 +181,70 @@ class Musiclist_model extends CI_Model
 
         $querystring = 'update Musiclist set MusicIdlist = \''.$add.'\' where MusiclistId = \''.$MusiclistId.'\'';
         return $this->db->query($querystring);
+    }
+
+    public function Musiclist_remove($id)
+    {
+        $this->load->database();
+        $querystring = 'delete from Musiclist where MusiclistId = \''.$id.'\'';
+        $query = $this->db->query($querystring);
+        return $query;
 
     }
 
+    public function Musiclist_copy($musiclistid,$userid)
+    {
+        $this->load->database();
+        $querystring = 'select UserId,MusicIdList,MusiclistName from Musiclist where MusiclistId = \''.$musiclistid.'\'';
+        $query = $this->db->query($querystring);
+
+        if(count($query->result_array()) == 0) throw new Exception(Constrants::E_MUSICLIST_NOT_EXIST);
+
+        if($userid == $query->result_array()[0]['UserId']) throw new Exception(Constrants::E_PARAM_ILLEGAL);
+
+        $this->MusicIdList = $query->result_array()[0]['MusicIdList'];
+        $this->MusiclistName = $query->result_array()[0]['MusiclistName'];
+        $this->UserId = $userid;
+
+        $succeed = $this->db->insert('Musiclist',$this);
+        //print $this;
+        return $succeed;
+    }
+
+    public function Musiclist_Musicscount($id)
+    {
+        $this->load->database();
+
+        $querystring = 'select MusicIdList from Musiclist where MusiclistId =\''.$id.'\'';
+
+        $query = $this->db->query($querystring);
+
+        if(!array_key_exists('MusicIdList',$query->result_array()[0])) throw new Exception(Constrants::E_MUSICLIST_NOT_EXIST);
+
+        $result = $query->result_array()[0]['MusicIdList'];
+        $musics = explode(';',$result);
+
+        $count = count($musics);
+
+        if($count == 1 && $musics[0]=='') return 0;
+        else return $count;
+
+    }
+
+    public function Musiclist_contains($musiclistid,$musicid)
+    {
+        $this->load->database();
+
+        $querystring = 'select MusicIdList from Musiclist where MusiclistId =\''.$musiclistid.'\'';
+
+        $query = $this->db->query($querystring);
+
+        if(!array_key_exists('MusicIdList',$query->result_array()[0])) throw new Exception(Constrants::E_MUSICLIST_NOT_EXIST);
+
+        $result = $query->result_array()[0]['MusicIdList'];
+        $musics = explode(';',$result);
+
+        if(in_array($musicid,$musics)) return true;
+        else return false;
+    }
 }
