@@ -5,75 +5,53 @@
             <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
                 <view>
                     <view class="weui-cell__hd">
-                        <image src="../../src/pic_160.png" style="margin-right: 5px;vertical-align: middle;width:100px; height: 100px;"></image>
+                        <image src="{{songImg}}" style="margin-right: 5px;vertical-align: middle;width:100px; height: 100px;"></image>
                     </view>
                 </view>
                 <view>
-                    <view class="weui-cell__bd">歌曲名字</view>
-                    <view class="weui-cell__bd">歌手</view>
+                    <view class="userinfo-nickname">{{musicName}}</view>
+                    <view class="userinfo-vice-nickname">歌手</view>
                 </view>
+                
             </view>
         </view>
-        
 
-        <!--评论列表-->
-
-        <view class="weui-cells weui-cells_after-title">
-            <view class="weui-cell">
-                <view class="weui-cell__bd">评论1</view>
-                <image src="../icon/未添加喜爱.png" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
-            </view>
+        <!--加载中--><scroll-view scroll-y='true' style='height:875rpx' bindscrolltoupper="getUpperComment" bindscrolltolower="getLowerComment">
+        <view hidden='{{!loadingUpper}}'><image  style="width: 48rpx;height: 48rpx"  src='../../src/loading.gif'/>正在载入更多..
         </view>
-        <view class="weui-cells weui-cells_after-title">
-            <view class="weui-cell">
-                <view class="weui-cell__bd">评论2</view>
-                <image src="{{icon}}" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
-            </view>
+        <view wx:for="{{commentList}}"  class="music">
+              <view class="former-music" >
+              </view>
+              
+              <view id='{{item.MusiclistId}}' bindtap='playSong' data-userid="{{item.UserId}}" data-musicid="{{item.MusicId}}" class="music-item"  >
+                 <image class='userinfo-avatar' src='{{item.avatarUrl}}' background-size="cover"></image>
+                 {{item.nickName}}:{{item.Content}} 
+              </view>
+              <text class="likeNum">{{item.Likes}}</text>
+              <image wx:if="{{item.IsLike==false}}" src="../../src/like.png"  data-test="{{item}}" data-Likes="{{item.Likes}}" data-IsLike="{{item.IsLike}}"  bindtap='like' data-idx='{{index}}' data-id='{{item.CommentId}}' class="delete-item"></image>
+              <image wx:else  src="../../src/dislike.png" data-Likes="{{item.Likes}}" data-IsLike="{{item.IsLike}}"  bindtap="delLike" data-idx='{{index}}' data-id='{{item.CommentId}}' class="delete-item"></image>
         </view>
-        <view class="weui-cells weui-cells_after-title">
-            <view class="weui-cell">
-                <view class="weui-cell__bd">评论3</view>
-                <image src="{{icon}}" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
-            </view>
+        <view hidden='{{!loadingLower}}'><image  style="width: 48rpx;height: 48rpx"  src='../../src/loading.gif'/>正在载入更多..
         </view>
+        <view class="loadingText" hidden='{{!loadingLowerComplete}}'>已加载全部</view>
+        </scroll-view>
 
         <!--输入评论-->
-        <view class="weui-search-bar">
-            <view class="weui-search-bar__form">
-                <view class="weui-search-bar__box">
-                    <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
-                    <input type="text" class="weui-search-bar__input" placeholder="评论1" value="{{inputVal}}" focus="{{inputShowed}}" bindinput="inputTyping" />
+         <view class="bottom-all">        
+            <view class="search-header">            
+                <view class="input-box">
+                    <icon class="input-box-icon" type="search" size="14"></icon>
+                    <input type="text" class="keyword" placeholder="输入歌手名、歌曲名搜索" value="{{inputVal}}" focus="{{inputShowed}}" bindinput="inputTyping" bindconfirm='insertComment' />
                     <view class="weui-icon-clear" wx:if="{{inputVal.length > 0}}" bindtap="clearInput">
-                        <icon type="clear" size="14"></icon>
+                         <icon type="clear" size="14" bindtap="hideInput"></icon>
                     </view>
                 </view>
-                <label class="weui-search-bar__label" hidden="{{inputShowed}}" bindtap="showInput">
-                    <view class="weui-search-bar__text">输入评论</view>
+                <label style="" class="label-all" hidden="{{inputShowed}}" bindtap="showInput">
+                    <icon class="weui-icon-search" type="search" size="13"></icon>
+                    <view class="label-text">输入歌手名、歌曲名搜索</view>
                 </label>
             </view>
-            <view class="weui-search-bar__cancel-btn" hidden="{{!inputShowed}}" bindtap="hideInput">发表</view>
-        </view>
-        <view class="weui-cells searchbar-result" wx:if="{{inputVal.length > 0}}">
-            <navigator url="" class="weui-cell" hover-class="weui-cell_active">
-                <view class="weui-cell__bd">
-                    <view>实时搜索文本</view>
-                </view>
-            </navigator>
-            <navigator url="" class="weui-cell" hover-class="weui-cell_active">
-                <view class="weui-cell__bd">
-                    <view>实时搜索文本</view>
-                </view>
-            </navigator>
-            <navigator url="" class="weui-cell" hover-class="weui-cell_active">
-                <view class="weui-cell__bd">
-                    <view>实时搜索文本</view>
-                </view>
-            </navigator>
-            <navigator url="" class="weui-cell" hover-class="weui-cell_active">
-                <view class="weui-cell__bd">
-                    <view>实时搜索文本</view>
-                </view>
-            </navigator>
-        </view>
+            <view class="right" hidden="{{!inputShowed}}" bindtap="insertComment">发表</view>   
+        </view>          
     </view>
 </view>

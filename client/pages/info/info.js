@@ -1,4 +1,3 @@
-
 var config = require('../../config')
 var sliderWidth = 96; // 需要设置slider的宽度，用于计算中间位置
 Page({
@@ -10,14 +9,17 @@ Page({
     hiddenmodalput: true,
     inputVal:"",
     nickName:"",
-    avatarUrl:""
-    //可以通过hidden是否掩藏弹出框的属性，来指定那个弹出框  
+    avatarUrl:"",
+    canIUse: false,//wx.canIUse('button.open-type.getUserInfo')
   },
-
   onLoad: function () {
-    var that=this;
+    this.getData();    
+  },
+  getData:function()
+  {
+    var that= this;
     //获取userid
-    var value=wx.getStorageSync('userid');
+    var value= wx.getStorageSync('userid');
     //歌单列表渲染
     wx.request({
       url: `${config.service.host}/Musiclist_controller/Musiclist_getbyuserid`,
@@ -25,43 +27,69 @@ Page({
         userid: value
       },
       success: function (res) {
+        console.log(res.data)
         that.setData({
-          musicList: res.data
+          musicList: res.data,
         });
       }
+      
     })
+
     //评论列表渲染
     wx.request({
-        url: `${config.service.host}/Comment_selectbyuser`,
-        data: {
-          UserId: value
-        },
-        success: function (res2) {
-          that.setData({
-            commentList: res2.data
-          });
-        }
-    })  
-    
+      url: `${config.service.host}/Comment_selectbyuser`,
+      data: {
+        UserId: value
+      },
+      success: function (res2) {
+        that.setData({
+          commentList: res2.data,
+        });
+        wx.hideLoading()
+      }
+    })
+    /*
     wx.getSystemInfo({
       success: function (res) {
         that.setData({
           sliderLeft: (res.windowWidth / that.data.tabs.length - sliderWidth) / 2,
           sliderOffset: res.windowWidth / that.data.tabs.length * that.data.activeIndex
         });
-      }
-    });
-    //获取微信头像，昵称
-    wx.getUserInfo({
-      success: function (res) {
-        that.setData({
-          nickName: res.userInfo.nickName,
-          avatarUrl: res.userInfo.avatarUrl,
-        })
       },
-    })
-  },
+      fail: function (res) {
 
+      }
+    })
+    */
+  },
+  bindGetUserInfo: function (e) {
+    wx.showLoading({
+      title: '加载中',
+    })
+    if (e.detail.userInfo) {
+      this.getData()
+      this.setData({
+        canIUse:wx.canIUse('button.open-type.getUserInfo'),
+        nickName: e.detail.userInfo.nickName,
+        avatarUrl: e.detail.userInfo.avatarUrl,
+      })
+      console.log(e.detail.userInfo)
+      var value = wx.getStorageSync('userid')
+
+      wx.request({
+        url: `${config.service.host}/User_controller/updateinfo`,
+        data: {
+          userid: value,
+          userinfo: e.detail.userInfo
+        }
+      })
+      getApp().globalData.authorized = true
+      //用户按了允许授权按钮
+    } else {
+      //用户按了拒绝按钮
+      wx.hideLoading()
+    }
+  },
   tabClick: function (e) {
     //获取userid
     this.setData({
@@ -91,6 +119,7 @@ Page({
   confirm: function (e) {
     var that = this;
     var value=wx.getStorageSync('userid')
+    //将输入文本inputVal插入歌单
     wx.request({
       url: `${config.service.host}/Musiclist_controller/Musiclist_insert`,
       data: {
@@ -100,7 +129,7 @@ Page({
       method: 'GET',
       success: function (res2) {
         that.openToast();
-        //歌单列表渲染
+        //歌单列表重新渲染
         wx.request({
           url: `${config.service.host}/Musiclist_controller/Musiclist_getbyuserid`,
           data: {
@@ -108,39 +137,105 @@ Page({
           },
           success: function (res) {
             that.setData({
-              musicList: res.data
+              musicList: res.data,
+              hiddenmodalput: true
             });
           }
         })
       },
       fail: function (err) {
         console.log(err.data);
-        console.log("err");
       }
     })
   },
+  
+  
 
-  openToast: function () {
-    wx.showToast({
-      title: '已完成',
-      icon: 'success',
-      duration: 3000
-    });
-  },
-  openLoading: function () {
-    wx.showToast({
-      title: '数据加载中',
-      icon: 'loading',
-      duration: 3000
-    });
-  },
+  //点击删除按钮事件
+  delItem: function (e) {
+    //获取列表中要删除项的下标
+    var MusiclistId = e.target.dataset.musiclistid;
+    var musicList = this.data.musicList;
+    //移除列表中下标为MusiclistId的项
+    musicList.splice(MusiclistId, 1);
+    //更新歌单列表的状态
+    var value=wx.getStorageSync('userid');
+    var that=this;
+    wx.request({
+      url: `${config.service.host}/Musiclist_controller/Musiclist_getbyuserid`,
+      data: {
+        userid: value
+      },
+      success: function (res) {
+        console.log(res.data);
+        that.setData({
+          musicList: res.data
+        });
+      }
+    })
+    //数据库删除歌单
+    wx.request({
+      url: `${config.service.host}/Musiclist_controller/Musiclist_remove`,
+      data: {
+        id: MusiclistId
+      },
+      success: function (res) {
+      },
+      fail: function (err) {
+        console.log(err);
+      }
+    })
+    
+  },  
+
+
   
   //跳转歌单页面!!!!!!!!!!!!
   toSongList:function(e){
     var sli = (e.target.id);
+    this.setData({
+      hidden:true
+    })
     wx.navigateTo({
-      url: '../songList/songList?songListId='+sli
+      url: '../songList/songList?songListId='+sli,
+      
+    })
+  },
+  delComment:function(e){
+    console.log("delcomm");
+    //获取列表中要删除项的下标
+    var commentid = e.target.dataset.commentid;
+    var userid = wx.getStorageSync('userid');
+    var commentList = new Array();
+    console.log("userid"+userid);
+    console.log("commid"+commentid);
+    //移除列表中下标为MusiclistId的项
+    for (var i = 0; i <this.data.commentList.length;i++)
+    {
+      if (this.data.commentList[i]['CommentId'] != commentid)
+      {
+        commentList.push(this.data.commentList[i])
+      }
+    }
+    console.log(commentList);
+    this.setData({
+      commentList: commentList
+    })
+    var that = this;
+    wx.request({
+      url: `${config.service.host}/Comment_delete`,
+      data: {
+        CommentId:commentid,
+        UserId: userid
+      },
+      success: function (res) {
+        console.log(res);
+      },
+      fail:function(err){
+        console.log(err);
+      }
     })
   }
 });
+
 

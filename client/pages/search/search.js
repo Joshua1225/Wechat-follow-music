@@ -1,26 +1,127 @@
 var config = require('../../config')
+
 Page({
   data: {
     inputShowed: false,
     inputVal: "",
-    confirmFlag:false
+    confirmFlag: false,
+    musicLoading: false, 
+    musicLoadingComplete: false,
+    result:[],
+    start:0
   },
-  onLoad:function(option)
-  {
-    var that= this;
-    
+  onLoad: function (option) {
+    var that = this;
+
     wx.getStorage({
       key: 'history',
-      success: function(res) {
+      success: function (res) {
         that.setData({
-          historyRec:res.data
+          historyRec: res.data
         });
       }
     })
-      
+
+  },  
+  listen: function (e) {
+    var id = e.currentTarget.dataset.musicid
+    // console.log(id)
+    // var pages = getCurrentPages();
+    // var currPage = pages[pages.length - 1];   //当前页面
+    // var prevPage = pages[pages.length - 2];  //上一个页面
+    // //直接调用上一个页面的setData()方法，把数据存到上一个页面中去  
+    // prevPage.insertMusic(id)
+    // wx.navigateBack({
+    //   delta: 1
+    // })
+    getApp().globalData.addSongs=[id];
+    getApp().globalData.done = false;
+
+    wx.switchTab({
+      url: '/pages/index/index',
+    })
+
   },
-  inputValUpdate:function(e)
+  getMusic:function()
   {
+    var that=this
+    // if(this.data.start>=this.data.count)
+    // {
+    //   this.setData({
+    //     musicloading: false,
+    //     musicloadingComplete: true
+    //   })
+    //   return
+    // }
+      if(that.data.musicLoadingComplete==true)
+      {
+        that.setData({
+          musicLoading: false,
+          musicLoadingComplete: true
+        })
+        return
+      }
+      that.setData({
+        musicLoading: true,
+        musicLoadingComplete: false
+      })
+  
+    wx.request({
+      url: `${config.service.musicUrl}/music_search`,
+      data:{
+        keywords:this.data.inputVal,
+        start:this.data.start
+      },
+      success:function(res)
+      {
+        console.log(res.data.length)
+        if (res.data.length!=0) {
+          that.data.result.concat(res.data)
+          console.log(that.data.result.concat(res.data))
+          that.setData({
+            musicLoading: false,
+            musicLoadingComplete: false,
+            result: that.data.result.concat(res.data)
+          })
+        }
+        else
+        {
+          that.setData({
+            musicLoading: false,
+            musicLoadingComplete: true
+          })
+        }
+         
+      }
+    })
+    that.setData({
+      start: that.data.start + 10
+    })
+  },
+  deleteHistory:function(e)
+  {
+    var tmp=[]
+    var value = e.currentTarget.dataset.content
+    console.log(value)
+    for(let i in this.data.historyRec)
+    {
+      if(i!=value)
+      tmp.unshift(i)
+    }
+    console.log(value)
+    this.setData({
+      historyRec:tmp
+    })
+    wx.setStorageSync('history', tmp)
+  },
+  deleteAllHistory:function()
+  {
+    this.setData({
+      historyRec: []
+    })
+    wx.setStorageSync('history', this.data.historyRec)
+  },
+  inputValUpdate: function (e) {
     this.setData({
       inputVal: e.currentTarget.dataset.content
     });
@@ -36,8 +137,8 @@ Page({
     this.setData({
       inputVal: "",
       inputShowed: false,
-      confirmFlag:false,
-      result:[]
+      confirmFlag: false,
+      result: []
     });
     this.onLoad()
 
@@ -52,21 +153,30 @@ Page({
       inputVal: e.detail.value
     });
   },
-  inputConfirm:function(e){
+  inputConfirm: function (e) {
+    if(this.data.inputVal==''){
+      return
+    }
     this.setData({
-        confirmFlag:true
+      confirmFlag: true,
+      start:0,
+      result: [],
+      musicLoading: true,
+      musicLoadingComplete: false
     });
-    
+    //Add history
     if (this.data.historyRec == null)
       this.data.historyRec = [];
-    var flag=true;
-    for (let i in this.data.historyRec){
-      if (this.data.inputVal == this.data.historyRec[i]){
+    var flag = true;
+    for (let i in this.data.historyRec) {
+      if (this.data.inputVal == this.data.historyRec[i]) {
         flag = false;
         break;
       }
     }
-    if(flag)
+    if (this.data.inputVal == '')
+      flag = false
+    if (flag)
       this.data.historyRec.unshift(this.data.inputVal);
 
     wx.setStorage({
@@ -74,23 +184,7 @@ Page({
       data: this.data.historyRec
     });
 
-    var that = this; 
-    wx.request({
-      url: `${config.service.host}/Music_controller/Music_search`,
-      data:{
-        keywords: this.data.inputVal
-        
-      },
-      success:function(res)
-      {
-        that.setData({
-            result:res.data
-        })
-      },
-      fail:function(err)
-      {
-        console.log(err.data);
-      }
-    });
+    //request new musicdata
+    this.getMusic()
   }
 });

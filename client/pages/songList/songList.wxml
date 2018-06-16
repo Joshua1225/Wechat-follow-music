@@ -1,29 +1,29 @@
 <view class="page">
     <view class="page__bd">
-       
         <!--//歌单名字和按钮-->
-        <view class="weui-cells weui-cells_after-title">
-            <navigator url="" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
-                <view class="weui-cell__hd">
-                    <image src="../../src/pic_160.png" style="margin-right: 5px;vertical-align: middle;width:100px; height: 100px;"></image>
+        <view >
+            <view  class="weui-cell weui-cell_access" hover-class="weui-cell_active" style="background-image: url('https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=4148476017,3494508681&fm=27&gp=0.jpg');background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;">
+                <view class="userinfo-nickname">
+                    <view style="font-family:'KaiTi'">{{songListName}}</view>
+                    <view class="songListOperation">
+                        <view class="play-all">
+                            <text bindtap='playSongs'>播放全部</text>
+                        </view>
+                        <image wx:if="{{collection==false}}" src="../../src/like.png" class="giveLove" bindtap='dianZan'></image>
+                        <image wx:else src="../../src/dislike.png"  class="giveLove" ></image>
+                       
+                    </view>
                 </view>
-                <view class="weui-cell__bd">{{songListName}}</view>
-                <view class="weui-cell__hd">
-                    <image src="../../src/分享.png" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
-                </view>
-                <view class="weui-cell__hd">
-                    <image src="../../src/未添加喜爱.png" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
-                </view>
-            </navigator>
-        </view>
-        
-
-        <!--歌曲列表-->
-        <view class="weui-cells weui-cells_after-title">
-            <view wx:for="{{music}}" class="weui-cell weui-cell_access" hover-class="weui-cell_active" bindtap='toSongList'><!--未完成-->
-          {{index+1}}:{{}}
             </view>
-
+            <!--歌曲列表-->
+            <view wx:for="{{music}}"  class="music">
+              <view class="former-music" >
+              </view>
+              <view id='{{item.MusiclistId}}' bindtap='playSong' data-musicid="{{item.MusicId}}" class="music-item"  >
+                 {{index+1}}:{{item.MusicName}}
+              </view>
+              <image src="../../src/infoDelete.png" class="delete-item" data-musicid="{{item.MusicId}}" bindtap='deleteSong'></image> 
+            </view>
         </view>
     </view>
 </view>

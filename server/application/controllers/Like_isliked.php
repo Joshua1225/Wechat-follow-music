@@ -6,40 +6,48 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Like_isliked extends CI_Controller {
   public function index() {
 
-      function shutdownfunc()
-      {
-        if ($error = error_get_last()) {
-          var_dump('<b>register_shutdown_function: Type:' . $error['type'] . ' Msg: ' . $error['message'] . ' in ' . $error['file'] . ' on line ' . $error['line'] . '</b>');
-          die();
-        }
-      }
-
-      function errorfun($type, $message, $file, $line)
-      {
-        var_dump('<b>set_error_handler: ' . $type . ':' . $message . ' in ' . $file . ' on ' . $line . ' line .</b><br />');
-        die();
-      }
-
-      set_error_handler('errorfun');
-      register_shutdown_function('shutdownfunc');
-
       $this->load->database();
       $this->load->model('Comment_model');
       $this->load->model('Likelist_model');
       $this->load->model('User_model');
 
-      $this->User_model->password = $_GET['Userid'];
-      if(!$this->User_model->User_islogin()){
-      var_dump(false);
-      return;
-     }
-      $userid=$this->User_model->get_Userid($_GET['UserId']);
-      if($this->Likelist_model->isInList($userid,$_GET['MusicId'],$_GET['CommentId'])){
-        var_dump(true);
+
+      try{
+        if(!(array_key_exists('UserId',$_GET)&&array_key_exists('CommentId',$_GET)&&array_key_exists('MusicId',$_GET))){
+          throw new Exception(Likelist_constraints::E_PARAM_NOT_EXIST);
+        }
       }
-      else{
-        var_dump(false);
+      catch(Exception $e){
+        echo $e->getMessage();
+        return;
       }
+
+      $this->User_model->init();
+      try{
+        $this->User_model->password = $_GET['UserId'];
+        if(!$this->User_model->User_islogin()){
+          throw new Exception(Constrants::E_LOGIN_ERROR);
+          //return;
+        }
+      }
+      catch(Exception $e){
+        echo $e->getMessage();
+        return;
+      }
+      try{
+        $userid=$this->User_model->User_getid($_GET['UserId']);
+        if($this->Likelist_model->isInList($userid,$_GET['MusicId'],$_GET['CommentId'])){
+          var_dump(true);
+        }
+        else{
+          var_dump(false);
+        }
+      }
+      catch(Exception $e){
+        echo $e->getMessage();
+        return;
+      }
+      
      
       //$this->db->insert('Comment',$com);
       //$_POST[]  

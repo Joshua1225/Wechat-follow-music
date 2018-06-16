@@ -3,48 +3,72 @@ var qcloud = require('./vendor/wafer2-client-sdk/index')
 var config = require('./config')
 
 App({
+  globalData:{
+    addSongs:[],
+    done:true,
+    authorized:false
+  },
   onLaunch: function () {
-    //检查登录密钥userid是否存在且有效
     var islogin = false;
     try {
-      //检查缓存
+      //提取缓存
       var value = wx.getStorageSync('userid')
-      if (value) {
-        wx.request({
-          url: config.service.isloginUrl,
-          data: {
-            userid: value
-          },
-          success: function (res) {
-            //console.log(res)
-            if (res.data == '(bool)true') {
-              islogin = true
-            }
-            //未登录需要登录
-            if (islogin == false) {
-              wx.login({
-                success: function (res) {
-                  wx.request({
-                    url: config.service.loginUrl,
-                    data: {
-                      code: res.code
-                    },
-                    success: function (response) {
-                      try {
-                        wx.setStorageSync('userid', response.data)
-                      } catch (e) {
-                        console.log('error')
-                      }
-                    }
+      console.log(value)
 
-                  })
-                }
-              })
-            }
+      wx.request({//检查userid是否有效
+        url: config.service.isloginUrl,
+        data: {
+          userid: value
+        },
+        success: function (res1) {//回调函数获取结果处理
+          console.log(res1.data)
+          if (res1.data == 'bool(false)\n') {//失效-重新获取code登录
+            console.log('false')
+            wx.login({
+              success: function (res2) {//回填函数向服务器转发code换取3rd-key
+                console.log(res2.code)
+                wx.request({
+                  url: config.service.loginUrl,
+                  data: {
+                    code: res2.code
+                  },
+                  success: function (res3) {//回填函数userid存入缓存
+                    wx.setStorageSync('userid', res3.data)
+                    wx.request({
+                      url: config.service.authUrl,
+                      data: {
+                        userid: value
+                      },
+                      success: function (res4) {
+                        console.log(res.data)
+                        if (res.data == 'bool(true)\n')
+                          getApp().globalData.authorized = true
+                      }
+                    })
+                  },
+                  fail:function(res5){
+
+                  }
+                })
+              }
+            })
           }
-        })
-      }
-      
+          else{
+            wx.request({
+              url: config.service.authUrl,
+              data:{
+                userid:value
+              },
+              success:function(res){
+                console.log(res.data)
+                if (res.data =='bool(true)\n')
+                  getApp().globalData.authorized=true
+              }
+            })
+          }
+        }
+      })
+
     } catch (e) {
       console.log('userid not exist')
     }
