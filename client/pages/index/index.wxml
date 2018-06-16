@@ -66,27 +66,30 @@
         <view class="close-playlist" bindtap="close">关闭</view>
       </view>
     </view>
-    <loading hidden="{{hiddenLoading}}">正在加载</loading>
-
+    
   </swiper-item>
-  <swiper-item>
-    <button bindtap='Return' class="return-button"><image class='return-image' src='../../src/up1.png'></image></button>
-    <scroll-view scroll-y="true" style="height: 917rpx;">
-      <view class="song-list{{isLight ? ' light' : ''}}" style="background:{{listBgColor}}">
-        <view class="song-item {{index==musicListIndex?'playing':''}}" wx:for="{{musicList}}" wx:key="unique" bindtap="playsongTap" data-id="{{item.id}}" data-index="{{index}}" >
-          <text class="song-number">{{index+1}}</text>
-          <view class="song-body">
-            <view>
-              <text class="song-tit">{{item.name}}</text>
-              <view class="song-desc">
-                <text>{{item.singer}}</text>
+  <swiper-item >
+    <view class='container2'>
+      <button bindtap='Return' class="return-button"><image class='return-image' src='../../src/up1.png'></image></button>
+      <scroll-view scroll-y="true" style="height: 80vh;">
+        <view class="song-list{{isLight ? ' light' : ''}}" style="background:{{listBgColor}}">
+          <view class="song-item {{index==musicListIndex?'playing':''}}" wx:for="{{musicList}}" wx:key="unique" bindtap="playsongTap" data-id="{{item.id}}" data-index="{{index}}" >
+            <text class="song-number">{{index+1}}</text>
+            <view class="song-body">
+              <view>
+                <text class="song-tit">{{item.name}}</text>
+                <view class="song-desc">
+                  <text>{{item.singer}}</text>
+                </view>
               </view>
+              <image src='../../src/delete.png' class="deleteimage" catchtap='deleteMusic' data-index="{{index}}"></image>
             </view>
-            <image src='../../src/delete.png' class="deleteimage" catchtap='deleteMusic' data-index="{{index}}"></image>
           </view>
         </view>
-      </view>
-    </scroll-view>
-    <button bindtap='DeleteAll' style='background:rgb(200,200,200)'><view style='color:white'>清空列表</view></button>
+      </scroll-view>
+      <button bindtap='DeleteAll' class='clear-button'>
+        <view style='color:white'>清空列表</view>
+      </button>
+    </view>
   </swiper-item>
 </swiper>

@@ -29,11 +29,19 @@
   padding: 0;
   display: flex;
 }
+.user-name{
+  vertical-align: middle;
+}
+.comment-content{
+  flex:3;
+  margin-top:25rpx;
+  margin-left:1rpx;
+}
 .former-music{
-  flex: 1;
+  flex: 0.5;
 }
 .music-item{
-  flex: 12;
+  flex: 1.5;
   text-align: left;
   font-size: 37rpx;
   color: #6d6d6d;
@@ -41,10 +49,10 @@
   padding: 30rpx 0;
   border-bottom: solid 1px #ebebeb;
 }
-.delete-item{
-  flex: 1.4;
+.love-item{
+  flex: 0.4;
   text-align: center;
-  height:70rpx; 
+  height:60rpx; 
   padding:20rpx
 }
 .likeNum{
@@ -100,19 +108,23 @@
     line-height:56rpx;
     font-size:1ch;
     font-family: 'YouYuan';
+    margin-top:15rpx;
+    margin-bottom: 15rpx;
 }
 
 .right{
-    margin-top: 5rpx;
+    margin-top: 27rpx;
     margin-bottom:33rpx;
-    margin-left: 31rpx;
-    margin-right: 10rpx;
+    margin-left: 3rpx;
+    margin-right: 20rpx;
     width: 58rpx;
     height: 43rpx;
     line-height: 43rpx;
     float: right;
     flex:2;
     font-family:'YouYuan';
+    font-size:45rpx;
+    color:	#696969;
 }
 
 .label-all{

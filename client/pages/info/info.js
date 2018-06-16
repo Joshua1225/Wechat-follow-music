@@ -15,6 +15,13 @@ Page({
   onLoad: function () {
     this.getData();    
   },
+  onShow:function()
+  {
+    wx.showLoading({
+      title: '正在加载',
+    })
+    this.getData()
+  },
   getData:function()
   {
     var that= this;
@@ -27,7 +34,7 @@ Page({
         userid: value
       },
       success: function (res) {
-        console.log(res.data)
+        
         that.setData({
           musicList: res.data,
         });
@@ -64,7 +71,7 @@ Page({
   },
   bindGetUserInfo: function (e) {
     wx.showLoading({
-      title: '加载中',
+      title: '正在加载',
     })
     if (e.detail.userInfo) {
       this.getData()
@@ -117,6 +124,9 @@ Page({
   },
   //确认  
   confirm: function (e) {
+    wx.showLoading({
+      title: '正在添加',
+    })
     var that = this;
     var value=wx.getStorageSync('userid')
     //将输入文本inputVal插入歌单
@@ -128,7 +138,7 @@ Page({
       },
       method: 'GET',
       success: function (res2) {
-        that.openToast();
+        
         //歌单列表重新渲染
         wx.request({
           url: `${config.service.host}/Musiclist_controller/Musiclist_getbyuserid`,
@@ -136,6 +146,11 @@ Page({
             userid: value
           },
           success: function (res) {
+            wx.hideLoading()
+            wx.showToast({
+              title: '添加成功',
+              duration:1000
+            })
             that.setData({
               musicList: res.data,
               hiddenmodalput: true
@@ -153,33 +168,42 @@ Page({
 
   //点击删除按钮事件
   delItem: function (e) {
-    //获取列表中要删除项的下标
-    var MusiclistId = e.target.dataset.musiclistid;
-    var musicList = this.data.musicList;
-    //移除列表中下标为MusiclistId的项
-    musicList.splice(MusiclistId, 1);
-    //更新歌单列表的状态
-    var value=wx.getStorageSync('userid');
-    var that=this;
-    wx.request({
-      url: `${config.service.host}/Musiclist_controller/Musiclist_getbyuserid`,
-      data: {
-        userid: value
-      },
-      success: function (res) {
-        console.log(res.data);
-        that.setData({
-          musicList: res.data
-        });
-      }
+    var value = wx.getStorageSync('userid');
+    var that = this;
+
+    wx.showLoading({
+      title: '正在删除',
     })
+    //获取列表中要删除项的下标
+    var musiclistId = e.target.dataset.musiclistid;
+    var preMusicList = this.data.musicList;
+    
+    var musicList=new Array();
+    
+
+    //移除列表中下标为MusiclistId的项
+    for (var i = 0; i < preMusicList.length; i++) {
+      if (preMusicList[i]['MusiclistId'] != musiclistId) {
+        musicList.push(preMusicList[i])
+      }
+    }
+    //更新歌单列表的状态
     //数据库删除歌单
+    
     wx.request({
       url: `${config.service.host}/Musiclist_controller/Musiclist_remove`,
       data: {
-        id: MusiclistId
+        id: musiclistId
       },
       success: function (res) {
+        wx.hideLoading()
+        wx.showToast({
+          title: '删除成功',
+          duration:500
+        })
+        that.setData({
+          musicList:musicList
+        })
       },
       fail: function (err) {
         console.log(err);
@@ -202,14 +226,17 @@ Page({
     })
   },
   delComment:function(e){
-    console.log("delcomm");
+    wx.showLoading({
+      title: '正在删除',
+    })
     //获取列表中要删除项的下标
+    var value=wx.getStorageSync('userid')
     var commentid = e.target.dataset.commentid;
     var userid = wx.getStorageSync('userid');
     var commentList = new Array();
     console.log("userid"+userid);
     console.log("commid"+commentid);
-    //移除列表中下标为MusiclistId的项
+    //移除列表中下标为的项
     for (var i = 0; i <this.data.commentList.length;i++)
     {
       if (this.data.commentList[i]['CommentId'] != commentid)
@@ -218,9 +245,7 @@ Page({
       }
     }
     console.log(commentList);
-    this.setData({
-      commentList: commentList
-    })
+    
     var that = this;
     wx.request({
       url: `${config.service.host}/Comment_delete`,
@@ -229,7 +254,14 @@ Page({
         UserId: userid
       },
       success: function (res) {
-        console.log(res);
+        wx.hideLoading()
+        wx.showToast({
+          title: '删除成功',
+          duration:500
+        })
+        that.setData({
+          commentList: commentList
+        })
       },
       fail:function(err){
         console.log(err);
