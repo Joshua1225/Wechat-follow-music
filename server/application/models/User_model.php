@@ -44,7 +44,7 @@ class User_model extends CI_Model
 
         //echo json_encode($query->result_array()[0]);
 
-        if(!key_exists('MusicList',$query0->result_array()[0])) throw new Exception(Constrants::E_LOGIN_ERROR);
+        //if(!key_exists(0,$query0->result_array()[])) throw new Exception(Constrants::E_LOGIN_ERROR);
 
         if($query0->result_array()[0]['MusicList']!='-1') return;
 

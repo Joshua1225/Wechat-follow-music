@@ -150,7 +150,7 @@ Page({
       }
     })
     this.openList()
-  },
+  },  
 
   openList: function () {
     this.setData({
@@ -503,6 +503,7 @@ Page({
           musicid: this.data.musicList[this.data.musicListIndex]['id']
         },
         success: function (res) {
+          console.log(res.data)
           if(res.data=="bool(true)\n")
           {
             that.setData({
@@ -714,6 +715,7 @@ Page({
       key: 'musicList',
       success: function (res) {
         var userid = wx.getStorageSync('userid')
+        console.log(userid)
         that.setData({
           musicList: res.data
         })
@@ -723,6 +725,7 @@ Page({
           url: `https://hy6e9qbe.qcloud.la/User_controller/getMusicList?userid=` + userid,
           success: function (res) {
             favorite = res.data
+            console.log(res.data)
             that.isFavorite()
           }
         })
