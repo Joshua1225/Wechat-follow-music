@@ -3,7 +3,6 @@ var config = require('../../config')
 var innerAudioContext = wx.getBackgroundAudioManager()
 const Lyric = require('../../utils/lyric.js')
 var imageUtil = require('../../utils/util.js')
-var favorite 
 Page({
 
   /**
@@ -24,6 +23,7 @@ Page({
     toLineNum: -1,
     picturePath:'http://140.143.149.22/picture/0',
     title:'',
+    favorite:-1,
     musicList:[],
     iconList_1: [
       {
@@ -90,6 +90,7 @@ Page({
       })
       return
     }
+    
     var up = "iconList_2[0].imagePath";
     var op = "iconList_2[0].i";
     var that = this
@@ -97,7 +98,7 @@ Page({
       wx.request({
         url: `https://hy6e9qbe.qcloud.la/Musiclist_controller/Musiclist_add`,
         data: {
-          musiclistid: favorite,
+          musiclistid: that.data.favorite,
           musicid: that.data.musicList[that.data.musicListIndex]['id']
         },
         success: function (res) {
@@ -112,7 +113,7 @@ Page({
       wx.request({
         url: `https://hy6e9qbe.qcloud.la/Musiclist_controller/Musiclist_delete`,
         data: {
-          musiclistid: favorite,
+          musiclistid: that.data.favorite,
           musicid: that.data.musicList[that.data.musicListIndex]['id']
         },
         success: function (res) {
@@ -238,7 +239,7 @@ Page({
         musicListIndex: Math.floor(Math.random() * musicListLength)
       })
     }
-    else if (this.data.playMode == 1){
+    else if (this.data.playMode == 0){
       this.setData({
         musicListIndex: (musicListIndex + musicListLength - 1) % musicListLength
       })
@@ -494,32 +495,44 @@ Page({
     var that =this
     var up = "iconList_2[0].imagePath";
     var op = "iconList_2[0].i";
+    var value=wx.getStorageSync('userid')
     if (this.data.musicList.length != 0)
     {
       wx.request({
-        url: 'https://hy6e9qbe.qcloud.la/Musiclist_controller/Musiclist_contains',
-        data:{
-          musiclistid: favorite,
-          musicid: this.data.musicList[this.data.musicListIndex]['id']
+        url: `${config.service.userUrl}/getMusicList`,
+        data: {
+          userid: value
         },
-        success: function (res) {
-          console.log(res.data)
-          if(res.data=="bool(true)\n")
-          {
-            that.setData({
-              [up]: "../../src/dislike.png",
-              [op]: 1
-            })
-          }
-          else
-          {
-            that.setData({
-              [up]: "../../src/like.png",
-              [op]: 0
-            })
-          }
+        success: function (res1) {
+          that.setData({
+            favorite:res1.data
+          })
+          console.log(res1.data)
+          wx.request({
+            url: 'https://hy6e9qbe.qcloud.la/Musiclist_controller/Musiclist_contains',
+            data: {
+              musiclistid:res1.data,
+              musicid: that.data.musicList[that.data.musicListIndex]['id']
+            },
+            success: function (res) {
+              console.log(res.data)
+              if (res.data == "bool(true)\n") {
+                that.setData({
+                  [up]: "../../src/dislike.png",
+                  [op]: 1
+                })
+              }
+              else {
+                that.setData({
+                  [up]: "../../src/like.png",
+                  [op]: 0
+                })
+              }
+            }
+          })
         }
       })
+      
     }
     else
     {
@@ -720,14 +733,9 @@ Page({
         })
         
         innerAudioContext.pause()
-        wx.request({
-          url: `https://hy6e9qbe.qcloud.la/User_controller/getMusicList?userid=` + userid,
-          success: function (res) {
-            favorite = res.data
-            console.log(res.data)
-            that.isFavorite()
-          }
-        })
+        
+        that.isFavorite()
+        
         that.setTitle()
         that.getPicture()
         that.getLyric()

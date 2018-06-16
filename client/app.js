@@ -6,8 +6,7 @@ App({
   globalData:{
     addSongs:[],
     done:true,
-    authorized:false,
-    favorite:-1
+    authorized:false
   },
   onLaunch: function () {
     var islogin = false;
@@ -38,22 +37,14 @@ App({
                     wx.request({
                       url: config.service.authUrl,
                       data: {
-                        userid:res3.data
+                        userid: value
                       },
                       success: function (res4) {
                         if (res4.data == 'bool(true)\n')
                           getApp().globalData.authorized = true
                       }
                     })
-                    wx.request({
-                      url: `${config.service.userUrl}/getMusicList`,
-                      data: {
-                        userid:res3.data
-                      },
-                      success: function (res5) {
-                        getApp().globalData.favorite = res5.data
-                      }
-                    })
+                    
                   },
                   fail:function(res6){
 
@@ -73,15 +64,7 @@ App({
                   getApp().globalData.authorized=true
               }
             })
-            wx.request({
-              url: `${config.service.userUrl}/getMusicList`,
-              data:{
-                userid:value
-              },
-              success:function(res){
-                getApp().globalData.favorite = res.data
-              }
-            })
+            
           }
         }
       })
