@@ -1,4 +1,4 @@
-var config = require('../../config')
+ var config = require('../../config')
 var sliderWidth = 96; // 需要设置slider的宽度，用于计算中间位置
 Page({
   data: {
@@ -83,7 +83,7 @@ Page({
           userinfo: e.detail.userInfo
         }
       })
-     
+      getApp().globalData.authorized = true
       //用户按了允许授权按钮
     } else {
       //用户按了拒绝按钮
@@ -117,6 +117,9 @@ Page({
   },
   //确认  
   confirm: function (e) {
+    wx.showLoading({
+      title: '添加中',
+    })
     var that = this;
     var value=wx.getStorageSync('userid')
     //将输入文本inputVal插入歌单
@@ -128,7 +131,7 @@ Page({
       },
       method: 'GET',
       success: function (res2) {
-        that.openToast();
+        
         //歌单列表重新渲染
         wx.request({
           url: `${config.service.host}/Musiclist_controller/Musiclist_getbyuserid`,
@@ -136,6 +139,11 @@ Page({
             userid: value
           },
           success: function (res) {
+            wx.hideLoading()
+            wx.showToast({
+              title: '添加成功',
+              duration:1000
+            })
             that.setData({
               musicList: res.data,
               hiddenmodalput: true
@@ -207,17 +215,22 @@ Page({
     var value=wx.getStorageSync('userid')
 
     var commentid = e.target.dataset.commentid;
-    var userid=value;
-    var commentList = this.data.commentList;
+    var userid = wx.getStorageSync('userid');
+    var commentList = new Array();
     console.log("userid"+userid);
     console.log("commid"+commentid);
     //移除列表中下标为MusiclistId的项
-    commentList.splice(commentid, 1);
+    for (var i = 0; i <this.data.commentList.length;i++)
+    {
+      if (this.data.commentList[i]['CommentId'] != commentid)
+      {
+        commentList.push(this.data.commentList[i])
+      }
+    }
     console.log(commentList);
     this.setData({
       commentList: commentList
     })
-    var value = wx.getStorageSync('userid');
     var that = this;
     wx.request({
       url: `${config.service.host}/Comment_delete`,
@@ -226,7 +239,7 @@ Page({
         UserId: userid
       },
       success: function (res) {
-        console.log("del suc");
+        console.log(res);
       },
       fail:function(err){
         console.log(err);

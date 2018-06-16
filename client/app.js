@@ -5,7 +5,8 @@ var config = require('./config')
 App({
   globalData:{
     addSongs:[],
-    done:true
+    done:true,
+    authorized:false
   },
   onLaunch: function () {
     var islogin = false;
@@ -33,9 +34,35 @@ App({
                   },
                   success: function (res3) {//回填函数userid存入缓存
                     wx.setStorageSync('userid', res3.data)
-                    console.log(res3.data)
+                    wx.request({
+                      url: config.service.authUrl,
+                      data: {
+                        userid: value
+                      },
+                      success: function (res4) {
+                        console.log(res.data)
+                        if (res.data == 'bool(true)\n')
+                          getApp().globalData.authorized = true
+                      }
+                    })
+                  },
+                  fail:function(res5){
+
                   }
                 })
+              }
+            })
+          }
+          else{
+            wx.request({
+              url: config.service.authUrl,
+              data:{
+                userid:value
+              },
+              success:function(res){
+                console.log(res.data)
+                if (res.data =='bool(true)\n')
+                  getApp().globalData.authorized=true
               }
             })
           }

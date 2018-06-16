@@ -101,10 +101,7 @@ Page({
       },
       success: function (res) {
         console.log(res)
-        
-         
-          console.log(res.data[0].UserInfo)
-          console.log(JSON.parse(res.data[0].UserInfo))
+      
       
         if(res.data.length!=0)
         {
@@ -255,7 +252,7 @@ Page({
     var that=this;
     var value=wx.getStorageSync('userid')
     
-    console.log()
+    console.log(this.data.inputVal)
     //将inputVal插入这首歌的评论库
     wx.request({
       url: `${config.service.host}/Comment_add`,
