@@ -346,14 +346,14 @@ Page({
     let that = this;
 
     var curval = e.detail.value; //滑块拖动的当前值
-
+    var op = "iconList_3[2].i"
+    this.setData({
+      [op]: 0
+    })
+    this.f_3_2()
     innerAudioContext.seek(curval / 100); //让滑块跳转至指定位置
 
-    /*innerAudioContext.onSeeked((res) => {
-
-      this.updateTime(that) //注意这里要继续出发updataTime事件，
-
-    })*/
+    this.updateTime(that) //注意这里要继续出发updataTime事件，
   },
 
   //播放列表点击播放
