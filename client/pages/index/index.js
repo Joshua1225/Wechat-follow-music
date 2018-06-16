@@ -259,11 +259,13 @@ Page({
       this.getLyric()
       this.isFavorite()
       if (this.data.iconList_3[2].i == 0) {
-        innerAudioContext.src = 'http://140.143.149.22/music/' + this.data.musicList[this.data.musicListIndex]['id'] + '.mp3'
         this.setData({
           [up]: "../../src/pause.png",
           [op]: 1
         })
+        innerAudioContext.coverImgUrl = 'http://140.143.149.22/picture/' + this.data.musicList[this.data.musicListIndex]['id']
+        innerAudioContext.title = this.data.musicList[this.data.musicListIndex]['name']
+        innerAudioContext.src = 'http://140.143.149.22/music/' + this.data.musicList[this.data.musicListIndex]['id'] + '.mp3'
         innerAudioContext.play()
         console.log('innerAudioContext.src:'+innerAudioContext.src)
       }
@@ -344,14 +346,14 @@ Page({
     let that = this;
 
     var curval = e.detail.value; //滑块拖动的当前值
-
+    var op = "iconList_3[2].i"
+    this.setData({
+      [op]: 0
+    })
+    this.f_3_2()
     innerAudioContext.seek(curval / 100); //让滑块跳转至指定位置
 
-    /*innerAudioContext.onSeeked((res) => {
-
-      this.updateTime(that) //注意这里要继续出发updataTime事件，
-
-    })*/
+    this.updateTime(that) //注意这里要继续出发updataTime事件，
   },
 
   //播放列表点击播放
@@ -428,24 +430,29 @@ Page({
     })
     if (this.data.musicList.length!=0)
     {
-      this.setData({
-        musicListIndex: this.data.musicListIndex % arr.length
-      })
-
+      if (this.data.musicListIndex == e.currentTarget.dataset.index)
+      {
+        this.setData({
+          musicListIndex: this.data.musicListIndex % arr.length
+        })
+        innerAudioContext.stop()
+        var op = "iconList_3[2].i"
+        this.setData({
+          [op]: 1
+        })
+        this.isFavorite()
+        this.f_3_2()
+      }
+      else if(this.data.musicListIndex > e.currentTarget.dataset.index)
+      {
+        this.setData({
+          musicListIndex: this.data.musicListIndex -1
+        })
+      }
     }
     this.getLyric()
     this.getPicture()
-    this.isFavorite()
     this.setTitle()
-    innerAudioContext.stop()
-    var op = "iconList_3[2].i"
-    this.setData({
-      [op]: 1
-    })
-    this.f_3_2()
-    this.setData({
-      curTimeVal: 0
-    })
     wx.setStorage({
       key: "musicList",
       data: this.data.musicList,
@@ -534,6 +541,7 @@ Page({
       this.setData({
         picturePath: 'http://140.143.149.22/picture/0'
       })
+      //innerAudioContext.coverImgUrl = 'http://140.143.149.22/picture/0'
     }
   },
 
@@ -608,12 +616,14 @@ Page({
       this.setData({
         title: this.data.musicList[this.data.musicListIndex]['name']
       })
+      
     }
     else
     {
       this.setData({
         title: ''
       })
+      innerAudioContext.title =''
     }
     console.log('title:'+this.data.title)
   },
@@ -634,6 +644,12 @@ Page({
       that.getLyric()
       console.log(innerAudioContext.src)
       that.updateTime(that)
+      var up = "iconList_3[2].imagePath"
+      var op = "iconList_3[2].i"
+      that.setData({
+        [up]: "../../src/pause.png",
+        [op]: 1
+      })
     })
     innerAudioContext.onError((res) => {
       console.log(res.errMsg)

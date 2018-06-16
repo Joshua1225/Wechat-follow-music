@@ -1,7 +1,6 @@
  <view class="page">
 
         <view class="weui-search-bar search_bar">
-        
             <view class="weui-search-bar__form">            
                 <view class="weui-search-bar__box">
                     <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
@@ -19,24 +18,27 @@
 
             <view class="search_button" hidden="{{!inputShowed}}" bindtap="inputConfirm">搜索</view>   
         </view>
-         <view wx:if="{{!confirmFlag}}" class='weui-cell'>历史搜索：</view>
-        <view  wx:if="{{!confirmFlag}}" wx:for="{{historyRec}}" wx:key="id"  class="weui-cell" hover-class="weui-cell_active">
+
+         <view wx:if="{{!confirmFlag}}" class='history-search'>
+            <image src='../../src/history.png' class="history-search-image"/>
+            <text class="history-search-word">历史搜索：</text>
+         </view>
+        <view  wx:if="{{!confirmFlag}}" wx:for="{{historyRec}}" wx:key="id" class="search-list">
             <view class="weui-cell__bd cell_my">
                 <view class='item_search' data-content="{{item}}" catchtap='inputValUpdate'>{{item}}</view>
-                 <view class='item_del' data-content="{{item}}" catchtap='deleteHistory'>X</view>
-               
+                 <view class='item_del' data-content="{{item}}" catchtap='deleteHistory'>x</view>
             </view>
            
         </view>
-         <view wx:if='{{historyRec.length>0 && !inputShowed}}' catchtap='deleteAllHistory'>清空历史纪录</view>
+         <view wx:if='{{historyRec.length>0 && !inputShowed}}' catchtap='deleteAllHistory' class="clear-all">清空历史纪录</view>
         <scroll-view style="height:500px;" scroll-y='true' bindscrolltolower='getMusic' wx:if="{{confirmFlag}}">
          <view  class="weui-cell" hover-class="weui-cell_active" wx:key="id"  wx:for="{{result}}" wx:for-id="index"wx:for-item="song" data-MusicId="{{song.MusicId}}" bindtap='listen' >
                 <view class="weui-cell__bd">
                   <view class='name'>{{song.MusicName}}</view>
                   <view class='desc'>{{song.MusicSinger}}</view>
                 </view>
-               
         </view>
+
         <view hidden='{{!musicLoading}}'><image  style="width: 48rpx;height: 48rpx"  src='../../src/loading.gif'/>正在载入更多..
         </view>
         <view class="weui-cell" hidden="{{!musicLoadingComplete}}">已加载全部</view>
