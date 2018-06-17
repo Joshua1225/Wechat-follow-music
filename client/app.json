@@ -14,20 +14,14 @@
     "navigationBarTextStyle":"black"
   },
   "tabBar": {
-    "color":"#A9A9A9",
-    "selectedColor": "#4A708B",
     "list": [
       {
         "pagePath": "pages/index/index",
-        "text": "正在播放",
-        "iconPath": "src/music.png",
-        "selectedIconPath": "src/music-1.png"
+        "text": "正在播放"
       },
       {
         "pagePath": "pages/info/info",
-        "text": "个人信息",
-        "iconPath": "src/user.png",
-        "selectedIconPath": "src/user-1.png"
+        "text": "个人信息"
       }
     ]
   }
