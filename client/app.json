@@ -1,27 +1,33 @@
 {
-  "pages":[   
-   "pages/index/index",
+  "pages": [
+    "pages/index/index",
     "pages/info/info",
     "pages/comment/comment",
     "pages/songList/songList",
     "pages/search/search"
   ],
-  "window":{
-    "backgroundColor":"#F6F6F6",
-    "backgroundTextStyle":"light",
+  "window": {
+    "backgroundColor": "#F6F6F6",
+    "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#F6F6F6",
     "navigationBarTitleText": "Wafer Quick Start",
-    "navigationBarTextStyle":"black"
+    "navigationBarTextStyle": "black"
   },
   "tabBar": {
+    "color": "#A9A9A9",
+    "selectedColor": "#4A708B",
     "list": [
       {
         "pagePath": "pages/index/index",
-        "text": "正在播放"
+        "text": "正在播放",
+        "iconPath": "src/music.png",
+        "selectedIconPath": "src/music-1.png"
       },
       {
         "pagePath": "pages/info/info",
-        "text": "个人信息"
+        "text": "个人信息",
+        "iconPath": "src/user.png",
+        "selectedIconPath": "src/user-1.png"
       }
     ]
   }
