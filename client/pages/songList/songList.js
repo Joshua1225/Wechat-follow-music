@@ -16,7 +16,7 @@ Page({
   onShareAppMessage: function () {
     console.log(this.songListId)
     return {
-      title: '转发标题',
+      title: '转发给你一个好听的歌单',
       path: '/pages/songList/songList?songListId=' + this.data.songListId,
       desc: 'desc',
       success: function (res) {

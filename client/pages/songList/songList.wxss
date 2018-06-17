@@ -54,8 +54,8 @@
   border: none;
 }
 .image_icon{
-  width:52rpx; 
-  height: 52rpx;
+  width:62rpx; 
+  height: 62rpx;
 }
 .myitem-name{
   flex: 12;
