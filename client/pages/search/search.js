@@ -67,7 +67,7 @@ Page({
       })
   
     wx.request({
-      url: `${config.service.musicUrl}/music_search`,
+      url: config.service.music_searchUrl,
       data:{
         keywords:this.data.inputVal,
         start:this.data.start

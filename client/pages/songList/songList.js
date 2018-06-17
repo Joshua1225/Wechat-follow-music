@@ -14,7 +14,7 @@ Page({
   },
   //设置该页面的转发信息
   onShareAppMessage: function () {
-    console.log(this.songListId)
+    console.log(this.data.songListId)
     return {
       title: '转发给你一个好听的歌单',
       path: '/pages/songList/songList?songListId=' + this.data.songListId,
@@ -49,7 +49,7 @@ Page({
       songListId: options.songListId
     })
     wx.request({
-      url: `${config.service.host}/Musiclist_controller/Musiclist_getbyid`,
+      url:config.service.musiclist_getbyidUrl,// 
       data: {
         id: that.data.songListId
       },
@@ -67,7 +67,7 @@ Page({
     //显示歌曲
     var music = that.data.music;
     wx.request({
-      url: `${config.service.host}/Musiclist_controller/Musiclist_musics`,
+      url: config.service.musiclist_musicsUrl,
       data: {
         id: that.data.songListId
       },
@@ -86,7 +86,7 @@ Page({
     });
   },
   //改变点赞状态
-  dianZan: function (e) {
+  addSongList: function (e) {
     var that = this;
     var value = wx.getStorageSync('userid');
     var temp = this.data.collection;
@@ -95,7 +95,7 @@ Page({
       collection: !temp
     })
     wx.request({
-      url: `${config.service.host}/Musiclist_controller/Musiclist_copy`,
+      url:config.service.Musiclist_copy,
       data: {
         musiclistid: this.data.songListId,
         userid: value
@@ -174,7 +174,7 @@ Page({
     
     //从歌单里删除歌曲记录
     wx.request({
-      url: `${config.service.host}/Musiclist_controller/Musiclist_delete`,
+      url: config.service.musiclist_deleteUrl,
       data: {
         musiclistid: that.data.songListId,
         musicid: musicid
@@ -195,21 +195,5 @@ Page({
         console.log(err);
       }
     })
-  },
-
-  addSonglist: function () {
-    var value = wx.getStorageSync('userid')
-    console.log(value)
-    wx.request({
-      url: 'https://hy6e9qbe.qcloud.la/Musiclist_controller/Musiclist_copy',
-      data: {
-        musiclistid: this.data.songListId,
-        userid: value
-      },
-      success: function (res) {
-        console.log(res)
-      }
-    })
-
   }
 });
