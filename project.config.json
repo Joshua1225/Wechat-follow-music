@@ -42,6 +42,24 @@
 					"name": "info",
 					"pathName": "pages/info/info",
 					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "songList",
+					"pathName": "pages/songList/songList",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "index",
+					"pathName": "pages/index/index",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "comment",
+					"pathName": "pages/comment/comment",
+					"query": ""
 				}
 			]
 		}

@@ -11,6 +11,9 @@
                         </view>
                         <image wx:if="{{collection==false}}" src="../../src/like.png" class="giveLove" bindtap='dianZan'></image>
                         <image wx:else src="../../src/dislike.png"  class="giveLove" ></image>
+                        <button open-type='share' class="image_button" >
+                            <image src='../../src/share.png' class='image_icon'></image>
+                        </button>
                        
                     </view>
                 </view>

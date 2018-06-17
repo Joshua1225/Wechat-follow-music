@@ -6,8 +6,7 @@ App({
   globalData:{
     addSongs:[],
     done:true,
-    authorized:false,
-    favorite:-1
+    authorized:false
   },
   onLaunch: function () {
     var islogin = false;
@@ -22,7 +21,7 @@ App({
           userid: value
         },
         success: function (res1) {//回调函数获取结果处理
-          console.log(res1.data)
+          console.log('islogin'+res1.data)
           if (res1.data == 'bool(false)\n') {//失效-重新获取code登录
             console.log('false')
             wx.login({
@@ -45,15 +44,7 @@ App({
                           getApp().globalData.authorized = true
                       }
                     })
-                    wx.request({
-                      url: `${config.service.userUrl}/getMusicList`,
-                      data: {
-                        userid: value
-                      },
-                      success: function (res5) {
-                        getApp().globalData.favorite = res5.data
-                      }
-                    })
+                    
                   },
                   fail:function(res6){
 
@@ -73,15 +64,7 @@ App({
                   getApp().globalData.authorized=true
               }
             })
-            wx.request({
-              url: `${config.service.userUrl}/getMusicList`,
-              data:{
-                userid:value
-              },
-              success:function(res){
-                getApp().globalData.favorite = res.data
-              }
-            })
+            
           }
         }
       })
