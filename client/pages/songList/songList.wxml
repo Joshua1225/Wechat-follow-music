@@ -9,7 +9,7 @@
                         <view class="play-all">
                             <text bindtap='playSongs'>播放全部</text>
                         </view>
-                        <image wx:if="{{collection==false}}" src="../../src/like.png" class="giveLove" bindtap='dianZan'></image>
+                        <image wx:if="{{collection==false}}" src="../../src/like.png" class="giveLove" bindtap='addSongList'></image>
                         <image wx:else src="../../src/dislike.png"  class="giveLove" ></image>
                         <button open-type='share' class="image_button" >
                             <image src='../../src/share.png' class='image_icon'></image>

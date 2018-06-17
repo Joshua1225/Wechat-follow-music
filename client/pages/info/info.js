@@ -29,7 +29,7 @@ Page({
     //获取userid
     var value=wx.getStorageSync('userid')
     wx.request({
-      url: `${config.service.userUrl}/getMusicList`,
+      url: config.service.getMusicListUrl,
       data: {
         userid: value
       },
@@ -38,7 +38,7 @@ Page({
           favorite:res1.data
         })
         wx.request({
-          url: `${config.service.host}/Musiclist_controller/Musiclist_getbyuserid`,
+          url: config.service.musiclist_getbyuseridUrl,
           data: {
             userid: value
           },
@@ -64,7 +64,7 @@ Page({
 
     //评论列表渲染
     wx.request({
-      url: `${config.service.host}/Comment_selectbyuser`,
+      url: config.service.comment_selectbyuserUrl,
       data: {
         UserId: value
       },
@@ -104,7 +104,7 @@ Page({
       var value = wx.getStorageSync('userid')
 
       wx.request({
-        url: `${config.service.host}/User_controller/updateinfo`,
+        url:config.service.updateinfoUrl,
         data: {
           userid: value,
           userinfo: e.detail.userInfo
@@ -151,7 +151,7 @@ Page({
     var value=wx.getStorageSync('userid')
     //将输入文本inputVal插入歌单
     wx.request({
-      url: `${config.service.host}/Musiclist_controller/Musiclist_insert`,
+      url: config.service.musiclist_insertUrl,
       data: {
         name: that.data.inputVal,
         userid: value
@@ -161,7 +161,7 @@ Page({
         
         //歌单列表重新渲染
         wx.request({
-          url: `${config.service.host}/Musiclist_controller/Musiclist_getbyuserid`,
+          url: config.service.musiclist_getbyuseridUrl,
           data: {
             userid: value
           },
@@ -211,7 +211,7 @@ Page({
     //数据库删除歌单
     
     wx.request({
-      url: `${config.service.host}/Musiclist_controller/Musiclist_remove`,
+      url: config.service.musiclist_removeUrl,
       data: {
         userid:value,
         musiclistid: musiclistId
@@ -272,7 +272,7 @@ Page({
     
     var that = this;
     wx.request({
-      url: `${config.service.host}/Comment_delete`,
+      url: config.service.comment_deleteUrl,
       data: {
         CommentId:commentid,
         UserId: userid
