@@ -226,7 +226,7 @@ Page({
     if (!this.data.clickGood)
       return
     wx.showLoading({
-      title: '取消~~~',
+      title: '正在取消',
     })
     this.setData({
       clickGood: false
