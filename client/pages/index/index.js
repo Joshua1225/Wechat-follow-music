@@ -196,7 +196,8 @@ Page({
       })
       return
     }
-    
+    console.log('id');
+    console.log(this.data.musicListIndex);
     wx.navigateTo({
       url: '../comment/comment?musicId=' + this.data.musicList[this.data.musicListIndex]['id'] + '&musicCover=' + this.data.musicList[this.data.musicListIndex]['MusicCover']
      

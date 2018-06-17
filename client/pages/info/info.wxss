@@ -113,3 +113,10 @@
 .my .my-item:last-child .myitem-name{
   border-bottom: none;
 }
+
+.login-image{
+  height:900rpx;
+  width:822rpx;
+  margin-left:50rpx;
+  margin-right: 50rpx;
+}

@@ -109,6 +109,10 @@ Page({
       }
     })
   },
+  //分享
+  share:function(){
+    this.onShareAppMessage();
+  },
   //播放歌单里的歌
   playSong: function (e) {
     var musicid = e.target.dataset.musicid;

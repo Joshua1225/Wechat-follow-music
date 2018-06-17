@@ -10,7 +10,9 @@
 .userinfo-nickname{
   padding: 8rpx 0 10rpx 0;
   font-size: 45rpx;
-  color: #818A8F;
+  color:#242424;
+  
+  opacity: 0.9;
   text-align: center;
   justify-content:center;
   margin-left: 50rpx;
@@ -29,25 +31,32 @@
   padding: 0;
   display: flex;
 }
-.user-name{
-  vertical-align: middle;
-}
+
 .comment-content{
   flex:3;
   margin-top:25rpx;
   margin-left:1rpx;
+  margin-right: 15rpx;
+  color: 	#3B3B3B;
 }
 .former-music{
-  flex: 0.5;
+  flex: 0.3;
 }
 .music-item{
   flex: 1.5;
   text-align: left;
-  font-size: 37rpx;
   color: #6d6d6d;
   line-height: 60rpx;
   padding: 30rpx 0;
   border-bottom: solid 1px #ebebeb;
+  margin-left:0;
+  padding-left:0;
+}
+.user-name{
+  vertical-align: middle;
+  padding-left: 0;
+  margin-right: 5rpx;
+  font-size:28rpx;
 }
 .love-item{
   flex: 0.4;
@@ -56,7 +65,7 @@
   padding:20rpx
 }
 .likeNum{
-  padding-top: 20rpx;
+  padding-top: 25rpx;
 }
 
 .bottom-all{

@@ -40,6 +40,23 @@
   height: 50rpx;
   padding-top:5rpx;
 }
+.image_button{
+  background: none;
+  color: #000;
+  width: 70rpx;
+  height: 70rpx;
+  padding: 0;
+  margin: 0;
+  align-self: auto;
+}
+/*button的边框用：：after实现*/
+.image_button::after{
+  border: none;
+}
+.image_icon{
+  width:52rpx; 
+  height: 52rpx;
+}
 .myitem-name{
   flex: 12;
   text-align: left;

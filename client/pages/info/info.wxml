@@ -1,7 +1,7 @@
 <view class="page">
       <!--头像和昵称-->
     <view wx:if='{{!canIUse}}' class="container more">
-        <view class="user flex-wrp">
+        <view class="user flex-wrp" style="height:100rpx;">
           <view class="avatar flex-item">
             <image class="userinfo-avatar" src='../../src/user-unlogin.png' background-size="cover"></image>
           </view>
@@ -9,8 +9,8 @@
             <button  open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" class="buttonClass">点此授权登陆</button>
           </view>
         </view>
-        <view>
-            <image src='http://img.hb.aicdn.com/d42d96d43010d82ade34662e89026a5840bac8fd16a6d-4tBSWx_fw658'></image>
+        <view style='background-color: white;border-color: white;'>
+            <image src='../../src/login.jpg' class="login-image"></image>
         </view>
     </view>
   
