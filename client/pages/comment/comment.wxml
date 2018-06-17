@@ -41,9 +41,7 @@
                 <view class="input-box">
                     <icon class="input-box-icon" type="search" size="14"></icon>
                     <input type="text" class="keyword"  placeholder="输入评论内容" value="{{inputVal}}" focus="{{inputShowed}}" bindinput="inputTyping" bindconfirm='insertComment' />
-                    <view class="weui-icon-clear" wx:if="{{inputVal.length > 0}}" bindtap="clearInput">
-                         <icon type="clear" size="14" bindtap="hideInput"></icon>
-                    </view>
+                    
                 </view>
                 <label style="" class="label-all" hidden="{{inputShowed}}" bindtap="showInput">
                     <icon class="weui-icon-search" type="search" size="13"></icon>

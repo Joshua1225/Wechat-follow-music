@@ -280,10 +280,14 @@ Page({
     });
   },
   insertComment: function () {
+    if(this.data.inputVal=='')
+      return 
     var that=this;
     var value=wx.getStorageSync('userid')
     
-    console.log(this.data.inputVal)
+    wx.showLoading({
+      title: '正在添加',
+    })
     //将inputVal插入这首歌的评论库
     wx.request({
       url: `${config.service.host}/Comment_add`,
@@ -293,8 +297,12 @@ Page({
         Content: this.data.inputVal
       },
       success:function(res){
-        console.log(res)
-        console.log("Insert!")
+        wx.hideLoading()
+        wx.showToast({
+          title: '添加成功',
+          duration:500
+        })
+      
            //重新渲染评论列表
         var count
         wx.request({
@@ -338,6 +346,7 @@ Page({
       inputVal: e.detail.value
     });
   }
+ 
 });
 
 
