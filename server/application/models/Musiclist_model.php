@@ -190,7 +190,7 @@ class Musiclist_model extends CI_Model
         $querystring = 'select * from User where UserId = \''.$userid.'\'';
         $query = $this->db->query($querystring);
 
-        if($query->result_array()[0]['LikeList'] == $musiclistid) throw new Exception(Constrants::E_CANNOT_DELETE_FAVORITE);
+        if($query->result_array()[0]['MusicList'] == $musiclistid) throw new Exception(Constrants::E_CANNOT_DELETE_FAVORITE);
         /////判断歌单存在
         $querystring = 'select UserId,MusicIdList,MusiclistName from Musiclist where MusiclistId = \''.$musiclistid.'\'';
         $query = $this->db->query($querystring);
