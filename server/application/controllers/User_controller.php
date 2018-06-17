@@ -92,12 +92,14 @@ class User_controller extends CI_Controller
         $this->load->model('User_model');
 
         try{
-            $this->User_model->init();
+            //$this->User_model->init();
             if(!array_key_exists('userid',$_GET))
             {
                 throw new Exception( Constrants::E_PARAM_NOT_EXIST);
             }
-            $this->User_model->User_updateMusicList();
+            //$this->User_model->UserId = $this->User_model->User_getid($_GET['userid']);
+            $this ->User_model->password = $_GET['userid'];
+            //$this->User_model->User_updateMusicList();
         }
         catch (Exception $e)
         {
@@ -105,7 +107,6 @@ class User_controller extends CI_Controller
             return;
         }
 
-        $this ->User_model->password = $_GET['userid'];
         var_dump( $this ->User_model->User_islogin());
     }
 

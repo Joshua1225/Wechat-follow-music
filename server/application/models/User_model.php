@@ -18,7 +18,7 @@ class User_model extends CI_Model
 
     public function init()
     {
-        require('Constrants.php');
+        require_once('Constrants.php');
     }
 
     public function User_insert() {
@@ -44,7 +44,7 @@ class User_model extends CI_Model
 
         //echo json_encode($query->result_array()[0]);
 
-        if(!key_exists('MusicList',$query0->result_array()[0])) throw new Exception(Constrants::E_LOGIN_ERROR);
+        //if(!key_exists(0,$query0->result_array()[])) throw new Exception(Constrants::E_LOGIN_ERROR);
 
         if($query0->result_array()[0]['MusicList']!='-1') return;
 
@@ -95,18 +95,18 @@ class User_model extends CI_Model
         $query = $this->db->query('select count(*) from User where password = \''.$passwd.'\'');
 
         $exist =  (bool)$query->result_array()[0]['count(*)'];
-        ///////////////
-        //echo ('select * from User where password = \''.$passwd.'\'');
-
-//        echo $passwd.' ';
-//        echo json_encode($query->result_array());
-//
-//        $query = $this->db->query('select * from User ');
-//
-//        echo $passwd.' ';
-//        echo json_encode($query->result_array());
-        ///////////////////////
-        //echo 'hello1';
+        //        ///////////////
+        //        //echo ('select * from User where password = \''.$passwd.'\'');
+        //
+        ////        echo $passwd.' ';
+        ////        echo json_encode($query->result_array());
+        ////
+        ////        $query = $this->db->query('select * from User ');
+        ////
+        ////        echo $passwd.' ';
+        ////        echo json_encode($query->result_array());
+        //        ///////////////////////
+        //        //echo 'hello1';
         if(!$exist) return false;           ///不存在用户的情况
 
         ///存在用户时验证上次登陆时间，间隔不超过30天
@@ -118,6 +118,8 @@ class User_model extends CI_Model
         if($valid)
         {
             $this->User_updatelogin();      //更新登录时间
+            $this->UserId = $this->User_getid($this->password);
+            $this->User_updateMusicList();
             return true;
         }
 
@@ -131,6 +133,8 @@ class User_model extends CI_Model
 
         $exist =  (bool)$query->result_array()[0]['count(*)'];
 
+        //echo Constrants::E_CANNOT_DELETE_FAVORITE;
+        $this->init();
         if(!$exist) throw new Exception(Constrants::E_LOGIN_ERROR);           ///不存在用户的情况
 
         ///存在用户时取得其id

@@ -11,6 +11,7 @@ Page({
     nickName:"",
     avatarUrl:"",
     canIUse: false,//wx.canIUse('button.open-type.getUserInfo')
+    favorite:0
   },
   onLoad: function () {
     this.getData();    
@@ -26,21 +27,40 @@ Page({
   {
     var that= this;
     //获取userid
-    var value= wx.getStorageSync('userid');
-    //歌单列表渲染
+    var value=wx.getStorageSync('userid')
     wx.request({
-      url: `${config.service.host}/Musiclist_controller/Musiclist_getbyuserid`,
+      url: `${config.service.userUrl}/getMusicList`,
       data: {
         userid: value
       },
-      success: function (res) {
-        
+      success: function (res1) {
         that.setData({
-          musicList: res.data,
-        });
+          favorite:res1.data
+        })
+        wx.request({
+          url: `${config.service.host}/Musiclist_controller/Musiclist_getbyuserid`,
+          data: {
+            userid: value
+          },
+          success: function (res2) {
+            console.log(res2.data)
+
+            var preMusicList = res2.data
+            var tmp = new Array()
+            for (var i = 0; i < preMusicList.length; i++) {
+              if (preMusicList[i]['MusiclistId'] != res1.data)
+                tmp.push(preMusicList[i])
+            }
+            that.setData({
+              musicList: tmp
+            })
+          }
+
+        })
       }
-      
     })
+    //歌单列表渲染
+    
 
     //评论列表渲染
     wx.request({
@@ -145,7 +165,7 @@ Page({
           data: {
             userid: value
           },
-          success: function (res) {
+          success: function (res) { 
             wx.hideLoading()
             wx.showToast({
               title: '添加成功',
@@ -193,9 +213,11 @@ Page({
     wx.request({
       url: `${config.service.host}/Musiclist_controller/Musiclist_remove`,
       data: {
-        id: musiclistId
+        userid:value,
+        musiclistid: musiclistId
       },
       success: function (res) {
+        console.log(res.data)
         wx.hideLoading()
         wx.showToast({
           title: '删除成功',
@@ -216,7 +238,9 @@ Page({
   
   //跳转歌单页面!!!!!!!!!!!!
   toSongList:function(e){
-    var sli = (e.target.id);
+    console.log(e.target.id)
+    
+    var sli = e.target.id;
     this.setData({
       hidden:true
     })

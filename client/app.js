@@ -21,7 +21,7 @@ App({
           userid: value
         },
         success: function (res1) {//回调函数获取结果处理
-          console.log(res1.data)
+          console.log('islogin'+res1.data)
           if (res1.data == 'bool(false)\n') {//失效-重新获取code登录
             console.log('false')
             wx.login({
@@ -40,13 +40,13 @@ App({
                         userid: value
                       },
                       success: function (res4) {
-                        console.log(res.data)
-                        if (res.data == 'bool(true)\n')
+                        if (res4.data == 'bool(true)\n')
                           getApp().globalData.authorized = true
                       }
                     })
+                    
                   },
-                  fail:function(res5){
+                  fail:function(res6){
 
                   }
                 })
@@ -59,12 +59,12 @@ App({
               data:{
                 userid:value
               },
-              success:function(res){
-                console.log(res.data)
-                if (res.data =='bool(true)\n')
+              success:function(res1){
+                if (res1.data =='bool(true)\n')
                   getApp().globalData.authorized=true
               }
             })
+            
           }
         }
       })
