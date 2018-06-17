@@ -256,10 +256,7 @@ Page({
     var op = "iconList_3[2].i"
     if(this.data.musicList.length!=0)
     {
-      this.setTitle()
-      this.getPicture()
-      this.getLyric()
-      this.isFavorite()
+      
       if (this.data.iconList_3[2].i == 0) {
         this.setData({
           [up]: "../../src/pause.png",
@@ -268,8 +265,10 @@ Page({
         console.log(this.data.iconList_3[2].imagePath)
         if (innerAudioContext.src != 'http://140.143.149.22/music/' + this.data.musicList[this.data.musicListIndex]['id'] + '.mp3')
         {
-          innerAudioContext.coverImgUrl = 'http://140.143.149.22/picture/' + this.data.musicList[this.data.musicListIndex]['id']
-          innerAudioContext.title = this.data.musicList[this.data.musicListIndex]['name']
+          this.setTitle()
+          this.getPicture()
+          this.getLyric()
+          this.isFavorite()
           innerAudioContext.src = 'http://140.143.149.22/music/' + this.data.musicList[this.data.musicListIndex]['id'] + '.mp3'
         }
         innerAudioContext.play()
@@ -552,13 +551,14 @@ Page({
       this.setData({
         picturePath: 'http://140.143.149.22/picture/' + this.data.musicList[this.data.musicListIndex]['id']
       })
+      innerAudioContext.coverImgUrl = 'http://140.143.149.22/picture/' + this.data.musicList[this.data.musicListIndex]['id']
     }
     else
     {
       this.setData({
         picturePath: 'http://140.143.149.22/picture/0'
       })
-      //innerAudioContext.coverImgUrl = 'http://140.143.149.22/picture/0'
+      innerAudioContext.coverImgUrl = 'http://140.143.149.22/picture/0'
     }
   },
 
@@ -633,6 +633,7 @@ Page({
       this.setData({
         title: this.data.musicList[this.data.musicListIndex]['name']
       })
+      innerAudioContext.title = this.data.musicList[this.data.musicListIndex]['name']
     }
     else
     {
