@@ -38,7 +38,7 @@
   margin-left:1rpx;
   margin-right: 15rpx;
   color: 	#3B3B3B;
-  border-bottom: solid 1px #ebebeb;
+  border-bottom: solid 2rpx #ebebeb;
 }
 .former-music{
   flex: 0.3;

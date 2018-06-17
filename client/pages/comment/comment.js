@@ -202,7 +202,7 @@ Page({
     var value = wx.getStorageSync('userid');
     var commentId=e.target.dataset.id;
     console.log(that.data.commentList);
-      wx.request({
+    wx.request({
         url: `${config.service.host}/Like_give`,
         data:{
           UserId:value,
