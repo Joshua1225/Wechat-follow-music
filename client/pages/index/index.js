@@ -21,7 +21,7 @@ Page({
     currentLineNum: 0,
     currentText: '',
     toLineNum: -1,
-    picturePath:'http://140.143.149.22/picture/0',
+    picturePath:`${config.service.coverUrl}/0`,
     title:'',
     favorite:-1,
     musicList:[],
@@ -263,13 +263,13 @@ Page({
           [op]: 1
         })
         console.log(this.data.iconList_3[2].imagePath)
-        if (innerAudioContext.src != 'http://140.143.149.22/music/' + this.data.musicList[this.data.musicListIndex]['id'] + '.mp3')
+        if (innerAudioContext.src != `${config.service.musicUrl}/` + this.data.musicList[this.data.musicListIndex]['id'] + '.mp3')
         {
           this.setTitle()
           this.getPicture()
           this.getLyric()
           this.isFavorite()
-          innerAudioContext.src = 'http://140.143.149.22/music/' + this.data.musicList[this.data.musicListIndex]['id'] + '.mp3'
+          innerAudioContext.src = `${config.service.musicUrl}/` + this.data.musicList[this.data.musicListIndex]['id'] + '.mp3'
         }
         innerAudioContext.play()
         console.log('innerAudioContext.src:'+innerAudioContext.src)
@@ -384,7 +384,7 @@ Page({
     {
       
       wx.request({
-        url: `https://hy6e9qbe.qcloud.la/Music_controller/Music_getbyid?id=` + id0,
+        url: `${config.service.music_getbyidUrl}?id=` + id0,
         success: function (res) {
           console.log('test:' + res.data + 'id0:' + id0 + ' musicListIndex:' + that.data.musicListIndex)
           that.data.musicList.push({ id: id0, name: res.data[0]['MusicName'], singer: res.data[0]['MusicSinger'], MusicCover: res.data[0]['MusicCover'], MusicLyric: res.data[0]['MusicLyric'] })
@@ -473,7 +473,7 @@ Page({
       musicList:[],
       lyric: null,
       title:'',
-      picturePath: 'http://140.143.149.22/picture/0'
+      picturePath: `${config.service.coverUrl}/0`
     })
     var op = "iconList_3[2].i"
     this.setData({
@@ -499,7 +499,7 @@ Page({
     if (this.data.musicList.length != 0)
     {
       wx.request({
-        url: `${config.service.userUrl}/getMusicList`,
+        url: config.service.getMusicListUrl,
         data: {
           userid: value
         },
@@ -509,7 +509,7 @@ Page({
           })
           console.log(res1.data)
           wx.request({
-            url: 'https://hy6e9qbe.qcloud.la/Musiclist_controller/Musiclist_contains',
+            url: config.service.musiclist_containsUrl,
             data: {
               musiclistid:res1.data,
               musicid: that.data.musicList[that.data.musicListIndex]['id']
@@ -549,16 +549,16 @@ Page({
     if (this.data.musicList.length != 0 && this.data.musicList[this.data.musicListIndex]['MusicCover'] == 1)
     {
       this.setData({
-        picturePath: 'http://140.143.149.22/picture/' + this.data.musicList[this.data.musicListIndex]['id']
+        picturePath: `${config.service.coverUrl}/` + this.data.musicList[this.data.musicListIndex]['id']
       })
-      innerAudioContext.coverImgUrl = 'http://140.143.149.22/picture/' + this.data.musicList[this.data.musicListIndex]['id']
+      innerAudioContext.coverImgUrl = `${config.service.coverUrl}/` + this.data.musicList[this.data.musicListIndex]['id']
     }
     else
     {
       this.setData({
-        picturePath: 'http://140.143.149.22/picture/0'
+        picturePath: `${config.service.coverUrl}/0`
       })
-      innerAudioContext.coverImgUrl = 'http://140.143.149.22/picture/0'
+      innerAudioContext.coverImgUrl = `${config.service.coverUrl}/0`
     }
   },
 
@@ -569,7 +569,7 @@ Page({
     {
       var that = this
       wx.request({
-        url: 'http://140.143.149.22/lyric/' + that.data.musicList[that.data.musicListIndex]['id'] + '.lrc',
+        url: `${config.service.lyricUrl}/` + that.data.musicList[that.data.musicListIndex]['id'] + '.lrc',
         success: function (res) {
           if (res.statusCode == 200) {
             const lyric = that._normalizeLyric(res.data)

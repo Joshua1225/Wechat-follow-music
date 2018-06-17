@@ -34,12 +34,12 @@ Page({
     })
     if(options.musicCover=="0"){
       this.setData({
-        songImg: 'http://140.143.149.22/picture/0' 
+        songImg: `${config.service.coverUrl}/0` 
       })
     }
     else{
       this.setData({
-        songImg: 'http://140.143.149.22/picture/' + options.musicId
+        songImg: `${config.service.coverUrl}/` + options.musicId
       })
     }
     this.getMusicInfo()
@@ -60,13 +60,13 @@ Page({
     //歌曲名称信息
     var value = wx.getStorageSync('userid');
     wx.request({
-      url: `${config.service.host}/Music_controller/Music_getbyid`,
+      url: config.service.music_getbyidUrl,
       data: {
         id: this.data.musicId
       },
       success: function (res) {
-        console.log("comment err");
-        console.log(res.data);
+        // console.log("comment err");
+        // console.log(res.data);
         
         that.setData({
           musicName: res.data[0].MusicName,
@@ -94,7 +94,7 @@ Page({
     console.log(this.data.musicId)
     console.log(this.data.start)
     wx.request({
-      url: `${config.service.host}/Comment_selectbymusic`,
+      url: config.service.comment_selectbymusicUrl,
       data: {
         UserId:value,
         MusicId: this.data.musicId,
@@ -142,7 +142,7 @@ Page({
         loadingUpperComplete: false
       })
     wx.request({
-      url: `${config.service.host}/Comment_selectbymusic`,
+      url: config.service.comment_selectbymusicUrl,
       data: {
         UserId:value,
         MusicId: this.data.musicId,
@@ -202,8 +202,8 @@ Page({
     var value = wx.getStorageSync('userid');
     var commentId=e.target.dataset.id;
     console.log(that.data.commentList);
-    wx.request({
-        url: `${config.service.host}/Like_give`,
+      wx.request({
+        url: config.service.like_giveUrl,
         data:{
           UserId:value,
           MusicId: that.data.musicId,
@@ -226,7 +226,7 @@ Page({
     if (!this.data.clickGood)
       return
     wx.showLoading({
-      title: '取消~~~',
+      title: '正在取消',
     })
     this.setData({
       clickGood: false
@@ -248,7 +248,7 @@ Page({
     var commentId = e.target.dataset.id;
     console.log(that.data.commentList);
     wx.request({
-      url: `${config.service.host}/Like_withdraw`,
+      url:         config.service.like_withdrawUrl,
       data: {
         UserId: value,
         MusicId: that.data.musicId,
@@ -280,25 +280,33 @@ Page({
     });
   },
   insertComment: function () {
+    if(this.data.inputVal=='')
+      return 
     var that=this;
     var value=wx.getStorageSync('userid')
     
-    console.log(this.data.inputVal)
+    wx.showLoading({
+      title: '正在添加',
+    })
     //将inputVal插入这首歌的评论库
     wx.request({
-      url: `${config.service.host}/Comment_add`,
+      url: config.service.comment_addUrl,
       data:{
         UserId: value,
         MusicId: this.data.musicId,
         Content: this.data.inputVal
       },
       success:function(res){
-        console.log(res)
-        console.log("Insert!")
+        wx.hideLoading()
+        wx.showToast({
+          title: '添加成功',
+          duration:500
+        })
+      
            //重新渲染评论列表
         var count
         wx.request({
-          url: `${config.service.host}/Comment_count`,
+          url: comment_countUrl,
           data:{
             MusicId:that.data.musicId
           },
@@ -338,6 +346,7 @@ Page({
       inputVal: e.detail.value
     });
   }
+ 
 });
 
 
