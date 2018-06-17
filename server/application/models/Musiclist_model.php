@@ -107,7 +107,7 @@ class Musiclist_model extends CI_Model
             $array[$x]['UserId'] = $this->User_model->User_getpassword($array[$x]['UserId']);
         }
 
-        return json_encode($query->result_array());
+        return json_encode($array);
     }
 
     public function Musiclist_insert()
@@ -135,7 +135,7 @@ class Musiclist_model extends CI_Model
 
         $result = $query->result_array()[0]['MusicIdList'];
 
-        if(!array_key_exists('MusicIdList',$query->result_array()[0])) throw new Exception(Constrants::E_MUSICLIST_NOT_EXIST);
+        if(!array_key_exists(0,$query->result_array())) throw new Exception(Constrants::E_MUSICLIST_NOT_EXIST);
 
         $musics = explode(';',$result);
 
@@ -230,7 +230,7 @@ class Musiclist_model extends CI_Model
 
         $query = $this->db->query($querystring);
 
-        if(!array_key_exists('MusicIdList',$query->result_array()[0])) throw new Exception(Constrants::E_MUSICLIST_NOT_EXIST);
+        if(!array_key_exists(0,$query->result_array())) throw new Exception(Constrants::E_MUSICLIST_NOT_EXIST);
 
         $result = $query->result_array()[0]['MusicIdList'];
         $musics = explode(';',$result);
@@ -250,7 +250,7 @@ class Musiclist_model extends CI_Model
 
         $query = $this->db->query($querystring);
 
-        if(!array_key_exists('MusicIdList',$query->result_array()[0])) throw new Exception(Constrants::E_MUSICLIST_NOT_EXIST);
+        if(!array_key_exists(0,$query->result_array())) throw new Exception(Constrants::E_MUSICLIST_NOT_EXIST);
 
         $result = $query->result_array()[0]['MusicIdList'];
         $musics = explode(';',$result);
