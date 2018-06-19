@@ -49,7 +49,7 @@ var config = {
         comment_deleteUrl: `${host}/Comment_delete`,
         coverUrl: `${database}/picture`,
         musicUrl: `${database}/music`,
-        lyricUrl: `${database}/musiclyric`
+        lyricUrl: `${database}/lyric`
        
     }
 };
