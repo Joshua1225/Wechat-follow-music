@@ -171,9 +171,16 @@ Page({
               title: '添加成功',
               duration:1000
             })
+            var preMusicList = res.data
+            var tmp = new Array()
+            for (var i = 0; i < preMusicList.length; i++) {
+              if (preMusicList[i]['MusiclistId'] != that.data.favorite)
+                tmp.push(preMusicList[i])
+            }
             that.setData({
-              musicList: res.data,
-              hiddenmodalput: true
+              musicList: tmp,
+              hiddenmodalput: true,
+              inputVal:''
             });
           }
         })
